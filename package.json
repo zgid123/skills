@@ -1,0 +1,20 @@
+{
+  "name": "skills",
+  "version": "1.0.0",
+  "description": "Alpha's AI Agent Skills",
+  "author": "Alpha",
+  "keywords": [
+    "ai",
+    "agent",
+    "skills"
+  ],
+  "license": "ISC",
+  "scripts": {
+    "clear": "pnpm rimraf node_modules"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "oxfmt": "^0.40.0",
+    "rimraf": "^6.1.3"
+  }
+}

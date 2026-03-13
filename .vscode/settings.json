@@ -1,0 +1,7 @@
+{
+  "oxc.enable": true,
+  "oxc.fmt.configPath": ".oxfmtrc.json",
+  "[markdown]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  }
+}
