@@ -91,7 +91,7 @@ import { testSchema } from '@alphacifer/drizzle/testing';
 import { faker } from '@faker-js/faker';
 import { Factory } from 'fishery';
 
-import { Book, type TBook } from '~/infrastructure/drizzle/schemas/books';
+import { books, type TBook } from '~/infrastructure/drizzle/schemas/books';
 
 import { drizzle } from '../../config/drizzle';
 

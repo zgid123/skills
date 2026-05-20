@@ -1,8 +1,8 @@
 # Vitest guideline
 
 Vitest is the default test runner for all JavaScript and TypeScript projects that follow Alpha's
-standards. Use it together with the generic testing skill (`SKILL.md`) for unit, integration, and
-E2E tests.
+standards. Use it together with the generic testing skill (`../../SKILL.md`) for unit, integration,
+and E2E tests.
 
 ## Philosophy (JS/TS)
 

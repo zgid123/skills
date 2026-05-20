@@ -1,6 +1,6 @@
 ---
-name: Unit, Integration and E2E testing
-description: Guidelines for writing tests for Alpha's Projects
+name: testing
+description: Guidelines for writing deterministic unit, integration, and end-to-end tests for Alpha's projects. Use when creating, reviewing, or refactoring automated tests, test data factories, Vitest suites, integration tests, or E2E tests.
 ---
 
 # Purpose
