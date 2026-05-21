@@ -10,6 +10,7 @@ This skill defines how to write and structure TypeScript so that code is type-sa
 # General Principles
 
 - **`@alphacifer/tsconfig`** is **required**. Every project must extend it; do not override or loosen options—fix code instead unless the project documents an exception.
+- **`@alphacifer/biome`** is **required when Biome is used**. If a project has Biome configured, it must extend Alpha's Biome config instead of maintaining unrelated local lint or format rules.
 - **Prefer types over `any`**: Use precise types, generics, and inference; use `unknown` and narrow when the type is dynamic.
 - **Explicit over implicit**: Prefer explicit return types on public APIs and exports; rely on inference for locals and private helpers.
 - **Small, focused modules**: Prefer small files and single responsibility; use barrel exports only when they clearly simplify the public API.
