@@ -80,9 +80,7 @@ describe('#<name of class to be tested>', () => {
 ### Rules
 
 - One `suite` has **only one** `it`. Do not put multiple `it` blocks inside a single `suite`.
-- For services that follow the **Service Object pattern** (single `exec`/`execute`/`call` method),
-  you can omit `describe('.<name of method>')` and declare all `suite` blocks directly under
-  `describe('#ServiceName', ...)`.
+- For services that follow the **Service Object pattern** (single `exec`/`execute`/`call` method), you can omit `describe('.<name of method>')` and declare all `suite` blocks directly under `describe('#ServiceName', ...)`.
 - Unit and integration test files use the `.spec.ts` extension.
 - E2E test files use the `.e2e.ts` extension.
 - All test files live under `src/__tests__` mirroring the source structure.

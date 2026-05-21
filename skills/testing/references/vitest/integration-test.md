@@ -8,10 +8,8 @@ description: Integration test guidelines for Alpha's Vitest projects
 Integration tests verify how multiple modules work together (for example repositories + database).
 
 - Filename convention: `*.spec.ts`.
-- Location: under `src/__tests__`, mirroring the source folder (for example
-  `src/__tests__/infrastructure/...`).
-- Only mock 3rd‑party requests using [Mock Service Worker](https://mswjs.io/); keep repositories and
-  database real (or using a real test schema).
+- Location: under `src/__tests__`, mirroring the source folder (for example `src/__tests__/infrastructure/...`).
+- Only mock 3rd‑party requests using [Mock Service Worker](https://mswjs.io/); keep repositories and database real (or using a real test schema).
 
 ## Example: Drizzle ORM
 

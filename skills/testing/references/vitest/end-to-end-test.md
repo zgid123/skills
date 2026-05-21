@@ -5,13 +5,11 @@ description: End-to-end test guidelines for Alpha's Vitest projects
 
 # E2E Test
 
-End‑to‑end (E2E) tests exercise the system as a whole through its public interfaces (HTTP, UI,
-etc.).
+End‑to‑end (E2E) tests exercise the system as a whole through its public interfaces (HTTP, UI, etc.).
 
 - Filename convention: `*.e2e.ts`.
 - Location: under `src/__tests__` (for example `src/__tests__/e2e/...`).
-- Only mock 3rd‑party requests using [Mock Service Worker](https://mswjs.io/); keep application code
-  and database real (or a real test schema).
+- Only mock 3rd‑party requests using [Mock Service Worker](https://mswjs.io/); keep application code and database real (or a real test schema).
 
 ## Hono framework
 

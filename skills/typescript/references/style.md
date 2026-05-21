@@ -15,9 +15,7 @@ description: Naming and formatting guidelines for Alpha's TypeScript projects
 - Prefer early returns and guard clauses to reduce nesting.
 - Conditions must always use block braces `{}`; do not use single-statement form without braces.
 - Format objects with one property per line and a trailing comma after the last property.
-- When passing an object parameter to a function, always put it on multiple lines, even with one
-  property. Put each property on its own line, include a trailing comma, and sort properties by key
-  length from shortest to longest.
+- When passing an object parameter to a function, always put it on multiple lines, even with one property. Put each property on its own line, include a trailing comma, and sort properties by key length from shortest to longest.
 - In callbacks, use concise arrow returns only for short expressions; use a block body with `return` when returning a multi-line object or doing non-trivial mapping.
 
 ```ts

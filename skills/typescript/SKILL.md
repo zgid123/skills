@@ -5,26 +5,18 @@ description: Guidelines for writing type-safe, readable TypeScript for Alpha's p
 
 # Purpose
 
-This skill defines how to write and structure TypeScript so that code is type-safe, readable, and
-consistent across Alpha's projects.
+This skill defines how to write and structure TypeScript so that code is type-safe, readable, and consistent across Alpha's projects.
 
 # General Principles
 
-- **`@alphacifer/tsconfig`** is **required**. Every project must extend it; do not override or
-  loosen options—fix code instead unless the project documents an exception.
-- **Prefer types over `any`**: Use precise types, generics, and inference; use `unknown` and narrow
-  when the type is dynamic.
-- **Explicit over implicit**: Prefer explicit return types on public APIs and exports; rely on
-  inference for locals and private helpers.
-- **Small, focused modules**: Prefer small files and single responsibility; use barrel exports only
-  when they clearly simplify the public API.
+- **`@alphacifer/tsconfig`** is **required**. Every project must extend it; do not override or loosen options—fix code instead unless the project documents an exception.
+- **Prefer types over `any`**: Use precise types, generics, and inference; use `unknown` and narrow when the type is dynamic.
+- **Explicit over implicit**: Prefer explicit return types on public APIs and exports; rely on inference for locals and private helpers.
+- **Small, focused modules**: Prefer small files and single responsibility; use barrel exports only when they clearly simplify the public API.
 
 # Reference Guides
 
-- [Types and Interfaces](./references/types.md) - object shapes, unions, readonly values, branded
-  types, and nullable modeling.
+- [Types and Interfaces](./references/types.md) - object shapes, unions, readonly values, branded types, and nullable modeling.
 - [Modules and Imports](./references/imports.md) - ES modules, relative imports, and path aliases.
-- [Style and Formatting](./references/style.md) - naming, enum alternatives, guard clauses, block
-  braces, and object formatting.
-- [Testing and Tooling](./references/tooling.md) - tsconfig, lint/format expectations, and testing
-  conventions.
+- [Style and Formatting](./references/style.md) - naming, enum alternatives, guard clauses, block braces, and object formatting.
+- [Testing and Tooling](./references/tooling.md) - tsconfig, lint/format expectations, and testing conventions.

@@ -14,6 +14,7 @@ This file defines how AI agents should use the skills in this repository when wo
 - **Apply YAGNI**: do not introduce features, abstractions, options, configuration, dependencies, or framework changes that are not needed for the current request.
 - **Keep changes small and safe**: avoid broad refactors unless explicitly requested.
 - **Explain non-obvious decisions briefly** in natural language, not in redundant code comments.
+- **Do not hard-wrap prose**: keep Markdown paragraphs and bullet text on a single line unless the file format, table layout, or code block requires line breaks.
 - **Run tests or linters** when you make non-trivial changes, if available and fast.
 
 ## Default Coding Agent
