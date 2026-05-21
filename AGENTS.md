@@ -8,7 +8,10 @@ This file defines how AI agents should use the skills in this repository when wo
 ## Global Guidance for All Agents
 
 - **Respect project-specific skills** in the `skills/` directory and `.cursor/skills-cursor/`.
+- **Use `skills/principles/SKILL.md`** for Alpha's default engineering principles, including YAGNI and pragmatic DRY.
 - **Prefer existing patterns** in the codebase over inventing new ones.
+- **Apply DRY pragmatically**: reuse existing code, helpers, utilities, and conventions before adding new ones; avoid duplicating logic unless abstraction would make the change harder to understand.
+- **Apply YAGNI**: do not introduce features, abstractions, options, configuration, dependencies, or framework changes that are not needed for the current request.
 - **Keep changes small and safe**: avoid broad refactors unless explicitly requested.
 - **Explain non-obvious decisions briefly** in natural language, not in redundant code comments.
 - **Run tests or linters** when you make non-trivial changes, if available and fast.
@@ -19,7 +22,8 @@ This file defines how AI agents should use the skills in this repository when wo
 - **Style**:
   - Follow repository standards from `README.md` and any relevant `SKILL.md` files.
   - Use clear, modern patterns for the stack in use (TypeScript/JS, testing setup, etc.).
-  - Avoid over-engineering; favor readable, pragmatic solutions.
+  - Avoid over-engineering; favor readable, pragmatic solutions that solve the present need.
+  - Reuse existing modules and helpers when they fit, but do not create premature shared abstractions just to remove small or harmless duplication.
 - **Behavior**:
   - When in doubt, infer intent from existing code and skills instead of asking.
   - Keep PR-sized changes: cohesive, well-scoped, and documented in commit messages when requested.
@@ -40,4 +44,3 @@ When a new, recurring workflow emerges (e.g., performance tuning, data migration
 - **Define a focused purpose** for the agent.
 - **Link it to one or more skills** (e.g., a new `skills/performance/SKILL.md`).
 - **Describe expected behavior** in a short section like those above.
-
