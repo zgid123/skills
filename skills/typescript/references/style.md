@@ -18,6 +18,7 @@ description: Naming and formatting guidelines for Alpha's TypeScript projects
 - When passing an object parameter to a function, always put it on multiple lines, even with one property. Put each property on its own line, include a trailing comma, and sort properties by key length from shortest to longest.
 - In callbacks, use a concise arrow return only when the return value is a **single, simple expression** (e.g., accessing a property or calling one function). When the return value is an object literal or requires any multi-step mapping, always use a block body with `return`.
 - Use `_` as a numeric separator for numbers with four or more digits (`1_000`, `10_000`, `100_000`).
+- **Destructure function parameters** at the first level in the function signature. Do not destructure nested properties (level 2+) in the signature; handle nested destructuring inside the function body. If the entire parameter object is needed for other calls, destructure its properties inside the function body instead of the signature.
 
 ```ts
 // Do:
@@ -115,6 +116,30 @@ const orderSummaries = orders.map((order) => {
     }, 0),
   };
 });
+
+// ✅ Destructure function parameters at the first level in the signature
+function doSomethingGood({ email }: IParams): void {
+  verifyEmail({
+    email,
+  });
+}
+
+// ✅ Destructure level 2+ properties inside the function body
+function doSomethingNested({ email, credentials }: IParams): void {
+  const { accessToken, secretToken } = credentials;
+  verifyEmail({
+    email,
+  });
+}
+
+// ✅ Destructure inside the body if the original parameter object is needed
+function doSomethingWithParams(params: IParams): void {
+  const { email } = params;
+  verifyEmail({
+    email,
+  });
+  const data = extractParams(params);
+}
 ```
 
 ```ts
@@ -193,4 +218,26 @@ const orderSummaries = orders.map((order) => ({
   customerName: order.customer.name,
   total: order.items.reduce((sum, item) => sum + item.price * item.quantity, 0),
 }));
+
+// ❌ Do not use params.propertyName instead of first-level destructuring
+function doSomethingBad(params: IParams): void {
+  verifyEmail({
+    email: params.email,
+  });
+}
+
+// ❌ Do not destructure from level 2+ in the function signature
+function doSomethingNestedBad({ email, credentials: { accessToken, secretToken } }: IParams): void {
+  verifyEmail({
+    email,
+  });
+}
+
+// ❌ Do not use params.propertyName if the original parameter object is needed
+function doSomethingWithParamsBad(params: IParams): void {
+  verifyEmail({
+    email: params.email,
+  });
+  const data = extractParams(params);
+}
 ```
