@@ -16,7 +16,7 @@ description: Naming and formatting guidelines for Alpha's TypeScript projects
 - Conditions must always use block braces `{}`; do not use single-statement form without braces.
 - Format objects with one property per line and a trailing comma after the last property.
 - When passing an object parameter to a function, always put it on multiple lines, even with one property. Put each property on its own line, include a trailing comma, and sort properties by key length from shortest to longest.
-- In callbacks, use concise arrow returns only for short expressions; use a block body with `return` when returning a multi-line object or doing non-trivial mapping.
+- In callbacks, use a concise arrow return only when the return value is a **single, simple expression** (e.g., accessing a property or calling one function). When the return value is an object literal or requires any multi-step mapping, always use a block body with `return`.
 
 ```ts
 // Do:
@@ -88,7 +88,18 @@ class UserService {
   }
 }
 
-// ✅ Use block body + return for multi-line object mapping
+// ✅ Concise arrow: single simple expression
+const ids = products.map((product) => product.id);
+
+// ✅ Block body + return: return value is an object
+const summaries = products.map((product) => {
+  return {
+    id: product.id,
+    name: product.name,
+  };
+});
+
+// ✅ Block body + return for multi-step object mapping
 const orderSummaries = orders.map((order) => {
   return {
     id: order.id,
@@ -162,7 +173,10 @@ class UserService {
   }
 }
 
-// ❌ Do not force long object mappings into concise arrow returns
+// ❌ Do not use inline object arrow return — wrap in a block with return instead
+const summaries = products.map((product) => ({ id: product.id, name: product.name }));
+
+// ❌ Do not use concise arrow for multi-step object mapping either
 const orderSummaries = orders.map((order) => ({
   id: order.id,
   customerName: order.customer.name,

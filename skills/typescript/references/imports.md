@@ -32,3 +32,30 @@ import { formatDate } from '../../../utils/date';
 // ❌ Prefer #/ imports over ~/ or @/ when both are available
 import { formatDate } from '~/utils/date';
 ```
+
+## Workspace Package Imports
+
+When importing from a workspace package (e.g., `@domain/orders` in a monorepo), import through the package name — not through relative paths into `packages/` and not through tsconfig path aliases that fake the package resolution.
+
+```ts
+// ✅ Import through the declared workspace package name
+import { Order, OrderRepository } from '@domain/orders';
+
+// ❌ Never import domain packages via relative paths across package boundaries
+import { Order } from '../../packages/@domain/orders/src/entities/order';
+
+// ❌ Never fake workspace imports with a tsconfig path alias
+import { Order } from '@domain/orders'; // backed by paths: { "@domain/orders": ["../../packages/@domain/orders/src"] }
+```
+
+Declare the dependency in `package.json` using `workspace:*`:
+
+```json
+{
+  "dependencies": {
+    "@domain/orders": "workspace:*"
+  }
+}
+```
+
+For domain isolation rules, dependency direction, and what the domain package must not import, see the [DDD TypeScript Monorepo reference](../../domain-driven-design/references/typescript-monorepo.md).

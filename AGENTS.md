@@ -1,47 +1,84 @@
 ## Overview
 
-This file defines how AI agents should use the skills in this repository when working on Alpha's projects.
+This file is the **canonical template** for all of Alpha's projects. Copy it into a project's root `AGENTS.md` and adjust the skills path (`skills/` → `.agents/skills/`) as needed.
 
-- **Audience**: AI coding agents (Cursor, Claude Code, Windsurf, etc.)
-- **Goal**: Apply Alpha's preferred standards consistently and transparently.
+- **Audience**: AI coding agents (Cursor, Claude Code, Windsurf, Gemini, etc.)
+- **Goal**: Apply Alpha's preferred standards consistently and transparently across every project.
 
-## Global Guidance for All Agents
+---
 
-- **Respect project-specific skills** in the `skills/` directory and `.cursor/skills-cursor/`.
-- **Use `skills/principles/SKILL.md`** for Alpha's default engineering principles, including YAGNI and pragmatic DRY.
-- **Prefer existing patterns** in the codebase over inventing new ones.
-- **Apply DRY pragmatically**: reuse existing code, helpers, utilities, and conventions before adding new ones; avoid duplicating logic unless abstraction would make the change harder to understand.
-- **Apply YAGNI**: do not introduce features, abstractions, options, configuration, dependencies, or framework changes that are not needed for the current request.
+## Mandatory Skill-Reading Protocol
+
+**Before writing or modifying any code, you MUST read the relevant skills. This is not optional.**
+
+### Step 1 — Always Read First
+
+Read these two skills at the start of every task, no exceptions:
+
+1. `skills/principles/SKILL.md` — engineering principles (YAGNI, pragmatic DRY, small safe changes)
+2. `skills/testing/SKILL.md` — testing conventions
+
+### Step 2 — Trigger-Based Skills
+
+Read the following skills when the task matches their trigger. Do not skip them.
+
+| Trigger | Skill to Read |
+|---|---|
+| Creating, refactoring, or reviewing any domain model, aggregate, entity, value object, repository contract, domain service, command, query, or bounded context | `skills/domain-driven-design/SKILL.md` and all files under `skills/domain-driven-design/references/` |
+| Deciding a filename, directory name, class name, function name, variable name, or import style — in any language | Read the skill for that language (e.g., `skills/typescript/SKILL.md` for `.ts` files). If no skill exists for the language, follow the closest existing convention in the codebase. |
+| Writing or modifying tests | `skills/testing/SKILL.md` |
+
+### Step 3 — Confirm Before Acting
+
+After reading the relevant skills, verify:
+
+- Your planned names, structure, and patterns match what the skill prescribes.
+- You are not introducing abstractions, dependencies, or layers that the skill says to avoid.
+- If the skill and the existing codebase conflict, follow the existing codebase and note the discrepancy briefly.
+
+---
+
+## Global Rules
+
+- **Prefer existing patterns** over inventing new ones.
+- **Apply YAGNI**: do not add features, abstractions, configuration, or dependencies that are not required right now.
+- **Apply pragmatic DRY**: reuse existing helpers and conventions; do not create premature abstractions just to remove harmless duplication.
 - **Keep changes small and safe**: avoid broad refactors unless explicitly requested.
-- **Explain non-obvious decisions briefly** in natural language, not in redundant code comments.
-- **Do not hard-wrap prose**: keep Markdown paragraphs and bullet text on a single line unless the file format, table layout, or code block requires line breaks.
-- **Run tests or linters** when you make non-trivial changes, if available and fast.
+- **Explain non-obvious decisions briefly** in natural language — not redundant inline comments.
+- **Do not hard-wrap prose**: keep Markdown paragraphs and bullet text on a single line unless the format requires line breaks.
+- **Run tests or linters** after non-trivial changes, if available and fast.
 
-## Default Coding Agent
+---
 
-- **Purpose**: Day‑to‑day implementation, refactors, and bug fixes.
-- **Style**:
-  - Follow repository standards from `README.md` and any relevant `SKILL.md` files.
-  - Use clear, modern patterns for the stack in use (TypeScript/JS, testing setup, etc.).
-  - Avoid over-engineering; favor readable, pragmatic solutions that solve the present need.
-  - Reuse existing modules and helpers when they fit, but do not create premature shared abstractions just to remove small or harmless duplication.
-- **Behavior**:
-  - When in doubt, infer intent from existing code and skills instead of asking.
-  - Keep PR-sized changes: cohesive, well-scoped, and documented in commit messages when requested.
+## Agent Roles
 
-## Testing‑Focused Agent
+### Default Coding Agent
 
-- **Purpose**: Design, improve, and maintain tests.
-- **When to use**: When the task is primarily about tests (unit, integration, or end‑to‑end).
-- **Behavior**:
-  - Prefer patterns and conventions from `skills/testing/SKILL.md` and its references (e.g., Vitest docs under `skills/testing/references/`).
-  - Keep tests deterministic, isolated, and fast by default.
-  - Use factories and helpers instead of duplicating setup logic where appropriate.
+**Purpose**: Day-to-day implementation, refactors, and bug fixes.
 
-## Adding New Agents
+**Behavior**:
+- Apply the mandatory skill-reading protocol above before every task.
+- Follow `README.md` and any `SKILL.md` relevant to the files being changed.
+- When in doubt, infer intent from existing code and skills rather than asking.
+- Keep changes cohesive and well-scoped.
 
-When a new, recurring workflow emerges (e.g., performance tuning, data migrations):
+### Testing-Focused Agent
 
-- **Define a focused purpose** for the agent.
-- **Link it to one or more skills** (e.g., a new `skills/performance/SKILL.md`).
-- **Describe expected behavior** in a short section like those above.
+**Purpose**: Design, improve, and maintain tests.
+
+**When to use**: When the task is primarily about tests (unit, integration, or end-to-end).
+
+**Behavior**:
+- Apply the mandatory skill-reading protocol above, with emphasis on `skills/testing/SKILL.md`.
+- Keep tests deterministic, isolated, and fast.
+- Use factories and helpers instead of duplicating setup logic.
+
+---
+
+## Adding Skills
+
+When a new recurring pattern emerges (e.g., performance, migrations):
+
+- Add a `skills/<topic>/SKILL.md`.
+- Add a trigger row to the **Trigger-Based Skills** table above.
+- Describe the expected agent behavior in a new Agent Role section if needed.

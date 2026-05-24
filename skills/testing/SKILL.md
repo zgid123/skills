@@ -25,9 +25,11 @@ This skill defines how to write automated tests (unit, integration, and end‑to
 - **Integration tests**:
   - Use when behavior depends on multiple modules or infrastructure (for example repositories, messaging, caching, persistence).
   - Prefer running against real or test instances of infrastructure (for example a test database) instead of heavy mocking.
+  - **Do not use for controllers, adapters, or route handlers.** Those are tested exclusively with E2E tests.
 - **End‑to‑end tests**:
-  - Use sparingly for high‑value flows (for example sign‑up, checkout, critical APIs).
-  - Keep scenarios few but realistic; avoid duplicating coverage that is already well tested at lower levels.
+  - **Always use for controllers, adapters, and route handlers** (HTTP routes, GraphQL resolvers, gRPC handlers). This is not optional — never write an integration test for a controller.
+  - Use for other high‑value flows (for example sign‑up, checkout, critical APIs).
+  - Keep scenarios focused; avoid duplicating coverage that is already well tested at lower levels.
 
 # Structure and Naming (General)
 

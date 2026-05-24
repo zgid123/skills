@@ -72,18 +72,18 @@ infrastructure/
     migrations/
     instance.ts
     repositories/
-      drizzle-user.repository.ts
+      UserRepository.ts
   mongoose/
     documents/
     schemas/
     instance.ts
     repositories/
-      mongoose-session.repository.ts
+      SessionRepository.ts
   redis/
     instance.ts
     keys.ts
     repositories/
-      redis-token.repository.ts
+      TokenRepository.ts
 ```
 
 Avoid a generic `orm/` folder when the project uses multiple persistence technologies. Name the folder after the actual tool or service so ownership stays obvious.

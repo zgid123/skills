@@ -7,6 +7,7 @@ description: End-to-end test guidelines for Alpha's Vitest projects
 
 End‑to‑end (E2E) tests exercise the system as a whole through its public interfaces (HTTP, UI, etc.).
 
+- **Controllers, adapters, and route handlers are always tested with E2E tests.** Never write an integration test for a controller or route — if you are testing an HTTP handler, a GraphQL resolver, or a gRPC handler, the test file must be `*.e2e.ts`.
 - Filename convention: `*.e2e.ts`.
 - Location: under `src/__tests__` (for example `src/__tests__/e2e/...`).
 - Only mock 3rd‑party requests using [Mock Service Worker](https://mswjs.io/); keep application code and database real (or a real test schema).

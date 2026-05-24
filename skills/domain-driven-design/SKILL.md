@@ -71,6 +71,7 @@ If the answers are weak, keep the design simpler.
 
 ## Reference Guides
 
+- [File Naming](./references/naming.md) - naming rules for entities, repository contracts, commands, queries, and infrastructure implementations.
 - [Logical Structure and Layers](./references/structure.md) - bounded context layout, layer responsibilities, adapters, infrastructure, and dependency direction.
 - [Large Monolith Structure](./references/large-monolith.md) - `modules/<domain>` layout with root-level adapters and infrastructure for projects with many business domains.
 - [TypeScript Monorepo Domains](./references/typescript-monorepo.md) - local domain packages, package exports, workspace dependencies, and app-layer wiring.
