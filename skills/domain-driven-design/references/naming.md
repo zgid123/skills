@@ -41,35 +41,95 @@ export interface IAuthRepository {
 
 ### Errors
 
-Group all errors for a domain concept into a single file named `<domain>Errors.ts` — **camelCase**, because the file is a module that exports multiple classes, not a single class. PascalCase is reserved for files that export exactly one class whose name matches the file.
+Each domain concept gets one error class in its own **PascalCase** file. The file name matches the exported class name exactly.
 
 ```txt
 domain/
   errors/
-    userErrors.ts
-    orderErrors.ts
-    authErrors.ts
+    UserError.ts
+    OrderError.ts
+    AuthError.ts
+    constants/
+      userErrors.ts
+      orderErrors.ts
+      authErrors.ts
+      index.ts
+    index.ts
+```
+
+Error string constants (codes and names) live in `errors/constants/<domain>Errors.ts`. The `constants/` folder has its own `index.ts` barrel that re-exports all constant files. That barrel is consumed **only inside the `errors/` folder** — it must not be re-exported through `errors/index.ts`.
+
+```ts
+// ✅ domain/errors/constants/authErrors.ts
+export const UNAUTHORIZED_CODE = 1000;
+export const UNAUTHORIZED_NAME = 'Unauthorized';
+
+export const INVALID_CREDENTIALS_CODE = 1001;
+export const INVALID_CREDENTIALS_NAME = 'InvalidCredentials';
+
+export const EXPIRED_TOKEN_CODE = 1002;
+export const EXPIRED_TOKEN_NAME = 'ExpiredToken';
 ```
 
 ```ts
-// ✅ domain/errors/userErrors.ts
-export class UserNotFoundError extends Error {
-  constructor(id: string) {
-    super(`User ${id} not found`);
-    this.name = 'UserNotFoundError';
+// ✅ domain/errors/constants/index.ts — internal barrel, not re-exported outside errors/
+export * from './authErrors';
+export * from './userErrors';
+```
+
+```ts
+// ✅ domain/errors/AuthError.ts
+import { HonoError } from '@alphacifer/hono/core';
+import {
+  EXPIRED_TOKEN_CODE,
+  EXPIRED_TOKEN_NAME,
+  INVALID_CREDENTIALS_CODE,
+  INVALID_CREDENTIALS_NAME,
+  UNAUTHORIZED_CODE,
+  UNAUTHORIZED_NAME,
+} from './constants';
+
+export class AuthError extends HonoError {
+  public static unauthorized(): AuthError {
+    return new AuthError({
+      status: 401,
+      code: UNAUTHORIZED_CODE,
+      name: UNAUTHORIZED_NAME,
+      message: 'Unauthorized',
+    });
+  }
+
+  public static invalidCredentials(): AuthError {
+    return new AuthError({
+      status: 401,
+      code: INVALID_CREDENTIALS_CODE,
+      name: INVALID_CREDENTIALS_NAME,
+      message: 'Invalid credentials',
+    });
+  }
+
+  public static tokenExpired(): AuthError {
+    return new AuthError({
+      status: 401,
+      code: EXPIRED_TOKEN_CODE,
+      name: EXPIRED_TOKEN_NAME,
+      message: 'Token expired',
+    });
   }
 }
+```
 
-export class UserAlreadyExistsError extends Error {
-  constructor(email: string) {
-    super(`User with email ${email} already exists`);
-    this.name = 'UserAlreadyExistsError';
-  }
-}
+```ts
+// ✅ domain/errors/index.ts — exports error classes only, never constants
+export * from './AuthError';
+export * from './UserError';
+```
 
-// ❌ UserErrors.ts — PascalCase implies a single exported class matching the file name
-// ❌ UserNotFoundError.ts, UserAlreadyExistsError.ts — one file per error is too scattered; group by domain
-// ❌ user-errors.ts — kebab-case; use camelCase for multi-export modules
+```ts
+// ❌ authErrors.ts — camelCase implies a multi-export module, not a single class
+// ❌ AuthErrors.ts — plural implies multiple exports; use AuthError.ts for one class
+// ❌ auth-error.ts — kebab-case; use PascalCase matching the class name
+// ❌ Exporting constants through errors/index.ts — constants are internal to errors/
 ```
 
 ### Value Objects
@@ -201,7 +261,8 @@ import { CancelOrderCommand } from '#/application';
 |---|---|---|---|
 | Entity | `domain/entities/` | `<Name>Entity.ts` | `OrderEntity.ts` |
 | Repository contract | `domain/repositories/` | `I<Name>Repository.ts` | `IOrderRepository.ts` |
-| Domain error group | `domain/errors/` | `<domain>Errors.ts` | `userErrors.ts` |
+| Domain error class | `domain/errors/` | `<Name>Error.ts` | `UserError.ts` |
+| Domain error constants | `domain/errors/constants/` | `<domain>Errors.ts` | `authErrors.ts` |
 | Value object | `domain/value-objects/` | `<Name>ValueObject.ts` | `EmailValueObject.ts` |
 | Command | `application/commands/` | `<Feature>Command.ts` | `CancelOrderCommand.ts` |
 | Query | `application/queries/` | `<Feature>Query.ts` | `ListOrdersQuery.ts` |
