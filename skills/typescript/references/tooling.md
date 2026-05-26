@@ -5,6 +5,7 @@ description: Tooling, tsconfig, and testing guidelines for Alpha's TypeScript pr
 
 # Testing and Tooling
 
+- **Use pnpm** as the package manager. Never use npm or yarn in TypeScript projects.
 - Use the project's linter and formatter; run the project's check or format script when making changes.
 - All tsconfig files must extend **`@alphacifer/tsconfig`**.
 - Add only project-specific tsconfig overrides, such as `include` or `outDir`.
