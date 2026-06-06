@@ -39,6 +39,7 @@ Messages are class-based:
 - Commands extend `Command`.
 - Queries extend `Query<TResult>`.
 - Events extend `Event`.
+- Only define a constructor when the command, query, or event has attributes to assign. If a message has no attributes, omit the constructor instead of writing `constructor() { super(); }`.
 - Handlers implement `exec(...)` and return a `Promise`.
 
 Use `Cqrsx.register(MessageClass, handler)` to register handlers. Registration returns the same `Cqrsx` instance, so startup wiring can be chained.
@@ -106,6 +107,16 @@ const cqrsx = new Cqrsx()
 await cqrsx.exec(new CreateUserCommand('Alpha'));
 const userName = await cqrsx.exec(new GetUserNameQuery('user-1'));
 await cqrsx.publish(new UserCreatedEvent('user-1'));
+```
+
+For messages with no attributes, keep the class empty:
+
+```ts
+class RebuildSearchIndexCommand extends Command {}
+
+class ListCurrentUserSessionsQuery extends Query<SessionDto[]> {}
+
+class DailyDigestReadyEvent extends Event {}
 ```
 
 Prefer object-shaped constructor parameters when a message has more than one field:
