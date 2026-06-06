@@ -38,6 +38,7 @@ Avoid heavy DDD when:
 - Use repositories to load and persist aggregates, not to hide business decisions.
 - Keep mappers at boundaries between layers.
 - Prefer explicit state transitions over scattered conditionals.
+- In TypeScript projects, create application commands and queries with `@cqrsx/core`; read `skills/cqrs/SKILL.md` before implementing them.
 
 ## Naming
 
@@ -76,3 +77,4 @@ If the answers are weak, keep the design simpler.
 - [Large Monolith Structure](./references/large-monolith.md) - `modules/<domain>` layout with root-level adapters and infrastructure for projects with many business domains.
 - [TypeScript Monorepo Domains](./references/typescript-monorepo.md) - local domain packages, package exports, workspace dependencies, and app-layer wiring.
 - [Testing Domain Behavior](./references/testing.md) - focused tests for transitions, invariants, domain errors, value objects, and business edge cases.
+- [CQRS](../cqrs/SKILL.md) - required TypeScript command/query/event primitives and handler co-location rules using `@cqrsx/core`.

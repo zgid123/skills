@@ -52,6 +52,8 @@ Put these in `application/`:
 
 Application code may call domain behavior, repositories, and infrastructure ports. Keep it focused on orchestration: validate input shape, load domain objects, execute behavior, persist results, and return output.
 
+In TypeScript projects, commands and queries must use `@cqrsx/core`. Command classes extend `Command`, query classes extend `Query<TResult>`, and handlers implement `ICommandHandler` or `IQueryHandler`. Keep each command/query and its handler in the same file, following `skills/cqrs/SKILL.md`.
+
 ## Infrastructure
 
 The infrastructure layer contains technical implementations.

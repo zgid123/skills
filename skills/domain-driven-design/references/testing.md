@@ -100,18 +100,21 @@ Use in-memory fakes instead of mocks for repository dependencies. A fake keeps t
 
 ```ts
 // __tests__/application/commands/CancelOrderCommand.spec.ts
-import { CancelOrderCommand } from '#/application/commands/CancelOrderCommand';
+import {
+  CancelOrderCommand,
+  CancelOrderCommandHandler,
+} from '#/application/commands/CancelOrderCommand';
 import { InMemoryOrderRepository } from '#/test-support/fakes/InMemoryOrderRepository';
 import { OrderFactory } from '#/test-support/factories/OrderFactory';
 import { OrderAlreadyCancelledError } from '#/domain/errors/orderErrors';
 
-describe('#CancelOrderCommand', () => {
+describe('#CancelOrderCommandHandler', () => {
   let repository: InMemoryOrderRepository;
-  let command: CancelOrderCommand;
+  let handler: CancelOrderCommandHandler;
 
   beforeEach(() => {
     repository = new InMemoryOrderRepository();
-    command = new CancelOrderCommand(repository);
+    handler = new CancelOrderCommandHandler(repository);
   });
 
   suite('when order exists and is pending', () => {
@@ -119,7 +122,12 @@ describe('#CancelOrderCommand', () => {
       const order = OrderFactory.build({ status: 'pending' });
       await repository.save(order);
 
-      await command.execute({ orderId: order.id, reason: 'customer request' });
+      await handler.exec(
+        new CancelOrderCommand({
+          orderId: order.id,
+          reason: 'customer request',
+        }),
+      );
 
       const saved = await repository.findById(order.id);
       expect(saved?.status).toEqual('cancelled');
@@ -132,7 +140,12 @@ describe('#CancelOrderCommand', () => {
       await repository.save(order);
 
       await expect(
-        command.execute({ orderId: order.id, reason: 'duplicate' }),
+        handler.exec(
+          new CancelOrderCommand({
+            orderId: order.id,
+            reason: 'duplicate',
+          }),
+        ),
       ).rejects.toThrowError(OrderAlreadyCancelledError);
     });
   });
@@ -144,4 +157,3 @@ describe('#CancelOrderCommand', () => {
 Prefer **in-memory fakes** (classes that implement the repository contract using a `Map`) over spy/mock objects for domain and application tests. Fakes keep the test focused on behavior; mocks make tests fragile by asserting internal call sequences.
 
 Only use mocks for true external boundaries: 3rd-party APIs, email gateways, payment providers.
-

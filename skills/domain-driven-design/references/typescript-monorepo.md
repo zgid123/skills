@@ -49,7 +49,7 @@ Rules for TypeScript monorepos:
 - Export only intentional domain APIs from the domain package entrypoint.
 - Keep repository contracts in the domain package when they are part of the domain boundary.
 - Put concrete repository implementations in the app or infrastructure package that owns the persistence technology instance.
-- Application commands and queries may depend on the domain package and repository contracts.
+- Application commands and queries may depend on the domain package, repository contracts, and `@cqrsx/core`.
 - Adapters call application commands and queries; they should not call ORM repositories directly.
 - Infrastructure implements domain/application contracts and maps ORM records to domain objects.
 
@@ -100,11 +100,18 @@ Do not import domain code through relative paths into `packages/`, and do not ad
 Do not make the domain package depend on the app to solve wiring. Wiring belongs in the app layer:
 
 ```ts
-import { CancelOrderCommand } from "./application/commands/cancel-order.command";
-import { DrizzleOrderRepository } from "./infrastructure/drizzle/repositories/drizzle-order.repository";
+import { Cqrsx } from '@cqrsx/core';
+import {
+  CancelOrderCommand,
+  CancelOrderCommandHandler,
+} from './application/commands/CancelOrderCommand';
+import { OrderRepository } from './infrastructure/drizzle/repositories/OrderRepository';
 
-const orderRepository = new DrizzleOrderRepository(drizzle);
-const cancelOrder = new CancelOrderCommand(orderRepository);
+const orderRepository = new OrderRepository(drizzle);
+const cqrsx = new Cqrsx().register(
+  CancelOrderCommand,
+  new CancelOrderCommandHandler(orderRepository),
+);
 ```
 
 For other languages, preserve the same dependency rules even if the physical layout differs. Use the language's normal module/package conventions instead of forcing the TypeScript monorepo layout.

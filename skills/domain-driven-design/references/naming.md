@@ -159,6 +159,8 @@ application/
     CreateInvoiceCommand.ts
 ```
 
+In TypeScript projects, command classes extend `Command` from `@cqrsx/core`, and their handler classes live in the same file. For example, `CancelOrderCommand.ts` exports both `CancelOrderCommand` and `CancelOrderCommandHandler`. Do not create a separate `CancelOrderCommandHandler.ts` file.
+
 ### Queries
 
 Files in `application/queries/` use the suffix `Query`:
@@ -170,6 +172,8 @@ application/
     ListOrdersQuery.ts
     GetInvoiceSummaryQuery.ts
 ```
+
+In TypeScript projects, query classes extend `Query<TResult>` from `@cqrsx/core`, and their handler classes live in the same file. For example, `GetInvoiceSummaryQuery.ts` exports both `GetInvoiceSummaryQuery` and `GetInvoiceSummaryQueryHandler`. Do not create a separate `GetInvoiceSummaryQueryHandler.ts` file.
 
 ---
 
