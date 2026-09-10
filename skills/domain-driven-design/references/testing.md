@@ -15,6 +15,8 @@ Follow the [Vitest convention](../../testing/references/vitest/convention.md) fo
 
 Do not test implementation details (private fields, internal method calls, ORM queries). Test behavior through the entity's public API.
 
+Name the main object under test `subject`. Keep collaborators, fixtures, and other setup values named after their domain role. For example, when testing a command handler, name the handler `subject` while keeping a prepared order named `order`.
+
 ## Entity Transitions
 
 ```ts
@@ -38,20 +40,20 @@ describe('#OrderEntity', () => {
   describe('.cancel', () => {
     suite('when order is pending', () => {
       it('cancels the order', () => {
-        const order = new OrderEntity();
+        const subject = new OrderEntity();
 
-        order.cancel('customer request');
+        subject.cancel('customer request');
 
-        expect(order.status).toEqual('cancelled');
+        expect(subject.status).toEqual('cancelled');
       });
     });
 
     suite('when order is already cancelled', () => {
       it('throws OrderAlreadyCancelledError', () => {
-        const order = new OrderEntity();
-        order.cancel('first cancellation');
+        const subject = new OrderEntity();
+        subject.cancel('first cancellation');
 
-        expect(() => order.cancel('second cancellation')).toThrowError(
+        expect(() => subject.cancel('second cancellation')).toThrowError(
           OrderAlreadyCancelledError,
         );
       });
@@ -80,9 +82,9 @@ import { InvalidEmailError } from '#/domain/errors/userErrors';
 describe('#Email', () => {
   suite('when value is a valid email address', () => {
     it('creates an Email with the normalised value', () => {
-      const email = new Email('  User@Example.com  ');
+      const subject = new Email('  User@Example.com  ');
 
-      expect(email.value).toEqual('user@example.com');
+      expect(subject.value).toEqual('user@example.com');
     });
   });
 
@@ -110,19 +112,21 @@ import { OrderAlreadyCancelledError } from '#/domain/errors/orderErrors';
 
 describe('#CancelOrderCommandHandler', () => {
   let repository: InMemoryOrderRepository;
-  let handler: CancelOrderCommandHandler;
+  let subject: CancelOrderCommandHandler;
 
   beforeEach(() => {
     repository = new InMemoryOrderRepository();
-    handler = new CancelOrderCommandHandler(repository);
+    subject = new CancelOrderCommandHandler(repository);
   });
 
   suite('when order exists and is pending', () => {
     it('persists the cancelled order', async () => {
-      const order = OrderFactory.build({ status: 'pending' });
+      const order = OrderFactory.build({
+        status: 'pending',
+      });
       await repository.save(order);
 
-      await handler.exec(
+      await subject.exec(
         new CancelOrderCommand({
           orderId: order.id,
           reason: 'customer request',
@@ -136,11 +140,13 @@ describe('#CancelOrderCommandHandler', () => {
 
   suite('when order is already cancelled', () => {
     it('throws OrderAlreadyCancelledError', async () => {
-      const order = OrderFactory.build({ status: 'cancelled' });
+      const order = OrderFactory.build({
+        status: 'cancelled',
+      });
       await repository.save(order);
 
       await expect(
-        handler.exec(
+        subject.exec(
           new CancelOrderCommand({
             orderId: order.id,
             reason: 'duplicate',
