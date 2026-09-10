@@ -28,6 +28,7 @@ Read the following skills when the task matches their trigger. Do not skip them.
 | Creating, refactoring, or reviewing CQRS commands, command handlers, queries, query handlers, buses, application use cases, read/write separation, or `@cqrsx/core` wiring in TypeScript | `skills/cqrs/SKILL.md` in addition to `skills/domain-driven-design/SKILL.md`, all files under `skills/domain-driven-design/references/`, and `skills/typescript/SKILL.md` |
 | Deciding a filename, directory name, class name, function name, variable name, or import style — in any language | Read the skill for that language (e.g., `skills/typescript/SKILL.md` for `.ts` files). If no skill exists for the language, follow the closest existing convention in the codebase. |
 | Writing or modifying a React component, hook, or JSX file (`.tsx`, `.jsx`) | `skills/react/SKILL.md` and all files under `skills/react/references/` — read these in addition to `skills/typescript/SKILL.md`. |
+| Performing data analysis, exploratory data analysis (EDA), analytical question framing, data wrangling, data sourcing, or inspecting analytical data pipelines | `skills/data-analyst/SKILL.md` |
 | Writing or modifying tests | `skills/testing/SKILL.md` |
 
 ### Step 3 — Confirm Before Acting
