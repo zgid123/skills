@@ -1,6 +1,6 @@
 ---
 name: react
-description: Guidelines for writing consistent, type-safe React components in Alpha's projects. Use when creating, reviewing, or refactoring React components, hooks, props interfaces, or JSX structure.
+description: Guidelines for writing consistent, type-safe React components in Alpha's projects. Always use when creating, editing, or refactoring React (.tsx, .jsx) components, custom hooks, widgets, props interfaces (e.g. IFooProps), JSX return types, feature-based slices (src/features), or shadcn/ui wrappers (core/ vs shadcn-ui/). Enforces function declarations, named exports, explicit return types, and TypeScript skill compliance.
 ---
 
 # Purpose

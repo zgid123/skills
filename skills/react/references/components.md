@@ -112,7 +112,7 @@ interface IUserCardProps {
   email: string;
 }
 
-function UserCard({ name, email }: IUserCardProps): JSX.Element {
+export function UserCard({ name, email }: IUserCardProps): JSX.Element {
   return (
     <div>
       <p>{name}</p>

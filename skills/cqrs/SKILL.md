@@ -1,6 +1,6 @@
 ---
 name: cqrs
-description: Alpha's CQRS guidance for TypeScript projects. Use when creating, refactoring, or reviewing commands, command handlers, queries, query handlers, buses, application use cases, read/write separation, or when wiring CQRS with @cqrsx/core.
+description: Alpha's CQRS guidance for TypeScript projects. Always use when creating, modifying, or reviewing application use cases, commands, command handlers, queries, query handlers, domain or integration events, buses, read/write separation, or wiring CQRS with @cqrsx/core. Enforces co-locating messages and handlers in the same file and explicit dispatch conventions.
 ---
 
 # CQRS for TypeScript

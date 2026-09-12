@@ -1,6 +1,6 @@
 ---
 name: domain-driven-design
-description: Alpha's Domain-Driven Design guidance. Use when modeling business domains, creating bounded contexts, defining entities, domain errors, domain services, repository contracts, commands, queries, infrastructure implementations, adapters, or TypeScript monorepo domain packages.
+description: Alpha's Domain-Driven Design guidance. Always use when modeling business domains, defining bounded contexts, entities (*Entity.ts), value objects (*ValueObject.ts), domain errors (*Error.ts), repository contracts (I*Repository.ts), domain services, application commands/queries, adapters, or TypeScript monorepo domain packages. Enforces business rule protection, clean layer separation, and dependency direction.
 ---
 
 # Domain-Driven Design

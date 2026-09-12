@@ -1,6 +1,6 @@
 ---
 name: typescript
-description: Guidelines for writing type-safe, readable TypeScript for Alpha's projects. Use when creating, reviewing, or refactoring TypeScript code, module structure, imports, naming, tsconfig usage, or testable TypeScript APIs.
+description: Guidelines for writing type-safe, readable TypeScript for Alpha's projects. Always use when creating, editing, or refactoring any TypeScript (.ts) files, types (T prefix), interfaces (I prefix), function parameter objects, path aliases (#/ imports), #private class members, tsconfig extending @alphacifer/tsconfig, or Biome lint/format configurations. Enforces strict type safety, explicit return types on public APIs, no loose any, and small focused modules.
 ---
 
 # Purpose

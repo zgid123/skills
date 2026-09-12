@@ -1,6 +1,6 @@
 ---
 name: principles
-description: Alpha's engineering principles for pragmatic code changes. Use when implementing, reviewing, or refactoring code in any project, especially to apply YAGNI, pragmatic DRY, small safe changes, dependency discipline, and reuse of existing patterns.
+description: Alpha's engineering principles for pragmatic code changes. Always use at the start of implementing, reviewing, designing, or refactoring code in any project, adding dependencies, introducing abstractions, or planning architecture. Enforces YAGNI (no speculative features), pragmatic DRY (reuse before inventing), small cohesive changes, dependency discipline, and readability over cleverness.
 ---
 
 # Purpose

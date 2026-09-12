@@ -1,6 +1,6 @@
 ---
 name: data-analyst
-description: Operational workflows, analytical reasoning protocols, and progressive references for business problem definition, metric design, data quality validation, SQL analysis, exploratory data analysis (EDA), statistical inference, experimentation, causal reasoning, time-series forecasting, predictive analysis, and analytical storytelling. Activate when formulating analytical questions, scoping analytics projects, verifying datasets, querying relational warehouses, designing KPIs, or translating empirical findings into strategic business recommendations.
+description: Guidelines and analytical workflows for data analysis, business intelligence, and empirical decision-making. Always use when analyzing datasets (.csv, .xlsx, SQL tables, dataframes), defining metrics/KPIs, performing exploratory data analysis (EDA), evaluating A/B test experiments, investigating metric drops or anomalies, building cohort/retention/funnel queries, or framing business recommendations from data. Enforces decision-first inquiry, grain definition, denominator safety (NULLIF), cognitive separation of facts vs. hypotheses, and zero silent data tampering.
 ---
 
 # Data Analyst

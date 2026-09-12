@@ -21,20 +21,22 @@ Name the main object under test `subject`. Keep collaborators, fixtures, and oth
 
 ```ts
 // domain/entities/OrderEntity.ts
-export class OrderEntity {
-  private status: 'pending' | 'cancelled' = 'pending';
+import { OrderError } from '#/domain/errors';
 
-  cancel(reason: string): void {
+export class OrderEntity {
+  public status: 'pending' | 'cancelled' = 'pending';
+
+  public cancel(reason: string): void {
     if (this.status === 'cancelled') {
-      throw new OrderAlreadyCancelledError();
+      throw OrderError.alreadyCancelled();
     }
     this.status = 'cancelled';
   }
 }
 
 // __tests__/domain/entities/OrderEntity.spec.ts
-import { OrderEntity } from '#/domain/entities/OrderEntity';
-import { OrderAlreadyCancelledError } from '#/domain/errors/orderErrors';
+import { OrderEntity } from '#/domain/entities';
+import { OrderError } from '#/domain/errors';
 
 describe('#OrderEntity', () => {
   describe('.cancel', () => {
@@ -49,12 +51,12 @@ describe('#OrderEntity', () => {
     });
 
     suite('when order is already cancelled', () => {
-      it('throws OrderAlreadyCancelledError', () => {
+      it('throws OrderError', () => {
         const subject = new OrderEntity();
         subject.cancel('first cancellation');
 
         expect(() => subject.cancel('second cancellation')).toThrowError(
-          OrderAlreadyCancelledError,
+          OrderError,
         );
       });
     });
@@ -66,18 +68,22 @@ describe('#OrderEntity', () => {
 
 ```ts
 // domain/value-objects/Email.ts
-export class Email {
-  readonly value: string;
+import { UserError } from '#/domain/errors';
 
-  constructor(value: string) {
-    if (!value.includes('@')) throw new InvalidEmailError(value);
+export class Email {
+  public readonly value: string;
+
+  public constructor(value: string) {
+    if (!value.includes('@')) {
+      throw UserError.invalidEmail(value);
+    }
     this.value = value.toLowerCase().trim();
   }
 }
 
 // __tests__/domain/value-objects/Email.spec.ts
 import { Email } from '#/domain/value-objects/Email';
-import { InvalidEmailError } from '#/domain/errors/userErrors';
+import { UserError } from '#/domain/errors';
 
 describe('#Email', () => {
   suite('when value is a valid email address', () => {
@@ -89,8 +95,8 @@ describe('#Email', () => {
   });
 
   suite('when value has no @ symbol', () => {
-    it('throws InvalidEmailError', () => {
-      expect(() => new Email('notanemail')).toThrowError(InvalidEmailError);
+    it('throws UserError', () => {
+      expect(() => new Email('notanemail')).toThrowError(UserError);
     });
   });
 });
@@ -105,10 +111,10 @@ Use in-memory fakes instead of mocks for repository dependencies. A fake keeps t
 import {
   CancelOrderCommand,
   CancelOrderCommandHandler,
-} from '#/application/commands/CancelOrderCommand';
+} from '#/application/commands';
 import { InMemoryOrderRepository } from '#/test-support/fakes/InMemoryOrderRepository';
 import { OrderFactory } from '#/test-support/factories/OrderFactory';
-import { OrderAlreadyCancelledError } from '#/domain/errors/orderErrors';
+import { OrderError } from '#/domain/errors';
 
 describe('#CancelOrderCommandHandler', () => {
   let repository: InMemoryOrderRepository;
@@ -139,7 +145,7 @@ describe('#CancelOrderCommandHandler', () => {
   });
 
   suite('when order is already cancelled', () => {
-    it('throws OrderAlreadyCancelledError', async () => {
+    it('throws OrderError', async () => {
       const order = OrderFactory.build({
         status: 'cancelled',
       });
@@ -152,7 +158,7 @@ describe('#CancelOrderCommandHandler', () => {
             reason: 'duplicate',
           }),
         ),
-      ).rejects.toThrowError(OrderAlreadyCancelledError);
+      ).rejects.toThrowError(OrderError);
     });
   });
 });

@@ -26,10 +26,12 @@ Read the following skills when the task matches their trigger. Do not skip them.
 |---|---|
 | Creating, refactoring, or reviewing any domain model, aggregate, entity, value object, repository contract, domain service, command, query, or bounded context | `skills/domain-driven-design/SKILL.md` and all files under `skills/domain-driven-design/references/` |
 | Creating, refactoring, or reviewing CQRS commands, command handlers, queries, query handlers, buses, application use cases, read/write separation, or `@cqrsx/core` wiring in TypeScript | `skills/cqrs/SKILL.md` in addition to `skills/domain-driven-design/SKILL.md`, all files under `skills/domain-driven-design/references/`, and `skills/typescript/SKILL.md` |
+| Creating, editing, refactoring, or reviewing any TypeScript (`.ts`) file, type (`T` prefix), interface (`I` prefix), function parameter object, path alias (`#/` imports), `#private` class member, tsconfig extending `@alphacifer/tsconfig`, or Biome lint/format configuration | `skills/typescript/SKILL.md` and all files under `skills/typescript/references/` |
 | Deciding a filename, directory name, class name, function name, variable name, or import style — in any language | Read the skill for that language (e.g., `skills/typescript/SKILL.md` for `.ts` files). If no skill exists for the language, follow the closest existing convention in the codebase. |
-| Writing or modifying a React component, hook, or JSX file (`.tsx`, `.jsx`) | `skills/react/SKILL.md` and all files under `skills/react/references/` — read these in addition to `skills/typescript/SKILL.md`. |
-| Performing data analysis, exploratory data analysis (EDA), analytical question framing, data wrangling, data sourcing, or inspecting analytical data pipelines | `skills/data-analyst/SKILL.md` |
-| Writing or modifying tests | `skills/testing/SKILL.md` |
+| Writing or modifying a React component, hook, or JSX file (`.tsx`, `.jsx`) | `skills/react/SKILL.md` and all files under `skills/react/references/` — read these in addition to `skills/typescript/SKILL.md` and all files under `skills/typescript/references/`. |
+| Analyzing datasets (.csv, .xlsx, SQL tables, dataframes), performing data analysis, exploratory data analysis (EDA), metric/KPI design, cohort/retention/funnel queries, A/B test analysis, or framing business recommendations from data | `skills/data-analyst/SKILL.md` and all files under `skills/data-analyst/references/` |
+| Writing or modifying tests, Vitest suites, test data factories (fishery, faker), mocks, or fakes | `skills/testing/SKILL.md` and all files under `skills/testing/references/` |
+| Creating, modifying, improving, evaluating, or benchmarking skills, or optimizing skill descriptions | `.agents/skills/skill-creator/SKILL.md` |
 
 ### Step 3 — Confirm Before Acting
 
@@ -72,9 +74,21 @@ After reading the relevant skills, verify:
 **When to use**: When the task is primarily about tests (unit, integration, or end-to-end).
 
 **Behavior**:
-- Apply the mandatory skill-reading protocol above, with emphasis on `skills/testing/SKILL.md`.
+- Apply the mandatory skill-reading protocol above, with emphasis on `skills/testing/SKILL.md` and its references.
 - Keep tests deterministic, isolated, and fast.
 - Use factories and helpers instead of duplicating setup logic.
+
+### Data Analyst
+
+**Purpose**: Business problem definition, metric design, data quality validation, exploratory data analysis (EDA), and empirical reporting.
+
+**When to use**: When the task is primarily analytical, exploratory, metric-oriented, or inspecting analytical data pipelines.
+
+**Behavior**:
+- Apply the mandatory skill-reading protocol above, with emphasis on `skills/data-analyst/SKILL.md` and its references.
+- Clarify the commercial decision, primary KPI, and grain before writing queries or code.
+- Never silently alter, drop, or impute data without transparent documentation.
+- Distinguish between correlation and causation; report distributions and uncertainty intervals over naked averages.
 
 ---
 
@@ -82,6 +96,7 @@ After reading the relevant skills, verify:
 
 When a new recurring pattern emerges (e.g., performance, migrations):
 
+- Use `.agents/skills/skill-creator/SKILL.md` to guide the creation, refinement, or benchmarking of the new skill.
 - Add a `skills/<topic>/SKILL.md`.
 - Add a trigger row to the **Trigger-Based Skills** table above.
 - Describe the expected agent behavior in a new Agent Role section if needed.

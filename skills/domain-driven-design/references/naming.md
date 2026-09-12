@@ -217,9 +217,9 @@ domain/
     OrderEntity.ts
     UserEntity.ts
   errors/
-    index.ts        ✅ barrel for errors
-    orderErrors.ts
-    userErrors.ts
+    index.ts        ✅ barrel for error classes
+    OrderError.ts
+    UserError.ts
   repositories/
     index.ts        ✅ barrel for repository contracts
     IOrderRepository.ts
