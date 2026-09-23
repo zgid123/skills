@@ -1,0 +1,23 @@
+{
+  "skill_name": "slidev",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a new 30-minute Slidev seminar called 'Practical Event Sourcing' in this standalone pnpm project. Use two sections: foundations with articles for event streams and aggregates, then operations with articles for projections and recovery. Include a slide comparing event sourcing and CRUD across five shared criteria, plus a slide showing the three-stage projection lifecycle as a linear process. No background images have been provided.",
+      "expected_output": "A complete standalone Slidev deck with the required theme and addon dependencies, copies of the skill's bundled default PNG backgrounds, the standard slides.md frontmatter using 2026-09-23 as the Speaker default, two section entry files, correctly numbered and imported article files, a TableComparison for the five-criterion comparison, and an ArcArrowProcess for the three-stage linear lifecycle.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Update the existing Slidev seminar in packages/training-deck with sections for contracts and validation. Its slides.md already contains <Speaker :date=\"'2026-10-05'\" />, and it has custom assets/main.png and assets/heading.png files. This is a pnpm monorepo, and the root package.json already declares @alphacifer/slidev-academic-theme and @alphacifer/slidev-addon-theme. Do not disturb the other workspace packages.",
+      "expected_output": "An updated section-based Slidev deck under packages/training-deck that preserves the author-edited 2026-10-05 Speaker date and custom backgrounds, and reuses the root dependencies without adding duplicate package declarations to the child project.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Add a new Slidev deck at apps/security-seminar in an npm workspaces monorepo. The root package already has @alphacifer/slidev-academic-theme but is missing @alphacifer/slidev-addon-theme. The seminar is 'Threat Modeling for Product Teams', lasts 45 minutes, and needs three sections: framing, modeling, and mitigations, each with two articles.",
+      "expected_output": "A complete three-section deck with the required templates, 2026-09-23 as the Speaker default, bundled default backgrounds, and ordered imports, while adding only the missing addon package at the monorepo root and not to apps/security-seminar.",
+      "files": []
+    }
+  ]
+}
