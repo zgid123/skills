@@ -1,5 +1,5 @@
 ---
-name: slidev
+name: slidevjs
 description: Create, scaffold, edit, or reorganize Slidev presentations using Alpha's required academic theme, addon, dependency placement, and section-based Markdown structure. Always use when a task mentions Slidev, a Slidev deck, slides.md, seminar slides, or Markdown presentation files intended for Slidev, including decks inside monorepos.
 ---
 
