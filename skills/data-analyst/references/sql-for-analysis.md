@@ -52,21 +52,23 @@ Window functions calculate metrics across a set of rows related to the current r
 - **`LAG()` and `LEAD()`**: Access values from preceding or subsequent rows without self-joins.
 - **Running Totals and Moving Averages**:
   ```sql
-  SELECT
+SELECT
     metric_date,
     daily_revenue,
     SUM(daily_revenue) OVER (ORDER BY metric_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_revenue,
-    AVG(daily_revenue) OVER (ORDER BY metric_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS rolling_7d_avg_revenue
+    AVG(daily_revenue) OVER (ORDER BY metric_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS rolling_7_observations_avg_revenue
   FROM daily_metrics;
   ```
+  A `ROWS BETWEEN 6 PRECEDING AND CURRENT ROW` frame covers seven observations, not necessarily seven calendar days. Use it as a seven-day window only after verifying exactly one row exists for every calendar day. Otherwise, join to a complete date spine or use a dialect-supported interval range frame.
 - **Percent of Total**:
   ```sql
   SELECT
     category,
     revenue,
-    ROUND(100.0 * revenue / SUM(revenue) OVER (), 2) AS pct_of_total
+    ROUND(100.0 * revenue / NULLIF(SUM(revenue) OVER (), 0), 2) AS pct_of_total
   FROM category_summary;
   ```
+  When the total is zero, the percentage is undefined and remains `NULL`; if a different zero-total policy is required, state it explicitly.
 
 ### 3. Deterministic Deduplication
 Use `ROW_NUMBER()` inside a CTE to resolve duplicate updates or webhook retries. Always include a deterministic tie-breaker (such as an auto-incrementing ID or hash) so that identical timestamps do not produce non-deterministic results across runs:
@@ -118,7 +120,7 @@ ORDER BY 1, 2;
 ```
 
 ### 5. Period-Over-Period (PoP) Comparisons
-Compare current metrics against prior month (MoM) or prior year (YoY) with proper date truncation:
+Compare current metrics against the exact prior calendar month or year. Positional `LAG(..., 1)` means "previous observed row," which is not necessarily the previous month when periods are missing. Use exact-period joins or build a complete calendar spine:
 ```sql
 WITH monthly_revenue AS (
   SELECT
@@ -128,49 +130,83 @@ WITH monthly_revenue AS (
   GROUP BY 1
 )
 SELECT
-  rev_month,
-  revenue AS current_revenue,
-  LAG(revenue, 1) OVER (ORDER BY rev_month) AS prev_month_revenue,
-  LAG(revenue, 12) OVER (ORDER BY rev_month) AS prev_year_revenue,
-  ROUND(100.0 * (revenue - LAG(revenue, 1) OVER (ORDER BY rev_month)) / NULLIF(LAG(revenue, 1) OVER (ORDER BY rev_month), 0), 2) AS mom_growth_pct,
-  ROUND(100.0 * (revenue - LAG(revenue, 12) OVER (ORDER BY rev_month)) / NULLIF(LAG(revenue, 12) OVER (ORDER BY rev_month), 0), 2) AS yoy_growth_pct
-FROM monthly_revenue
-ORDER BY rev_month;
+  current.rev_month,
+  current.revenue AS current_revenue,
+  previous_month.revenue AS prev_month_revenue,
+  previous_year.revenue AS prev_year_revenue,
+  ROUND(100.0 * (current.revenue - previous_month.revenue) / NULLIF(previous_month.revenue, 0), 2) AS mom_growth_pct,
+  ROUND(100.0 * (current.revenue - previous_year.revenue) / NULLIF(previous_year.revenue, 0), 2) AS yoy_growth_pct
+FROM monthly_revenue current
+LEFT JOIN monthly_revenue previous_month
+  ON previous_month.rev_month = current.rev_month - INTERVAL '1 month'
+LEFT JOIN monthly_revenue previous_year
+  ON previous_year.rev_month = current.rev_month - INTERVAL '1 year'
+ORDER BY current.rev_month;
 ```
+The interval syntax varies by SQL dialect. If a missing period should represent zero rather than unknown, make that business rule explicit and materialize the missing period with a calendar spine before calculating growth.
 
 ### 6. Funnel and Drop-Off Analysis
-Sequential funnels require strict chronological ordering, explicit entity/session boundaries, and conversion timeframes. Do not count mere independent event presence as an ordered funnel completion:
+Sequential funnels require a defined chronological ordering rule, explicit entity/session boundaries, and conversion timeframes. Select each step only after the timestamp selected for the preceding step; independently taking the first occurrence of every event can miss a valid later sequence.
 
 ```sql
--- Ordered session funnel requiring step_1 <= step_2 <= step_3 <= step_4 within the session
-WITH step_events AS (
+-- Ordered funnel at session grain; session_id must uniquely bound the funnel window
+WITH landing AS (
   SELECT
     session_id,
-    user_id,
-    MIN(CASE WHEN event_name = 'landing_view' THEN event_timestamp END) AS t_landing,
-    MIN(CASE WHEN event_name = 'product_view' THEN event_timestamp END) AS t_product,
-    MIN(CASE WHEN event_name = 'add_to_cart' THEN event_timestamp END) AS t_cart,
-    MIN(CASE WHEN event_name = 'checkout_complete' THEN event_timestamp END) AS t_checkout
+    MIN(event_timestamp) AS t_landing
   FROM session_events
-  GROUP BY session_id, user_id
+  WHERE event_name = 'landing_view'
+  GROUP BY session_id
 ),
-ordered_funnel AS (
+product AS (
   SELECT
-    session_id,
-    CASE WHEN t_landing IS NOT NULL THEN 1 ELSE 0 END AS s1_landing,
-    CASE WHEN t_landing IS NOT NULL AND t_product >= t_landing THEN 1 ELSE 0 END AS s2_product,
-    CASE WHEN t_landing IS NOT NULL AND t_product >= t_landing AND t_cart >= t_product THEN 1 ELSE 0 END AS s3_cart,
-    CASE WHEN t_landing IS NOT NULL AND t_product >= t_landing AND t_cart >= t_product AND t_checkout >= t_cart THEN 1 ELSE 0 END AS s4_checkout
-  FROM step_events
+    l.session_id,
+    l.t_landing,
+    MIN(e.event_timestamp) AS t_product
+  FROM landing l
+  LEFT JOIN session_events e
+    ON e.session_id = l.session_id
+   AND e.event_name = 'product_view'
+   AND e.event_timestamp >= l.t_landing
+  GROUP BY l.session_id, l.t_landing
+),
+cart AS (
+  SELECT
+    p.session_id,
+    p.t_landing,
+    p.t_product,
+    MIN(e.event_timestamp) AS t_cart
+  FROM product p
+  LEFT JOIN session_events e
+    ON e.session_id = p.session_id
+   AND e.event_name = 'add_to_cart'
+   AND e.event_timestamp >= p.t_product
+  GROUP BY p.session_id, p.t_landing, p.t_product
+),
+checkout AS (
+  SELECT
+    c.session_id,
+    c.t_landing,
+    c.t_product,
+    c.t_cart,
+    MIN(e.event_timestamp) AS t_checkout
+  FROM cart c
+  LEFT JOIN session_events e
+    ON e.session_id = c.session_id
+   AND e.event_name = 'checkout_complete'
+   AND e.event_timestamp >= c.t_cart
+  GROUP BY c.session_id, c.t_landing, c.t_product, c.t_cart
 )
 SELECT
-  SUM(s1_landing) AS landing_sessions,
-  SUM(s2_product) AS product_sessions,
-  SUM(s3_cart) AS cart_sessions,
-  SUM(s4_checkout) AS completed_checkout_sessions,
-  ROUND(100.0 * SUM(s4_checkout) / NULLIF(SUM(s1_landing), 0), 2) AS end_to_end_cvr_pct
-FROM ordered_funnel;
+  COUNT(*) AS landing_sessions,
+  COALESCE(SUM(CASE WHEN t_product IS NOT NULL THEN 1 ELSE 0 END), 0) AS product_sessions,
+  COALESCE(SUM(CASE WHEN t_cart IS NOT NULL THEN 1 ELSE 0 END), 0) AS cart_sessions,
+  COALESCE(SUM(CASE WHEN t_checkout IS NOT NULL THEN 1 ELSE 0 END), 0) AS completed_checkout_sessions,
+  ROUND(100.0 * COALESCE(SUM(CASE WHEN t_checkout IS NOT NULL THEN 1 ELSE 0 END), 0) / NULLIF(COUNT(*), 0), 2) AS end_to_end_cvr_pct
+FROM checkout;
 ```
+
+This example treats `session_id` as the unique funnel entity and the session itself as the conversion window. If session IDs are not globally unique, use the actual composite session key; if sessions do not impose the required maximum duration, add an explicit upper time bound. The example allows equal timestamps with `>=`; use `>` when the event contract guarantees strict ordering and simultaneous events must not count.
 
 ## Common SQL Analytical Anti-Patterns and Mistakes
 1. **The Unweighted Ratio Confusion**: Mixing up ratio-of-aggregates (`SUM(conv) / SUM(visitors)`) with unweighted average-of-ratios (`AVG(cvr)`), failing to match the intended business estimand.

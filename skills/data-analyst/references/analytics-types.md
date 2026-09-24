@@ -33,7 +33,7 @@ Prescriptive ("What action should we take?")
 - **Core Question**: *"Why did it happen? What components, segments, or historical factors drove this shift?"*
 - **Purpose**: Investigate root drivers, isolate anomalies, decompose metrics into mathematical sub-components, and determine structural contributors to observed changes.
 - **Typical Business Questions**:
-  - Why did checkout conversion drop by 14% following the latest mobile app release?
+  - Where did checkout conversion decline occur after the mobile app release, and what factors might explain it?
   - Which customer segment drove the sudden spike in subscription cancellations?
   - Did the revenue decline result from lower active buyer volume, fewer orders, or smaller basket sizes?
 - **Common Methods**:

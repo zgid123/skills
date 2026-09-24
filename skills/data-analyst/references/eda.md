@@ -24,7 +24,7 @@ To maintain analytical integrity and prevent premature conclusions, categorize a
 |---|---|---|
 | **FACT** | A validated directly measured or derived value whose source, definition, transformation, and data quality are sufficiently known. | "Validated `orders` table contains 14,200 records with 0 unhandled nulls in primary key `order_id`." |
 | **OBSERVATION** | A pattern or property observed in the analyzed data. | "Mobile checkout conversion declined from 4.8% to 3.2% between Q1 and Q2." |
-| **INSIGHT** | An interpretation explaining why an observation matters in context. | "The conversion decline is concentrated entirely among Android users following the v3.2 release, indicating checkout interface friction." |
+| **INSIGHT** | An interpretation explaining why an observation matters without presenting an unverified mechanism as established. | "The decline is concentrated among Android v3.2 users, making that release and its checkout path the highest-priority area for investigation." |
 | **HYPOTHESIS** | A testable explanation that has not yet been sufficiently validated. | "Network timeouts during third-party payment gateway handoffs on Android v3.2 may be causing drop-offs." |
 | **CONCLUSION** | A statement supported by the available evidence and methodology, with appropriate uncertainty. | "Android app release v3.2 is associated with increased checkout failures, while web and iOS cohorts remained stable." |
 | **RECOMMENDATION** | An action proposed based on the evidence, conclusion, business context, constraints, and trade-offs. | "Revert Android app release v3.2 immediately while investigating payment gateway client logs." |

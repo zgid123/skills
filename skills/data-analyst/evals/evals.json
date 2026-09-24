@@ -1,0 +1,95 @@
+{
+  "skill_name": "data-analyst",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write SQL to measure a session funnel from landing_view to product_view to add_to_cart to checkout_complete. A session can contain repeated and out-of-order events; for example, a product_view may occur before landing_view and another valid product_view may occur afterward. Include how the query behaves for no landing sessions and explain how you verify it.",
+      "expected_output": "A sequential funnel query that selects each step only after the selected preceding step, counts a session when a valid later sequence exists, states the entity and time boundary, includes a repeated-event validation case with expected counts, and returns zero step counts when there are no landing sessions while leaving the end-to-end rate undefined.",
+      "files": [],
+      "expectations": [
+        "The query does not independently take the earliest timestamp for every funnel event.",
+        "Each selected event timestamp is constrained to occur at or after the selected preceding step.",
+        "The verification evidence includes a repeated-event fixture and its expected funnel counts.",
+        "The empty-input behavior distinguishes zero session counts from an undefined conversion rate."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "A monthly revenue table has January revenue 100 and March revenue 150, with no February row. Calculate March month-over-month growth. Explain the missing-period assumption and how to verify the calendar match.",
+      "expected_output": "March MoM growth is NULL/undefined because February is missing, unless an explicit business rule defines missing February as zero. January must not be substituted as March's prior calendar month. State the exact calendar match and verification result.",
+      "files": [],
+      "expectations": [
+        "The solution uses an exact-period join or a complete calendar spine instead of positional LAG over sparse rows.",
+        "The output distinguishes an unknown missing month from a business-defined zero month.",
+        "The verification check states the expected February relationship and observed result."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "A SaaS cohort started with $100,000 MRR, lost $5,000 to churn, lost $5,000 to contraction, and gained $30,000 from expansion. Calculate and validate net revenue retention.",
+      "expected_output": "A correctly calculated NRR of 120%, with denominator and component checks, and no false rejection merely because the percentage exceeds 100%.",
+      "files": [],
+      "expectations": [
+        "The result is 120%.",
+        "The analyst explains that NRR can legitimately exceed 100% when expansion exceeds churn and contraction.",
+        "Validation uses metric-specific invariants rather than a universal zero-to-100 percentage bound."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "A clean orders table contains three rows for the completed week 2026-09-14 through 2026-09-20: (order_id 1, amount 100), (order_id 2, amount 50), and (order_id 3, amount 150). Report total orders and average order value for that week. No recommendation, intervention, or causal explanation is requested.",
+      "expected_output": "A concise descriptive analysis reporting 3 total orders and an average order value of 100, briefly confirming the metric definitions, grain, period, and calculation, verifying the result, and marking outcome evaluation not applicable instead of inventing an intervention plan.",
+      "files": [],
+      "expectations": [
+        "The response scales the lifecycle to the focused request.",
+        "The response reports 3 total orders and an average order value of 100 and verifies the calculations and relevant data assumptions.",
+        "Outcome evaluation is marked NOT APPLICABLE with a reason."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "A randomized retention-offer pilot increased 8-week retention from 70% in control to 76% in treatment (95% CI for the lift: +2 to +10 percentage points) without a material support-contact increase. The team plans a broader randomized rollout on 2026-10-01, but no rollout outcome data exists yet. Recommend whether to proceed and define the outcome evaluation using a 70% baseline, a target of at least 74% retention, a support-contact guardrail of no more than +2 percentage points, an 8-week evaluation window, a 50/50 randomized holdout, Lifecycle PM as owner, and 2026-11-26 as the review date.",
+      "expected_output": "A qualified recommendation to proceed with a broader randomized test as evidence gathering, contingent on confirming pilot integrity and rollout feasibility, plus a concrete evaluation plan using the supplied baseline, target, guardrail, window, attribution method, owner, and review date. The pilot's +2pp lower confidence bound does not establish the +4pp target. The rollout outcome is explicitly PENDING until post-launch evidence exists.",
+      "files": [],
+      "expectations": [
+        "The recommendation is distinguished from a measured outcome and is qualified by checking pilot integrity and rollout feasibility.",
+        "The evaluation plan specifies a baseline, target, guardrails, evaluation window, attribution method, owner, and review date.",
+        "The response does not claim the pilot's confidence interval establishes the target threshold.",
+        "The response does not label the intervention outcome verified before post-launch data exists."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Forecast the next 10 days using a seasonal-naive baseline from a 7-day seasonal series with the last observation labeled day 14. State which historical observations supply forecast days 1, 7, 8, and 10, and show the formula.",
+      "expected_output": "A seasonal-naive forecast that repeats the last observed seven-day season for all horizons, including horizons longer than one season. Forecast days 1, 7, 8, and 10 use historical days 8, 14, 8, and 10, respectively.",
+      "files": [],
+      "expectations": [
+        "The forecast definition only references observations available through day 14.",
+        "Forecast days 1, 7, 8, and 10 map to historical days 8, 14, 8, and 10.",
+        "The explanation distinguishes a repeated seasonal cycle from a single one-period lag."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "A category_summary table has two rows, each with revenue 0, so the total revenue is zero. Show a percent-of-total query that handles this case and state its output. Also run the four-step session funnel on a valid empty event table and state its output.",
+      "expected_output": "The category rows have undefined (NULL) percentages because their denominator is zero. The empty funnel returns zero landing and step counts and a NULL end-to-end conversion rate.",
+      "files": [],
+      "expectations": [
+        "The percent-of-total denominator is protected against zero, and no zero or infinity percentage is presented as a valid share.",
+        "The empty funnel returns zero counts for landing and every subsequent step.",
+        "The end-to-end conversion rate is NULL or explicitly reported as undefined because there are no landing sessions."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Last month, checkout conversion was 4% on iOS and 3% on Android. This month, it is 4% on iOS and 2% on Android. Write a short update for a product manager. The data has no app version, error-log, or user feedback fields.",
+      "expected_output": "A concise descriptive update stating that the observed decline is concentrated in Android, while describing potential mechanisms only as hypotheses and identifying that further evidence is needed to explain why. It should not invent a recommendation unless the request and evidence support one.",
+      "files": [],
+      "expectations": [
+        "The observed conversion change is reported accurately, with the one-percentage-point Android decline distinguished from the stable iOS rate.",
+        "No unobserved mechanism, such as validation errors or interface friction, is presented as fact.",
+        "The analyst gives a focused answer without forcing an unsupported intervention or causal explanation."
+      ]
+    }
+  ]
+}

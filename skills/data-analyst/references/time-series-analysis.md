@@ -25,11 +25,11 @@ A classical time series $Y_t$ is decomposed into four fundamental components:
   $$\text{QoQ Growth} = \frac{Y_t - Y_{t-1}}{Y_{t-1}} \times 100\%$$
 
 ### 2. Rolling Metrics and Moving Averages
-- **Simple Moving Average (SMA)**: Unweighted mean of the last $k$ periods. Smooths high-frequency noise and calendar fluctuations (e.g., a 7-day rolling window is a common heuristic for daily consumer traffic with day-of-week seasonality, but the smoothing window should always align with the data frequency and known periodicity).
+- **Simple Moving Average (SMA)**: Unweighted mean of the most recent $k$ observations. A trailing $k$-observation window ending at period $t$ covers $t-k+1$ through $t$. It smooths high-frequency noise and calendar fluctuations (e.g., a 7-day rolling window is a common heuristic for daily consumer traffic with day-of-week seasonality, but the smoothing window should always align with data frequency and known periodicity).
 - **Exponential Moving Average (EMA)**: Applies exponentially decreasing weights to older observations, responding faster to recent structural trend breaks.
 - **Trailing vs. Centered Windows**:
-  - *Trailing Window* ($t-k$ to $t$): Used for real-time operational monitoring and forecasting (avoids lookahead leakage).
-  - *Centered Window* ($t - k/2$ to $t + k/2$): Used for retrospective trend decomposition and historical smoothing.
+  - *Trailing Window* ($t-k+1$ to $t$ for $k$ observations): Used for real-time operational monitoring and forecasting (avoids lookahead leakage).
+  - *Centered Window*: For an odd window of $k=2r+1$ observations, include periods $t-r$ through $t+r$. For an even window, choose and document an alignment convention (commonly a two-stage centered average); do not use fractional period indices. Centered windows use future observations relative to $t$, so reserve them for retrospective decomposition and historical smoothing.
 
 ### 3. Lags, Leads, and Autocorrelation
 - **Lag Operator ($Y_{t-k}$)**: The value of the series $k$ time steps prior.
@@ -51,7 +51,7 @@ Always establish simple, defensible baseline models before considering complex s
 | Method | Formulation | When to Use |
 |---|---|---|
 | **Naive Baseline** | $\hat{Y}_{t+h} = Y_t$ | Fast random-walk benchmark; projects latest observed value forward. |
-| **Seasonal Naive** | $\hat{Y}_{t+h} = Y_{t+h-m}$ | Projects the value from the exact same season last cycle (e.g., this Monday equals last Monday). Strong baseline for highly seasonal data. |
+| **Seasonal Naive** | $\hat{Y}_{T+h} = Y_{T+h-m(\lfloor(h-1)/m\rfloor+1)}$ | Repeats the most recently observed season (e.g., this Monday equals last Monday), cycling through it when the forecast horizon exceeds one season. Strong baseline for highly seasonal data. |
 | **Moving Average Forecast** | $\hat{Y}_{t+h} = \frac{1}{k}\sum_{i=0}^{k-1} Y_{t-i}$ | Appropriate for stable series with zero trend and zero seasonality. |
 | **Holt-Winters Exponential Smoothing** | Level + Trend + Seasonal smoothing equations | Captures both trending trajectories and multiplicative/additive seasonal patterns with low computational overhead. |
 | **ARIMA / SARIMA** | Autoregressive Integrated Moving Average | Rigorous statistical modeling incorporating autoregression, differencing, and moving average residuals across non-seasonal and seasonal lags. |

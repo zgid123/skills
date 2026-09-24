@@ -13,11 +13,11 @@
   - *Standard*: For non-routine, strategic, and high-stakes commercial decisions, analysts should guide leaders to be data-informed rather than dogmatically data-driven.
 
 ## Moving from Observations to Recommendations
-To deliver decision utility, an analyst must advance beyond descriptive reporting. Follow this four-part distinction:
-- **Observation**: An objective, empirical pattern verified in the data (e.g., *"Cart abandonment on mobile increased by 6 pp following the checkout redesign"*).
-- **Insight**: The analytical interpretation explaining why the pattern occurred and what mechanism it reveals (e.g., *"Android users face repeated validation errors on the address auto-complete field"*).
-- **Implication**: The quantified commercial or strategic consequence of the insight (e.g., *"Unresolved address validation friction risks $45,000 in lost weekly GMV on mobile"*).
-- **Recommendation**: A concrete, prioritized, actionable intervention specifying operational ownership and expected impact (e.g., *"Revert address auto-complete to standard entry fields on Android client release v3.2 while product engineering fixes the API latency"*).
+For decision-oriented work, use these four concepts to move from evidence to action. For descriptive or informational work, a verified observation may be the complete deliverable; do not invent an explanation, implication, or recommendation.
+- **Observation**: An objective, empirical pattern verified in the data (e.g., *"Mobile cart abandonment was 6 pp higher in the month after the checkout redesign than in the prior month"*).
+- **Insight**: An interpretation of why the pattern matters. Treat any unverified explanation of why it occurred as a hypothesis (e.g., *"The rise in Android checkout abandonment makes the address-entry flow the first area to investigate"*; hypothesis: *"Validation errors may contribute to the increase"*).
+- **Implication**: The quantified commercial or strategic consequence of the evidence, with any unverified causal interpretation labeled (e.g., *"Android abandonment is associated with about $45,000 in weekly GMV from uncompleted carts; the amount recoverable by reducing abandonment is not yet established"*).
+- **Recommendation**: A concrete, prioritized, actionable intervention specifying ownership and expected impact when supported (e.g., *"Instrument and investigate Android address-validation errors; consider a rollback if a controlled check confirms release v3.2 caused material harm"*).
 
 ## Leading vs. Lagging Indicators
 - **Lagging Indicators (Outcome-Oriented)**:

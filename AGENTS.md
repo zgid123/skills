@@ -30,7 +30,7 @@ Read the following skills when the task matches their trigger. Do not skip them.
 | Deciding a filename, directory name, class name, function name, variable name, or import style — in any language | Read the skill for that language (e.g., `skills/typescript/SKILL.md` for `.ts` files). If no skill exists for the language, follow the closest existing convention in the codebase. |
 | Writing or modifying a React component, hook, or JSX file (`.tsx`, `.jsx`) | `skills/react/SKILL.md` and all files under `skills/react/references/` — read these in addition to `skills/typescript/SKILL.md` and all files under `skills/typescript/references/`. |
 | Creating, scaffolding, editing, or reorganizing a Slidev presentation, `slides.md`, Slidev section pages, or a Slidev deck inside a monorepo | `skills/slidev/SKILL.md` |
-| Analyzing datasets (.csv, .xlsx, SQL tables, dataframes), performing data analysis, exploratory data analysis (EDA), metric/KPI design, cohort/retention/funnel queries, A/B test analysis, or framing business recommendations from data | `skills/data-analyst/SKILL.md` and all files under `skills/data-analyst/references/` |
+| Analyzing datasets (.csv, .xlsx, SQL tables, dataframes), performing data analysis, exploratory data analysis (EDA), metric/KPI design, cohort/retention/funnel queries, A/B test analysis, or framing business recommendations from data | `skills/data-analyst/SKILL.md`, then only the reference files routed by that skill for the current task |
 | Writing or modifying tests, Vitest suites, test data factories (fishery, faker), mocks, or fakes | `skills/testing/SKILL.md` and all files under `skills/testing/references/` |
 | Creating, modifying, improving, evaluating, or benchmarking skills, or optimizing skill descriptions | `.agents/skills/skill-creator/SKILL.md` |
 
@@ -86,8 +86,8 @@ After reading the relevant skills, verify:
 **When to use**: When the task is primarily analytical, exploratory, metric-oriented, or inspecting analytical data pipelines.
 
 **Behavior**:
-- Apply the mandatory skill-reading protocol above, with emphasis on `skills/data-analyst/SKILL.md` and its references.
-- Clarify the commercial decision, primary KPI, and grain before writing queries or code.
+- Apply the mandatory skill-reading protocol above, then load only the `skills/data-analyst/references/` files routed by the skill for the current task.
+- Clarify the commercial decision or informational purpose, primary metric, and grain before writing queries or code.
 - Never silently alter, drop, or impute data without transparent documentation.
 - Distinguish between correlation and causation; report distributions and uncertainty intervals over naked averages.
 

@@ -14,7 +14,7 @@ A metric is a quantifiable measure used to track, evaluate, and assess the statu
 - **Aggregation Types**:
   - **Additive Metrics**: Can be meaningfully summed across all dimensions and time (e.g., `sales_volume`, `revenue_usd`, `error_count`).
   - **Semi-Additive Metrics**: Can be summed across some dimensions (such as region or department) but NOT across time (e.g., `inventory_stock_balance`, `account_balance`, `headcount`). For time aggregations, use end-of-period snapshots or time-weighted averages.
-  - **Non-Additive Metrics**: Cannot be directly summed across any dimension (e.g., ratios, rates, averages, percentages, medians, unit prices). They must be computed by aggregating raw numerators and denominators independently before dividing.
+  - **Non-Additive Metrics**: Cannot be directly summed across dimensions (e.g., ratios, rates, averages, percentages, medians, unit prices). Recompute each metric from the correct lower-grain data: aggregate numerators and denominators before dividing for ratios and rates; compute medians and other quantiles from the intended observation-level distribution; and use explicitly weighted formulas for averages when weighting is required.
 
 ### Numerators, Denominators, and Population Boundaries
 - Every rate or ratio metric requires explicit definitions for its numerator, denominator, and boundary exclusions:
@@ -33,10 +33,12 @@ A metric is a quantifiable measure used to track, evaluate, and assess the statu
 - **North Star Metric (NSM)**: The single focal metric that best captures the core customer value delivered and sustainable business growth (e.g., Spotify: "Time spent listening"; Airbnb: "Nights booked").
 - **Metric Tree (Hierarchy)**: Decomposes the high-level North Star metric into operational input levers:
   ```text
-  Revenue = Active Customers × Purchase Frequency × Average Order Value
-     ├── Active Customers = New Customers + Retained Customers - Churned Customers
-     ├── Purchase Frequency = Total Orders / Active Customers
+  Revenue = Total Orders × Average Order Value
+     ├── Total Orders = Purchasing Customers × Purchase Frequency
      └── Average Order Value = Total Basket Value / Total Orders
+
+  Customer base balance (separate identity):
+  Ending Active Customers = Starting Active Customers + New Customers + Reactivated Customers - Churned Customers
   ```
 
 ### 2. Input vs. Output Metrics
@@ -63,8 +65,9 @@ A metric is a quantifiable measure used to track, evaluate, and assess the statu
   $$\text{Retention Rate}(t) = \frac{\text{Active Users in Period } t \text{ from Cohort } c}{\text{Total Initial Users in Cohort } c}$$
 - **User Churn Rate**: The proportion of active subscribers or users who cancel or fail to renew over a specific window:
   $$\text{User Churn Rate} = \frac{\text{Users Lost During Period}}{\text{Active Users at Start of Period}}$$
-- **Net Revenue Retention (NRR)**: Tracks revenue expansion, contraction, and churn from existing customers over a timeframe:
-  $$\text{NRR} = \frac{\text{Starting ARR} + \text{Expansion} - \text{Contraction} - \text{Churn}}{\text{Starting ARR}} \times 100\%$$
+- **Net Revenue Retention (NRR)**: Tracks revenue expansion, contraction, and churn from existing customers over a timeframe. Use either MRR or ARR consistently for the starting base and every component:
+  $$\text{NRR} = \frac{\text{Starting Recurring Revenue} + \text{Expansion} - \text{Contraction} - \text{Churn}}{\text{Starting Recurring Revenue}} \times 100\%$$
+  Compute every component from the same starting-customer cohort and reporting window, with nonnegative, mutually defined expansion, contraction, and churn components. NRR may legitimately exceed $100\%$ when expansion revenue is greater than contraction and churn.
 - **Gross Revenue Retention (GRR)**: Measures recurring revenue preserved without counting expansion:
   $$\text{GRR} = \frac{\text{Starting ARR} - \text{Contraction} - \text{Churn}}{\text{Starting ARR}} \times 100\% \quad (\le 100\%)$$
 

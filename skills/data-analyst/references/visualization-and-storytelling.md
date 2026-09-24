@@ -46,7 +46,7 @@ Select visualizations strictly based on the primary analytical relationship to b
 - Use shaded error bands, confidence interval whiskers, or fan charts to communicate precision. Purely descriptive historical accounting totals or full-population aggregations do not require artificial uncertainty intervals.
 
 ## The Analytical Storytelling Framework
-A compelling analytical presentation never walks the audience through the raw chronological steps of how the data was queried. Structure deliverables around this six-stage decision narrative:
+A compelling analytical presentation never walks the audience through the raw chronological steps of how the data was queried. For decision-oriented work, structure deliverables around this six-stage narrative. For descriptive or informational work, use only the applicable stages and do not invent an implication or recommendation that the evidence or scope does not support.
 
 ```text
 Context
@@ -56,20 +56,20 @@ Observation
 Evidence
   ↓ Present the focused, annotated visualization and supporting quantitative breakdown
 Insight
-  ↓ Explain the underlying structural mechanism or driver (answering "Why this matters")
+  ↓ Explain why the evidence matters; label any unverified mechanism as a hypothesis
 Implication
   ↓ Quantify the commercial risk of inaction or upside opportunity
-Recommendation
+Recommendation (when warranted)
   ↓ Propose concrete, prioritized interventions specifying ownership and success metrics
 ```
 
 ### Executive Summary Structure (The 1-Page Brief)
-When delivering to leadership, place the bottom line first (Minto Pyramid Principle):
-1. **Core Recommendation**: The specific operational decision recommended.
+When delivering decision-oriented work to leadership, place the bottom line first (Minto Pyramid Principle). Adapt the structure for informational work and omit unsupported sections:
+1. **Core Recommendation or Answer**: The specific operational decision recommended, or the direct answer for an informational request.
 2. **Key Findings**: 2 to 3 bullet points summarizing the core insight and quantified business impact.
 3. **Primary Visualization**: A single, clean, annotated chart providing immediate visual proof.
 4. **Risks and Limitations**: Data boundaries, unmeasured confounders, and operational trade-offs.
-5. **Next Steps and Ownership**: Immediate actions, assigned owners, and post-launch monitoring timelines.
+5. **Next Steps and Ownership**: When applicable, immediate actions, assigned owners, and post-launch monitoring timelines.
 
 ## Common Visual Anti-Patterns
 - **The Spaghetti Chart**: Plotting 12 overlapping, unlabelled colored lines on a single time series plot. (Solution: Small multiples / faceted sub-charts).

@@ -1,21 +1,18 @@
 # Problem Definition and Framing
 
 ## The Core Question
-Before requesting data, writing queries, or generating visualizations, the analyst must answer:
-> **"What decision will this analysis support?"**
-
-If no decision depends on the outcome, the work risks becoming an unfocused data exploration without business utility. Avoid solution-first analysis where a specific tool or conclusion is presupposed before framing the problem.
+Before requesting data, writing queries, or generating visualizations, identify the decision the analysis will support when one exists. For a descriptive or informational request, state the analytical question and intended use instead of inventing a decision. Avoid solution-first analysis where a specific tool or conclusion is presupposed before framing the problem.
 
 ## The Problem Formulation Chain
 Transform vague commercial concerns into quantifiable analytical inquiries using this structured progression:
 ```text
 Business Concern (e.g., "Retention feels weak lately")
      ↓
-Decision to be Made (e.g., "Should we invest engineering resources into redesigning user onboarding?")
+Decision or Intended Use (e.g., "Should we invest engineering resources into redesigning user onboarding?" or "Report last week's order volume")
      ↓
 Analytical Question (e.g., "What is the 30-day cohort retention curve by activation milestone, and where do drop-offs concentrate?")
      ↓
-Primary Metric & Guardrails (e.g., Day-30 Retention Rate; Guardrail: Support Contact Rate)
+Primary Metric & Guardrails when applicable (e.g., Day-30 Retention Rate; Guardrail: Support Contact Rate)
      ↓
 Required Evidence (e.g., Event telemetry from user signup to Day 30 across the last 6 monthly cohorts)
 ```
@@ -30,9 +27,9 @@ Required Evidence (e.g., Event telemetry from user signup to Day 30 across the l
 - **Influencers and Subject Matter Experts**: Domain operators whose frontline context explains data quirks (e.g., account managers, frontline support agents, software engineers).
 - **Consumers of Deliverables**: Operational teams who execute recommendations or rely on scheduled monitoring dashboards.
 - **Stakeholder Discovery Inquiries**:
-  - What specific business action will change based on positive, negative, or inconclusive findings?
-  - What is the cost of being wrong (Type I decision risk vs. Type II decision risk)?
-  - What is the deadline for the decision, and what level of precision is required?
+- If the analysis supports a decision, what action could change based on positive, negative, or inconclusive findings?
+- What is the cost of being wrong for that decision, when applicable (Type I decision risk vs. Type II decision risk)?
+- What is the deadline for the decision or deliverable, and what level of precision is required?
 
 ## Business Objectives vs. Analytical Objectives
 - **Business Objective**: The strategic or financial outcome the organization seeks to achieve (e.g., "Reduce user churn by 2 pp in Q4 to preserve $500K in ARR").
@@ -49,7 +46,7 @@ A well-formed analytical question satisfies five SMART criteria:
 - **Specific**: Identifies target populations, dimensions, and variables.
 - **Measurable**: Evaluated against quantifiable, formulaic metrics.
 - **Achievable**: Addressable with available data and within the project timeline.
-- **Relevant**: Tied directly to an upcoming business decision or operational intervention.
+- **Relevant**: Tied to an upcoming business decision or operational intervention when applicable, or to a clear informational use.
 - **Time-bound**: Evaluates a clearly delineated observation window with a firm completion deadline.
 
 ### Examples: Poor vs. Well-Defined Problems
