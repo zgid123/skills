@@ -1,0 +1,9 @@
+{
+  "name": "training-workspace",
+  "private": true,
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "@alphacifer/slidev-academic-theme": "1.0.0",
+    "@alphacifer/slidev-addon-theme": "1.0.0"
+  }
+}

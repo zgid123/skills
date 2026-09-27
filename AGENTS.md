@@ -13,7 +13,7 @@ This file is the **canonical template** for all of Alpha's projects. Copy it int
 
 ### Step 1 — Always Read First
 
-Read these two skills at the start of every task, no exceptions:
+Read these two skills at the start of every coding or skill-maintenance task:
 
 1. `skills/principles/SKILL.md` — engineering principles (YAGNI, pragmatic DRY, small safe changes)
 2. `skills/testing/SKILL.md` — testing conventions
@@ -24,14 +24,14 @@ Read the following skills when the task matches their trigger. Do not skip them.
 
 | Trigger | Skill to Read |
 |---|---|
-| Creating, refactoring, or reviewing any domain model, aggregate, entity, value object, repository contract, domain service, command, query, or bounded context | `skills/domain-driven-design/SKILL.md` and all files under `skills/domain-driven-design/references/` |
-| Creating, refactoring, or reviewing CQRS commands, command handlers, queries, query handlers, buses, application use cases, read/write separation, or `@cqrsx/core` wiring in TypeScript | `skills/cqrs/SKILL.md` in addition to `skills/domain-driven-design/SKILL.md`, all files under `skills/domain-driven-design/references/`, and `skills/typescript/SKILL.md` |
-| Creating, editing, refactoring, or reviewing any TypeScript (`.ts`) file, type (`T` prefix), interface (`I` prefix), function parameter object, path alias (`#/` imports), `#private` class member, tsconfig extending `@alphacifer/tsconfig`, or Biome lint/format configuration | `skills/typescript/SKILL.md` and all files under `skills/typescript/references/` |
+| Creating, refactoring, or reviewing any domain model, aggregate, entity, value object, repository contract, domain service, command, query, or bounded context | `skills/domain-driven-design/SKILL.md`, then the references relevant to the task |
+| Creating, refactoring, or reviewing CQRS commands, command handlers, queries, query handlers, buses, application use cases, read/write separation, or `@cqrsx/core` wiring in TypeScript | `skills/cqrs/SKILL.md`, `skills/domain-driven-design/SKILL.md`, `skills/typescript/SKILL.md`, then the relevant references from each |
+| Creating, editing, refactoring, or reviewing any TypeScript (`.ts`) file, type (`T` prefix), interface (`I` prefix), function parameter object, path alias (`#/` imports), `#private` class member, tsconfig extending `@alphacifer/tsconfig`, or Biome lint/format configuration | `skills/typescript/SKILL.md`, then the references relevant to the task |
 | Deciding a filename, directory name, class name, function name, variable name, or import style — in any language | Read the skill for that language (e.g., `skills/typescript/SKILL.md` for `.ts` files). If no skill exists for the language, follow the closest existing convention in the codebase. |
-| Writing or modifying a React component, hook, or JSX file (`.tsx`, `.jsx`) | `skills/react/SKILL.md` and all files under `skills/react/references/` — read these in addition to `skills/typescript/SKILL.md` and all files under `skills/typescript/references/`. |
-| Creating, scaffolding, editing, or reorganizing a Slidev presentation, `slides.md`, Slidev section pages, or a Slidev deck inside a monorepo | `skills/slidev/SKILL.md` |
+| Writing or modifying a React component, hook, or JSX file (`.tsx`, `.jsx`) | `skills/react/SKILL.md` and `skills/typescript/SKILL.md`, then the references relevant to the task |
+| Creating, scaffolding, editing, or reorganizing a Slidev presentation, `slides.md`, Slidev section pages, or a Slidev deck inside a monorepo | `skills/slidevjs/SKILL.md` |
 | Analyzing datasets (.csv, .xlsx, SQL tables, dataframes), performing data analysis, exploratory data analysis (EDA), metric/KPI design, cohort/retention/funnel queries, A/B test analysis, or framing business recommendations from data | `skills/data-analyst/SKILL.md`, then only the reference files routed by that skill for the current task |
-| Writing or modifying tests, Vitest suites, test data factories (fishery, faker), mocks, or fakes | `skills/testing/SKILL.md` and all files under `skills/testing/references/` |
+| Writing or modifying tests, Vitest suites, test data factories (fishery, faker), mocks, or fakes | `skills/testing/SKILL.md`, then the references relevant to the test type and framework |
 | Creating, modifying, improving, evaluating, or benchmarking skills, or optimizing skill descriptions | `.agents/skills/skill-creator/SKILL.md` |
 
 ### Step 3 — Confirm Before Acting
@@ -41,6 +41,8 @@ After reading the relevant skills, verify:
 - Your planned names, structure, and patterns match what the skill prescribes.
 - You are not introducing abstractions, dependencies, or layers that the skill says to avoid.
 - If the skill and the existing codebase conflict, follow the existing codebase and note the discrepancy briefly.
+
+Read additional references when the work reaches their subject. The skill's reference guide determines which files apply; a task does not require every reference in a directory.
 
 ---
 

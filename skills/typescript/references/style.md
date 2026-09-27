@@ -86,12 +86,14 @@ class UserService {
     this.#userRepository = params.userRepository;
   }
 
-  public async find(params: IFindUserParams): Promise<IUser | null> {
-    return this.#findById(params.id);
+  public async find({ id }: IFindUserParams): Promise<IUser | null> {
+    return this.#findById(id);
   }
 
   async #findById(id: TUserId): Promise<IUser | null> {
-    return this.#userRepository.findById(id);
+    return this.#userRepository.findById({
+      id,
+    });
   }
 }
 
@@ -218,6 +220,14 @@ const orderSummaries = orders.map((order) => ({
   customerName: order.customer.name,
   total: order.items.reduce((sum, item) => sum + item.price * item.quantity, 0),
 }));
+
+// ❌ Do not move first-level destructuring into the body when only a property is used
+function findUserBad(params: IFindUserParams): Promise<IUser | null> {
+  const { id } = params;
+  return userRepository.findById({
+    id,
+  });
+}
 
 // ❌ Do not use params.propertyName instead of first-level destructuring
 function doSomethingBad(params: IParams): void {

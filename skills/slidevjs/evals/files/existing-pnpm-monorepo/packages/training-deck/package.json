@@ -1,0 +1,7 @@
+{
+  "name": "training-deck",
+  "private": true,
+  "scripts": {
+    "build": "slidev build slides.md"
+  }
+}

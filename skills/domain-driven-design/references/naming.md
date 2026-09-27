@@ -29,9 +29,17 @@ domain/
 
 ```ts
 // ✅ domain/repositories/IAuthRepository.ts
+export interface IFindUserParams {
+  id: string;
+}
+
+export interface ISaveUserParams {
+  user: UserEntity;
+}
+
 export interface IAuthRepository {
-  findById(id: string): Promise<UserEntity | null>;
-  save(user: UserEntity): Promise<void>;
+  findById(params: IFindUserParams): Promise<UserEntity | null>;
+  save(params: ISaveUserParams): Promise<void>;
 }
 
 // ❌ AuthRepository.ts — missing the I prefix; this looks like an implementation

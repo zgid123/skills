@@ -9,7 +9,7 @@ This skill defines how to write and structure React components so that code is t
 
 # General Principles
 
-- **Extend the TypeScript skill**: every rule from `skills/typescript/SKILL.md` applies to React files unless explicitly overridden here.
+- **Extend the TypeScript skill**: read `skills/typescript/SKILL.md` and the references that apply to the component or hook. Its rules apply to TypeScript React files unless explicitly overridden here.
 - **Feature-based structure**: organise code by domain area under `src/features/<feature>/`. Each feature contains four sub-folders — `components/` (pure presentational), `hooks/` (shared hooks used by two or more consumers), `utils/` (pure helpers), and `widgets/` (smart containers that wire hooks into components). A hook used by only one component or widget is co-located with that file, not placed in `hooks/`. Shared components used across features live in `src/components/`.
 - **Function declarations for components**: always define components with the `function` keyword, never as arrow function constants assigned to a variable.
 - **Named exports only**: always export components with `export function`. `export default` is only allowed in framework router files that require it (Next.js page/layout files, TanStack Start route files).

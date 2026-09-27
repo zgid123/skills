@@ -10,7 +10,7 @@ description: Type and interface guidelines for Alpha's TypeScript projects
 - Prefer **readonly** and **const** assertions where values should not change.
 - Model **nullable** intent explicitly: use `T | null` or optional `?`; avoid optional chaining as a substitute for proper null handling in domain logic.
 - Prefer **branded types** or **nominal typing** for domain identifiers instead of raw primitives.
-- For exported functions and public instance methods, always accept a single `params` object typed by a named interface, even when there is only one input.
+- For exported functions and public instance methods, always accept a single parameter object typed by a named interface, even when there is only one input. Destructure first-level properties in the signature when using them individually.
 - For private methods and unexported helpers, do not create parameter interfaces just for local usage; use direct parameters for simple inputs, or reuse an existing interface when passing the same shape through.
 
 ```ts
@@ -52,8 +52,10 @@ interface IFindUserParams {
   id: TUserId;
 }
 
-export async function findUser(params: IFindUserParams): Promise<IUser | null> {
-  return userRepository.findById(params.id);
+export async function findUser({ id }: IFindUserParams): Promise<IUser | null> {
+  return userRepository.findById({
+    id,
+  });
 }
 
 class UserService {
@@ -62,17 +64,19 @@ class UserService {
     return createUser(params);
   }
 
-  public async find(params: IFindUserParams): Promise<IUser | null> {
-    return findUser(params);
+  public async find({ id }: IFindUserParams): Promise<IUser | null> {
+    return findUser({
+      id,
+    });
   }
 
   // ✅ Private methods use direct parameters for simple local inputs
-  private normalizeName(name: string): string {
+  #normalizeName(name: string): string {
     return name.trim();
   }
 
   // ✅ Unexported helpers can reuse an existing interface when passing the same shape through
-  private createDraftUser(params: ICreateUserParams): IUser {
+  #createDraftUser(params: ICreateUserParams): IUser {
     return UserEntity.create(params);
   }
 }

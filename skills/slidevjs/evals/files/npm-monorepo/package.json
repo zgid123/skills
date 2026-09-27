@@ -1,0 +1,10 @@
+{
+  "name": "npm-workspace",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@alphacifer/slidev-academic-theme": "1.0.0"
+  }
+}

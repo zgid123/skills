@@ -1,6 +1,6 @@
 ---
 name: typescript
-description: Guidelines for writing type-safe, readable TypeScript for Alpha's projects. Always use when creating, editing, or refactoring any TypeScript (.ts) files, types (T prefix), interfaces (I prefix), function parameter objects, path aliases (#/ imports), #private class members, tsconfig extending @alphacifer/tsconfig, or Biome lint/format configurations. Enforces strict type safety, explicit return types on public APIs, no loose any, and small focused modules.
+description: Guidelines for writing type-safe, readable TypeScript for Alpha's projects. Always use when creating, editing, or refactoring any TypeScript (.ts) files, types (T prefix), interfaces (I prefix), function parameter objects, path aliases (#/ imports), #private class members, tsconfig extending @alphacifer/tsconfig, Biome lint/format configurations, or installing dependencies in a TypeScript project. Enforces strict type safety, explicit return types on public APIs, no loose any, and small focused modules.
 ---
 
 # Purpose
@@ -14,6 +14,7 @@ This skill defines how to write and structure TypeScript so that code is type-sa
 - **Prefer types over `any`**: Use precise types, generics, and inference; use `unknown` and narrow when the type is dynamic.
 - **Explicit over implicit**: Prefer explicit return types on public APIs and exports; rely on inference for locals and private helpers.
 - **Small, focused modules**: Prefer small files and single responsibility; use barrel exports only when they clearly simplify the public API.
+- **Public parameter objects**: Exported functions and public instance methods take one named interface parameter object. Destructure its first-level properties in the function signature when using individual properties; do not move that destructuring into the body. Keep the object intact only when the whole object must be passed onward. Keep private helpers simple.
 
 # Reference Guides
 
@@ -21,3 +22,4 @@ This skill defines how to write and structure TypeScript so that code is type-sa
 - [Modules and Imports](./references/imports.md) - ES modules, relative imports, and path aliases.
 - [Style and Formatting](./references/style.md) - naming, enum alternatives, guard clauses, block braces, and object formatting.
 - [Testing and Tooling](./references/tooling.md) - tsconfig, lint/format expectations, and testing conventions.
+- [Dependencies](./references/dependencies.md) - exact versions, Alpha package exceptions, and monorepo root dependencies.
