@@ -38,12 +38,13 @@
     {
       "id": 4,
       "prompt": "A clean orders table contains three rows for the completed week 2026-09-14 through 2026-09-20: (order_id 1, amount 100), (order_id 2, amount 50), and (order_id 3, amount 150). Report total orders and average order value for that week. No recommendation, intervention, or causal explanation is requested.",
-      "expected_output": "A concise descriptive analysis reporting 3 total orders and an average order value of 100, briefly confirming the metric definitions, grain, period, and calculation, verifying the result, and marking outcome evaluation not applicable instead of inventing an intervention plan.",
+      "expected_output": "A concise compact result table reporting 3 total orders and an average order value of 100, briefly confirming the metric definitions, grain, period, and calculation, verifying the result, and marking Feedback outcome evaluation not applicable instead of inventing an intervention plan.",
       "files": [],
       "expectations": [
         "The response scales the lifecycle to the focused request.",
         "The response reports 3 total orders and an average order value of 100 and verifies the calculations and relevant data assumptions.",
-        "Outcome evaluation is marked NOT APPLICABLE with a reason."
+        "Outcome evaluation is marked NOT APPLICABLE with a reason.",
+        "The output uses a compact table and does not create a dashboard application or force ten stage headings for this focused question."
       ]
     },
     {
@@ -89,6 +90,45 @@
         "The observed conversion change is reported accurately, with the one-percentage-point Android decline distinguished from the stable iOS rate.",
         "No unobserved mechanism, such as validation errors or interface friction, is presented as fact.",
         "The analyst gives a focused answer without forcing an unsupported intervention or causal explanation."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Analyze weekly revenue and orders by channel for an operations manager. The completed weeks start 2026-09-07 and 2026-09-14. The four aggregate rows are (2026-09-07, Web, orders 10, revenue 1000), (2026-09-07, Store, orders 5, revenue 1000), (2026-09-14, Web, orders 20, revenue 2000), (2026-09-14, Store, orders 10, revenue 1000). Amounts are USD, all orders are eligible, and this is a supplied static extract with no later data. We need to see the result clearly and compare the weeks and channels. There is no existing app or BI connection. A local browser artifact is fine; no hosting is needed.",
+      "expected_output": "A usable portable HTML dashboard with week/channel comparisons, supporting result tables and reproducible calculations, metric definitions, snapshot coverage, caveats, and opening instructions. Week totals are 15/2000 and 30/3000; AOV is 133.333... and 100. Revenue growth is 50%, orders growth 100%, and AOV change -25%. It scales the ten-stage methodology to this descriptive task, validates the result before deployment, and records stakeholder feedback as pending without inventing an intervention. The execution reads workflows/analytics-lifecycle.md and loads only supporting references relevant to this descriptive analysis.",
+      "files": [],
+      "expectations": [
+        "A usable HTML dashboard is created and its opening instructions are supplied; a proposed layout alone does not pass.",
+        "Weekly totals reconcile to orders 15 and 30 and revenue USD 2000 and 3000; AOV uses revenue divided by orders rather than an average of channel AOVs.",
+        "The dashboard includes comparisons, charted trends or breakdowns, definitions, period, snapshot/source information, and limitations.",
+        "Any filters preserve the correct eligible population and ratio-of-sums calculation, and empty views do not display fabricated zero rates.",
+        "Rendering and applicable interaction checks have observed evidence or are explicitly NOT VERIFIED.",
+        "The handoff includes supporting result tables and reproducible calculations, and does not claim stakeholder acceptance or measured intervention outcomes.",
+        "The execution trace shows the agent reading workflows/analytics-lifecycle.md and selecting supporting references relevant to the question and current stage, rather than loading all references by default."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Build a dashboard explaining why customer churn rose last quarter. I have not supplied any dataset, schema, churn definition, or source access. Do not use mock numbers or invented customer records. Tell me what you can deliver now and what you need to complete it.",
+      "expected_output": "An explicit insufficient-evidence finding, targeted questions for the churn definition and required source data, and a useful dashboard specification without fabricated values. It does not claim a measured cause, completed dashboard, executed verification, or observed stakeholder acceptance.",
+      "files": [],
+      "expectations": [
+        "The response identifies missing churn definitions, eligible population, periods, and required sources/access before making empirical claims.",
+        "No invented values, mock records, measured causes, or claims of a completed verified dashboard appear.",
+        "Any supplied layout or artifact is clearly labeled as a specification or unpopulated prototype.",
+        "Unavailable analytical checks remain NOT VERIFIED rather than PASS; no rendering or artifact-completion claim is made for specification-only work."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Our project already has an accessible BI dashboard and approved metric definitions. Extend its monthly sales analysis with regional comparisons and a clear visual explanation of the main changes. Use the existing BI tool; deliver a snapshot for this meeting, with no scheduled refresh or new frontend application. Source access and the BI connection are available in the task environment.",
+      "expected_output": "Inspect existing BI capabilities and metrics, run the appropriate analysis, update and inspect the existing dashboard using verified results, and deliver its accessible link with snapshot coverage, supporting queries/results, limitations, and verification evidence. Avoid an unnecessary HTML replacement or new app.",
+      "files": [],
+      "expectations": [
+        "The agent inspects and uses the existing accessible BI dashboard and approved metric definitions.",
+        "The delivered dashboard is updated with regional comparisons and evidence-backed explanations, not just a written design.",
+        "The handoff provides an accessible artifact link, snapshot coverage, supporting queries/results, and verification evidence.",
+        "No new frontend application, unrelated hosting, or scheduled-refresh infrastructure is introduced."
       ]
     }
   ]

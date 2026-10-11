@@ -3,6 +3,33 @@
 ## Overview
 A business intelligence dashboard is a visual decision-support interface, not a dumping ground for every query and chart an analyst created. Effective dashboards provide rapid cognitive orientation, display metric status against benchmarks, enable disciplined drill-downs, and prompt timely business actions.
 
+## Build and Delivery Contract
+
+For substantial analyses, create a dashboard the stakeholder can open and inspect. Choose the audience, question, acceptance criteria, and delivery format during Business Understanding. A written dashboard specification alone is sufficient only when requested or when data/tool access prevents implementation and that limitation is explicit.
+
+### Tool and Artifact Selection
+
+1. Inspect the project and accessible BI capabilities. Extend existing dashboards, metric definitions, components, and chart libraries where appropriate.
+2. If no suitable tooling exists, create portable HTML with minimal dependencies. Prefer a self-contained artifact that opens locally; document any required server, network assets, or setup. Do not add an application framework solely to display a static analysis.
+3. Add date or segment filters and drill-downs only when they help the stakeholder answer the analytical question. A dashboard can be a static snapshot; identify its coverage, extraction time, and manual refresh process.
+4. For focused questions, use a chart, visual report, or compact result table instead. Respect explicit output constraints such as SQL-only requests.
+5. If evidence is unavailable, state what is blocked and supply a clearly labeled specification or illustrative prototype when useful. Keep sample data visibly distinct from measured results and never claim that an unexecuted query or prototype is verified.
+
+### Minimum Analytical Content
+
+Include the headline metrics and relevant comparisons, trends or breakdowns, a concise interpretation, limitations, metric definitions, units, period, source, and freshness. Show uncertainty where material. Provide supporting result tables and reproducible queries or scripts alongside the artifact, with a verification ledger or a link to it. Choose content to serve the question rather than filling a fixed number of cards.
+
+Use the same verified calculations for the dashboard and supporting analysis. Recompute rates from the correct numerator and denominator after filtering; do not average displayed percentages unless that is the defined estimand. Distinguish zero, missing, and undefined values visibly. Do not connect a line across missing periods in a way that implies observed data.
+
+### Artifact Verification and Handoff
+
+- Open the delivered artifact using an available browser or the target BI tool. Inspect labels, units, legends, readable layout at the intended screen size, and visible limitations. If render inspection is unavailable, mark it **NOT VERIFIED**.
+- Reconcile displayed metrics, chart series, and supporting tables against verified calculations. Check default and representative filtered views, reset behavior, and empty selections when interactions exist.
+- Confirm that filtering applies consistently across related cards and charts, preserves grain and denominator definitions, and does not turn undefined values into zero.
+- Verify that required assets load and the artifact opens using the documented steps. For app or BI integrations, use the project's existing relevant checks; for local HTML, rendering and calculation/interaction checks are sufficient.
+- Deliver a concrete path or link and concise opening instructions. State whether data is a snapshot or refreshes, how to rerun the analysis, and any unresolved verification failures. Hosting or scheduled refresh is part of the work only when requested and supported by available infrastructure.
+- Record stakeholder feedback during Feedback. Until it is observed, label it pending rather than claiming acceptance. Distinguish dashboard correctness from any later intervention outcome.
+
 ## The Three Core Dashboard Archetypes
 
 | Archetype | Primary Audience | Core Question | Update Cadence | Key Characteristics |

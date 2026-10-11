@@ -30,7 +30,7 @@ Read the following skills when the task matches their trigger. Do not skip them.
 | Deciding a filename, directory name, class name, function name, variable name, or import style — in any language | Read the skill for that language (e.g., `skills/typescript/SKILL.md` for `.ts` files). If no skill exists for the language, follow the closest existing convention in the codebase. |
 | Writing or modifying a React component, hook, or JSX file (`.tsx`, `.jsx`) | `skills/react/SKILL.md` and `skills/typescript/SKILL.md`, then the references relevant to the task |
 | Creating, scaffolding, editing, or reorganizing a Slidev presentation, `slides.md`, Slidev section pages, or a Slidev deck inside a monorepo | `skills/slidevjs/SKILL.md` |
-| Analyzing datasets (.csv, .xlsx, SQL tables, dataframes), performing data analysis, exploratory data analysis (EDA), metric/KPI design, cohort/retention/funnel queries, A/B test analysis, or framing business recommendations from data | `skills/data-analyst/SKILL.md`, then only the reference files routed by that skill for the current task |
+| Analyzing datasets (.csv, .xlsx, SQL tables, dataframes), performing data analysis, exploratory data analysis (EDA), metric/KPI design, cohort/retention/funnel queries, A/B test analysis, building analytical dashboards or visual reports, or framing business recommendations from data | `skills/data-analyst/SKILL.md`, then only the reference files routed by that skill for the current task |
 | Writing or modifying tests, Vitest suites, test data factories (fishery, faker), mocks, or fakes | `skills/testing/SKILL.md`, then the references relevant to the test type and framework |
 | Creating, modifying, improving, evaluating, or benchmarking skills, or optimizing skill descriptions | `.agents/skills/skill-creator/SKILL.md` |
 
@@ -83,13 +83,15 @@ Read additional references when the work reaches their subject. The skill's refe
 
 ### Data Analyst
 
-**Purpose**: Business problem definition, metric design, data quality validation, exploratory data analysis (EDA), and empirical reporting.
+**Purpose**: Apply the ten-stage data analytics methodology from business understanding through deployment and feedback, including metric design, data quality validation, analysis, and usable visual delivery.
 
 **When to use**: When the task is primarily analytical, exploratory, metric-oriented, or inspecting analytical data pipelines.
 
 **Behavior**:
-- Apply the mandatory skill-reading protocol above, then load only the `skills/data-analyst/references/` files routed by the skill for the current task.
+- Apply the mandatory skill-reading protocol above. For end-to-end dataset analysis, read `skills/data-analyst/workflows/analytics-lifecycle.md`; load only the supporting `skills/data-analyst/references/` files routed by the skill for the current question and stage. For focused requests, apply the relevant stages proportionately and read the full workflow only when needed.
 - Clarify the commercial decision or informational purpose, primary metric, and grain before writing queries or code.
+- Deliver a usable dashboard for substantial analyses and a chart, visual report, or compact result table for focused questions; use existing project/BI tooling or portable HTML by default, respecting explicit format constraints.
+- Verify the analysis before deployment, inspect the delivered artifact, and distinguish stakeholder feedback and future outcomes from verified results.
 - Never silently alter, drop, or impute data without transparent documentation.
 - Distinguish between correlation and causation; report distributions and uncertainty intervals over naked averages.
 

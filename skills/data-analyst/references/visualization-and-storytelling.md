@@ -3,6 +3,12 @@
 ## Overview
 Visualizing data is not decorative; it is an analytical technique to expose structure, patterns, anomalies, and relationships for cognitive consumption. Analytical storytelling translates quantitative findings into decision-ready business narratives that compel leadership action.
 
+## Visual Results as Deliverables
+
+Create the visual result at a scale appropriate to the question: a usable dashboard for substantial analyses, or a chart, visual report, or compact table for focused questions. Deliver the artifact with a concise interpretation and traceable supporting calculations. Follow [Dashboards and BI](./dashboards-and-bi.md) for tool selection, artifact verification, and handoff.
+
+Inspect the rendered output rather than relying only on its code or proposed layout. Confirm that chart labels, scales, units, periods, displayed values, and material uncertainty match the verified analysis. Label mock data and prototypes explicitly, and disclose render checks that could not be performed.
+
 ## Chart Selection by Analytical Objective
 
 Select visualizations strictly based on the primary analytical relationship to be communicated:

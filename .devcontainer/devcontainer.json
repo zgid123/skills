@@ -1,0 +1,29 @@
+{
+  "name": "Skills Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "containerEnv": {
+    "COREPACK_ENABLE_AUTO_PIN": "0"
+  },
+  "mounts": [
+    "source=skills-pnpm-store,target=/home/node/.local/share/pnpm/store,type=volume"
+  ],
+  "overrideCommand": true,
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "google.google-antigravity",
+        "openai.chatgpt",
+        "oxc.oxc-vscode",
+        "ms-python.python",
+        "eamodio.gitlens",
+        "oderwat.indent-rainbow"
+      ]
+    }
+  },
+  "onCreateCommand": "corepack prepare pnpm@10.11.0 --activate",
+  "updateContentCommand": "pnpm install",
+  "remoteUser": "node"
+}

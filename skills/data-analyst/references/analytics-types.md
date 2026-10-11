@@ -91,7 +91,7 @@ Most significant business problems require combining analytical types. For examp
 - **Favor Simplicity**: The simplest method that defensibly answers the business question is the preferred method. Do not deploy machine learning when relational SQL aggregation or cohort slicing solves the stakeholder problem.
 
 ## Cross-References
-- For end-to-end analytical workflow stages: [The Analytics Lifecycle](./analytics-lifecycle.md)
+- For end-to-end analytical workflow stages: [The Analytics Lifecycle](../workflows/analytics-lifecycle.md)
 - For framing analytical questions and business decisions: [Problem Definition and Framing](./problem-definition.md)
 - For metric decomposition and KPI structures: [Metrics and KPIs](./metrics-and-kpis.md)
 - For analyst-level forecasting and regression: [Time-Series Analysis](./time-series-analysis.md), [Predictive Analysis](./predictive-analysis.md)

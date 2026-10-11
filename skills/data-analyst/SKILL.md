@@ -1,12 +1,12 @@
 ---
 name: data-analyst
-description: A five-phase workflow for data analysis, business intelligence, and empirical decision-making. Always use when analyzing datasets (.csv, .xlsx, SQL tables, dataframes), defining metrics/KPIs, performing exploratory data analysis (EDA), evaluating A/B test experiments, investigating metric drops or anomalies, building cohort/retention/funnel queries, or framing business recommendations from data. Enforces purpose-first inquiry, grain and denominator validation, cognitive separation of facts vs. hypotheses, evidence-backed verification, and zero silent data tampering.
+description: A ten-stage data analytics methodology from business understanding through deployment and feedback, with usable visual deliverables. Always use when analyzing datasets (.csv, .xlsx, SQL tables, dataframes), defining metrics/KPIs, performing exploratory data analysis (EDA), evaluating A/B test experiments, investigating metric drops or anomalies, building cohort/retention/funnel queries, building analytical dashboards or visual reports, or framing business recommendations from data. Requires dashboards for substantial analyses and compact visual results for focused questions. Enforces purpose-first inquiry, grain and denominator validation, cognitive separation of facts vs. hypotheses, evidence-backed verification, and zero silent data tampering.
 ---
 
 # Data Analyst
 
 ## Purpose
-This skill equips an agent to operate as a disciplined, business-first Data Analyst. It prioritizes decision utility, methodological rigor, transparent reasoning, and proactive quality verification over superficial code generation or decorative charting. The analyst's goal is to turn commercial ambiguity into a validated answer that supports a decision when one exists.
+This skill equips an agent to operate as a disciplined, business-first Data Analyst. It prioritizes decision utility, methodological rigor, transparent reasoning, and proactive quality verification over superficial code generation or decorative charting. The analyst's goal is to turn commercial ambiguity into a validated answer that stakeholders can inspect visually and use to support a decision when one exists.
 
 ## Scope Boundaries: Data Analyst vs. Data Science
 This is explicitly a **Data Analyst** skill, NOT a general Data Science or Machine Learning Engineering skill.
@@ -27,7 +27,7 @@ This is explicitly a **Data Analyst** skill, NOT a general Data Science or Machi
 - Time-series analysis, period-over-period growth, moving averages, and baseline forecasting.
 - Analyst-level predictive analysis (OLS regression, logistic regression, classification metrics, data leakage prevention).
 - Analytical visualization, data-to-ink ratio optimization, and executive storytelling.
-- Business Intelligence (BI) dashboard design, layout hierarchy, and metric governance.
+- Business Intelligence (BI) dashboard creation, layout hierarchy, visual delivery, and metric governance.
 - Data engineering architectural awareness (OLTP vs. OLAP, ELT, star schema, pipeline triage).
 - Reproducibility, query preservation, data lineage, PII protection, and governance.
 
@@ -73,20 +73,27 @@ A context-dependent starting point or rule of thumb. Heuristics are not universa
 
 ## Lifecycle, Techniques, and Safeguards
 
-- **Lifecycle**: The five-phase workflow below defines the order of work and the evidence required to proceed.
-- **Techniques**: Reference modules provide methods such as SQL analysis, EDA, statistical inference, experimentation, forecasting, and visualization. Load only the techniques required by the current phase and question.
-- **Safeguards**: Data quality, causal discipline, reproducibility, governance, and phase gates protect the integrity of the analysis across the lifecycle.
-- **Verification**: Validate each phase before continuing, verify the complete analytical result before delivery, and define how the real-world outcome will be evaluated after a decision is implemented.
+- **Lifecycle**: The ten-stage workflow below defines the order of work and the evidence required to proceed.
+- **Techniques**: Reference modules provide methods such as SQL analysis, EDA, statistical inference, experimentation, forecasting, and visualization. Load only the techniques required by the current stage and question.
+- **Safeguards**: Data quality, causal discipline, reproducibility, governance, and stage gates protect the integrity of the analysis across the lifecycle.
+- **Verification**: Validate each stage before continuing, verify the complete analytical result before delivery, and define how the real-world outcome will be evaluated after a decision is implemented.
 
 ---
 
-## Reference Guide (Progressive Disclosure)
+## Workflow and Supporting References (Progressive Disclosure)
+
+### Workflow
+
+For an end-to-end dataset analysis, read [`analytics-lifecycle.md`](./workflows/analytics-lifecycle.md) before beginning the analysis and use it to guide stage order, outputs, verification gates, and iteration. Load supporting references only when the analytical question and current stage require them.
+
+For a focused calculation or narrow question, apply the relevant stages from the summary below proportionately; reading the full lifecycle is optional unless detailed gate criteria are needed. Do not force ten separate sections or an intervention plan onto a focused request.
+
+### Supporting References
 
 Load references only when relevant to the current analytical task. Do not load all references by default.
 
 | Reference File | Type | When to Load / Analytical Task |
 |---|---|---|
-| [`analytics-lifecycle.md`](./references/analytics-lifecycle.md) | Workflow | Executing the five-phase analytical workflow, satisfying phase gates, and managing iterative feedback loops. |
 | [`problem-definition.md`](./references/problem-definition.md) | Foundation | Translating ambiguous requests into analytical questions, scope, assumptions, constraints, and success criteria. |
 | [`data-driven-business.md`](./references/data-driven-business.md) | Foundation | Aligning analysis with commercial decisions, One-Way vs. Two-Way Door frameworks, and framing actionable recommendations. |
 | [`analytics-types.md`](./references/analytics-types.md) | Foundation | Classifying analytical tasks (descriptive, diagnostic, predictive, prescriptive) or structuring multi-type investigations. |
@@ -102,11 +109,11 @@ Load references only when relevant to the current analytical task. Do not load a
 | [`time-series-analysis.md`](./references/time-series-analysis.md) | Technique | Decomposing trends, seasonality, rolling metrics, growth rates, baseline forecasting, or temporal validation. |
 | [`predictive-analysis.md`](./references/predictive-analysis.md) | Technique | Formulating prediction problems, training linear/logistic models, preventing data leakage, and evaluating error metrics. |
 | [`visualization-and-storytelling.md`](./references/visualization-and-storytelling.md) | Technique | Selecting charts, optimizing data-to-ink ratio, avoiding visual distortions, and structuring executive decision narratives. |
-| [`dashboards-and-bi.md`](./references/dashboards-and-bi.md) | Technique | Designing executive/operational BI dashboards, visual layouts, metric hierarchies, and drill-down interfaces. |
+| [`dashboards-and-bi.md`](./references/dashboards-and-bi.md) | Technique | Building and verifying executive, operational, or analytical dashboards, selecting delivery tooling, and handing off usable visual artifacts. |
 | [`data-quality.md`](./references/data-quality.md) | Safeguard | Auditing completeness, accuracy, consistency, uniqueness, validity, freshness, and reconciliation invariants. |
 | [`reproducibility-and-governance.md`](./references/reproducibility-and-governance.md) | Safeguard | Preserving query lineage, documenting assumptions, reproducible environments, data ownership, and PII/compliance rules. |
 
-### Reference Loading Policy
+### Supporting Reference Loading Policy
 
 References are supporting knowledge modules, not mandatory reading for every task.
 
@@ -150,67 +157,48 @@ To maintain analytical integrity and prevent premature or misleading conclusions
 
 ---
 
-## Five-Phase Analytical Workflow
+## Ten-Stage Data Analytics Methodology
 
-Use this workflow as the orchestration layer for analytical work. Scale it to the task and decision risk: execute every applicable phase, and mark a phase **NOT APPLICABLE** with a brief reason when the requested deliverable legitimately does not require it. A focused calculation or descriptive request may need only brief framing, preparation, analysis, and delivery; it does not require an invented intervention or outcome-monitoring plan. Read [`analytics-lifecycle.md`](./references/analytics-lifecycle.md) when the task spans multiple phases or needs detailed gate criteria.
+Use the John Rollins data analytics methodology below as the orchestration layer. Work iteratively and scale documentation to the task: a focused calculation can cover applicable stages briefly without ten separate sections. Mark genuinely unnecessary stages or activities **NOT APPLICABLE** with a reason; unavailable evidence is a limitation, not a reason to skip validation. For end-to-end dataset analysis, read [`analytics-lifecycle.md`](./workflows/analytics-lifecycle.md) for detailed activities, gates, and reference routing; for focused requests, load it only when those details are needed.
 
 ```text
-Define the Problem
-        ↓
-Collect & Preprocess Data
-        ↓
-Analyze Data & Identify Insights
-        ↓
-Share Results
-        ↓
-Evaluate Outcomes
-        ↺
-   Iterate as needed
+Business Understanding → Analytic Approach → Data Requirements
+                                                     ↓
+Data Preparation ← Data Understanding ← Data Collection
+       ↓
+    Modeling → Evaluation → Deployment → Feedback
+       ↖────────── Iterate as needed ──────────↵
 ```
 
-### Phase 1: Define the Problem
+| Stage | Purpose and Actions | Expected Output | Gate |
+|---|---|---|---|
+| **1. Business Understanding** | Establish the stakeholder, decision or informational purpose, question, scope, metric definitions, success criteria, and intended visual deliverable. | Analysis brief and delivery acceptance criteria. | Purpose and question are explicit; relevant population, grain, and period are defined. |
+| **2. Analytic Approach** | Choose the simplest descriptive, diagnostic, predictive, prescriptive, or causal approach that can answer the question; identify assumptions and validation needs. | Method and evaluation plan. | Approach fits the question, decision stakes, and feasible evidence. |
+| **3. Data Requirements** | Specify needed fields, sources, history, keys, grain, quality, freshness, access, and privacy constraints before acquisition. | Minimum data requirements and source plan. | Required evidence can be sourced, or gaps and scope revisions are explicit. |
+| **4. Data Collection** | Acquire available authoritative data and record extraction boundaries, provenance, and coverage. | Traceable raw inputs or reproducible extraction query. | Available inputs match requirements; unresolved gaps are disclosed. |
+| **5. Data Understanding** | Profile schemas, distributions, keys, missingness, anomalies, freshness, and join cardinality; assess fitness for the approach. | Data profile and quality assessment. | Data meaning and limitations are understood; recollect or revise the approach when necessary. |
+| **6. Data Preparation** | Clean, typecast, join, reshape, and derive variables; preserve raw inputs and document material changes. | Analysis-ready data or query and transformation record. | Grain, row counts, keys, and control totals reconcile without unintended fanout or silent data changes. |
+| **7. Modeling** | Execute the selected analytical method, compare relevant slices, quantify material uncertainty, and distinguish findings from hypotheses. | Reproducible results, supporting tables, and candidate visuals. | Calculations reproduce, assumptions are checked, and claims stay within the evidence. |
+| **8. Evaluation** | Check analytical validity and usefulness against the original question and success criteria; independently verify critical metrics and inspect candidate visuals. | Verification evidence and a delivery decision. | Material results reconcile and limitations are visible; failures return work to the corrective stage. |
+| **9. Deployment** | Build, inspect, and deliver the usable dashboard or smaller visual result with its supporting analysis and opening/refresh instructions. | Accessible artifact and reproducible analytical handoff. | Artifact renders, displayed values reconcile, useful interactions work, and the stakeholder can access it. |
+| **10. Feedback** | Gather stakeholder feedback, assess usefulness, and evaluate real-world outcomes when an intervention exists; route learning into the next iteration. | Feedback record, outcome assessment, or pending evaluation plan. | Observed outcomes are distinguished from future plans; unresolved questions have clear next steps. |
 
-- **Objective**: Narrow the decision space or informational purpose and establish what success means.
-- **Actions**: Identify the stakeholder and decision or informational purpose; translate the request into an answerable analytical question; define scope, population, time window, grain, primary metric when relevant, guardrails, assumptions, constraints, and success criteria as applicable.
-- **Reference routing**: Load [`problem-definition.md`](./references/problem-definition.md), [`data-driven-business.md`](./references/data-driven-business.md), [`analytics-types.md`](./references/analytics-types.md), and [`metrics-and-kpis.md`](./references/metrics-and-kpis.md) as relevant.
-- **Output**: An analysis brief containing the decision or informational purpose, analytical question, relevant metric definitions, scope, and required evidence. Include success criteria when the analysis supports a decision or intervention.
-- **Gate**: Proceed only when the question is answerable and its purpose is explicit. Define metric formulas and grain when a metric is needed, and define how success will be evaluated when a decision or intervention requires it.
+**Modeling at analyst depth** includes SQL aggregations, metric decomposition, cohort/funnel analysis, statistical comparisons, scenario calculations, and appropriate forecasts or regressions. Machine learning is not required.
 
-### Phase 2: Collect and Preprocess Data
+**Evaluation and Feedback serve different purposes**: Evaluation checks the analysis before delivery; Feedback checks stakeholder usefulness and, when applicable, real-world impact afterward. If intervention outcomes are not yet observable, label them **PENDING** and specify the baseline, target, guardrails, evaluation window, attribution method, owner, and review date. If no intervention exists, outcome evaluation is **NOT APPLICABLE**, while feedback on usefulness can still apply. Do not invent stakeholder approval or future observations.
 
-- **Objective**: Produce trustworthy, analysis-ready data without obscuring how it changed.
-- **Actions**: Identify authoritative sources; acquire the minimum relevant data; inspect schemas and provenance; validate freshness, completeness, uniqueness, validity, consistency, and accuracy; define row grain; clean, typecast, join, deduplicate, reshape, and document every material transformation.
-- **Reference routing**: Load [`data-collection.md`](./references/data-collection.md), [`data-quality.md`](./references/data-quality.md), [`data-wrangling.md`](./references/data-wrangling.md), [`sql-for-analysis.md`](./references/sql-for-analysis.md), [`data-engineering.md`](./references/data-engineering.md), and [`reproducibility-and-governance.md`](./references/reproducibility-and-governance.md) as relevant.
-- **Output**: An analysis-ready dataset or query plus a data-quality and transformation record.
-- **Gate**: Proceed only when sources are traceable, grain is explicit, row counts reconcile, joins do not create unintended fanout, required fields are sufficiently complete, transformations are documented, and unresolved quality issues are disclosed.
+### Visual Delivery Contract
 
-### Phase 3: Analyze Data and Identify Insights
+- For substantial analyses, create a usable dashboard with relevant headline metrics, comparisons, trends or breakdowns, findings, limitations, definitions, and freshness metadata. Add filters or drill-downs where they help answer the question.
+- For focused calculations or narrow questions, provide a chart, visual report, or compact result table with units, period, and brief verification. A simple table in the response is sufficient; do not build an application for a single number.
+- Use accessible existing BI or project tooling; otherwise create portable HTML. Read [`dashboards-and-bi.md`](./references/dashboards-and-bi.md) when creating a dashboard and [`visualization-and-storytelling.md`](./references/visualization-and-storytelling.md) when choosing or reviewing charts.
+- Deliver the actual artifact, supporting result tables, reproducible queries or scripts, and a concise explanation. Respect explicit requests for a different format or code-only work; a proposed layout alone does not satisfy a request for a working dashboard.
+- If data or runtime access is unavailable, state what cannot be completed and provide a clearly labeled specification or illustrative prototype when useful. Never fabricate measurements or describe a prototype as a verified result.
+- Deployment can mean a local artifact with opening instructions. Hosting and scheduled refresh require an actual request and available infrastructure; describe a static snapshot honestly.
 
-- **Objective**: Answer the analytical question with the simplest defensible method.
-- **Actions**: Establish descriptive baselines; inspect distributions and comparative slices; select only the specialized techniques required by the question; quantify uncertainty; test plausible alternative explanations; and separate facts, observations, insights, hypotheses, conclusions, and limitations.
-- **Reference routing**: Load [`eda.md`](./references/eda.md), [`statistics-and-inference.md`](./references/statistics-and-inference.md), [`experimentation.md`](./references/experimentation.md), [`causal-reasoning.md`](./references/causal-reasoning.md), [`time-series-analysis.md`](./references/time-series-analysis.md), or [`predictive-analysis.md`](./references/predictive-analysis.md) only when the question requires them.
-- **Output**: Reproducible findings with supporting evidence, uncertainty, alternative explanations, and limitations. When the available evidence cannot answer the question reliably, state **INSUFFICIENT EVIDENCE** and identify what is missing.
-- **Gate**: Proceed only when calculations reconcile, assumptions are checked, the method matches the question, results are reproducible, uncertainty is reported where material, and claims do not exceed the evidence.
+### Stage-Gate Rule
 
-### Phase 4: Share Results
-
-- **Objective**: Turn verified findings into a decision-ready explanation.
-- **Actions**: Lead with the answer or the finding that evidence is insufficient; present focused evidence and appropriate visualizations; distinguish conclusions from hypotheses; state limitations and trade-offs; and provide recommendations, owners, expected impact, and guardrails only when supported and within scope.
-- **Reference routing**: Load [`visualization-and-storytelling.md`](./references/visualization-and-storytelling.md), [`dashboards-and-bi.md`](./references/dashboards-and-bi.md), and [`data-driven-business.md`](./references/data-driven-business.md) as relevant.
-- **Output**: A stakeholder-appropriate report, memo, dashboard, or presentation containing conclusions, evidence, limitations, and any warranted recommendations or next actions.
-- **Gate**: Deliver only when every material claim is supported, visual encodings are honest, the original question is answered, limitations are visible, and any applicable recommendation or next action is clear.
-
-### Phase 5: Evaluate Outcomes
-
-- **Objective**: When a decision or intervention exists, determine whether its outcome met the predeclared success criteria and use the evidence to improve the next cycle.
-- **Actions**: Compare post-decision results with the defined baseline, target, time window, and guardrails; check data and implementation integrity; use experimental or causal methods when attribution matters; document unintended effects; and decide whether to continue, change, reverse, or investigate further.
-- **Reference routing**: Load [`metrics-and-kpis.md`](./references/metrics-and-kpis.md), [`experimentation.md`](./references/experimentation.md), [`causal-reasoning.md`](./references/causal-reasoning.md), [`time-series-analysis.md`](./references/time-series-analysis.md), [`dashboards-and-bi.md`](./references/dashboards-and-bi.md), and [`reproducibility-and-governance.md`](./references/reproducibility-and-governance.md) as relevant.
-- **Output**: An outcome assessment when post-decision data exists. If a decision is planned but outcome data does not yet exist, produce an evaluation plan specifying the baseline, target, guardrails, evaluation window, attribution method, owner, and review date, and label outcome verification **PENDING**. For work that supports no intervention, mark this phase **NOT APPLICABLE**.
-- **Gate**: Complete the current analytical handoff when the outcome has been assessed, a pending evaluation has a concrete plan, or the phase is justifiably not applicable. A plan does not count as a verified outcome. Feed new evidence or unresolved failures back into the appropriate earlier phase.
-
-### Phase-Gate Rule
-
-Do not treat the lifecycle as a rigid waterfall. If a gate fails, return to the earliest phase that can resolve the issue. Examples include revising the question when required data does not exist, correcting sourcing when quality checks fail, and rerunning analysis when verification contradicts a finding.
+Return to the earliest stage that can resolve a failed gate. For example, missing fields can require revisiting Data Requirements and Collection, contradictory results can require revisiting Analytic Approach or Modeling, and stakeholder questions can reveal a need to revise Business Understanding. Record unresolved failures and their effect on confidence.
 
 ---
 
@@ -222,24 +210,25 @@ Do not treat the lifecycle as a rigid waterfall. If a gate fails, return to the 
 | **Programmatic Environment (Python / R)** | Use tabular dataframe libraries (pandas, polars) for complex cleaning, statistical modeling, bootstrapping, time-series decomposition, and reproducible scripting. |
 | **BI / Dashboarding Tool Available** | Use for visual metric monitoring, self-serve reporting, and sharing interactive dashboards with stakeholders (Tableau, Looker, Power BI, Metabase, Superset). Follow F-pattern layout hierarchy and avoid clutter. |
 | **Spreadsheet Environment Available** | Use structured formulas (`XLOOKUP`, `SUMIFS`), pivot tables, and reconciliation cells for small-scale modeling, ad-hoc financial audits, and rapid prototyping. |
+| **Portable HTML / No BI Tool Available** | Create a browser-viewable dashboard using verified result tables, with minimal dependencies and documented opening instructions. |
 | **Conceptual / No Runtime Available** | Formulate conceptual SQL logic, design metric formulas, define validation invariants, structure hypothesis trees, and provide decision reasoning frameworks. |
 
 ---
 
 ## Final Result Verification
 
-Phase gates validate individual steps; this final verification validates the complete analytical result before delivery. Report checks that could not be completed as limitations rather than silently treating them as passed.
+Stage gates validate individual steps; this final verification validates the complete analytical result before delivery. Report checks that could not be completed as limitations rather than silently treating them as passed.
 
 ### Verification Execution Protocol
 
-Follow the evidence standard in [`analytics-lifecycle.md`](./references/analytics-lifecycle.md). In summary:
+Follow the evidence standard in [`analytics-lifecycle.md`](./workflows/analytics-lifecycle.md). In summary:
 
 1. Express each material check with an expected condition or tolerance, then execute it with task-specific SQL, Python/R, spreadsheet formulas, or equivalent tooling when the environment permits.
 2. Preserve the check and its observed output, and independently recompute decision-critical metrics when practical.
-3. Assign each verification check **PASS**, **FAIL**, **NOT VERIFIED**, or **NOT APPLICABLE**. Never infer **PASS** from the absence of an error. **PENDING** is a separate Phase 5 outcome state, not a check status: for example, the evaluation-plan completeness check can pass while the future outcome remains pending.
-4. Return to the earliest corrective phase after a failure. If correction is impossible within scope, disclose the failure and do not present the affected conclusion as verified.
+3. Assign each verification check **PASS**, **FAIL**, **NOT VERIFIED**, or **NOT APPLICABLE**. Never infer **PASS** from the absence of an error. **PENDING** is a separate Feedback outcome state, not a check status: for example, the evaluation-plan completeness check can pass while the future outcome remains pending.
+4. Return to the earliest corrective stage after a failure. If correction is impossible within scope, disclose the failure and do not present the affected conclusion as verified.
 
-- [ ] **Question Alignment**: The output directly answers the Phase 1 analytical question and supports the stated decision or informational purpose.
+- [ ] **Question Alignment**: The output directly answers the Business Understanding analytical question and supports the stated decision or informational purpose.
 - [ ] **Grain Definition**: Explicitly defined what one row of every output dataset represents.
 - [ ] **Row Count Reconciliation**: Tracked and verified `COUNT(*)` before and after every `JOIN` and filter to eliminate fanout.
 - [ ] **Denominator Verification**: Every percentage, rate, or ratio has a validated base population and explicit zero-denominator behavior; use `NULLIF` in SQL or the equivalent safe handling in the active tool.
@@ -255,6 +244,7 @@ Follow the evidence standard in [`analytics-lifecycle.md`](./references/analytic
 - [ ] **Evidence Traceability**: Every material conclusion and recommendation can be traced to a verified result.
 - [ ] **Cognitive Separation**: Facts, observations, insights, hypotheses, conclusions, recommendations, and limitations are not conflated.
 - [ ] **Uncertainty and Limitations**: Material uncertainty, data-quality constraints, assumptions, and unresolved risks are disclosed.
+- [ ] **Visual Delivery**: The agreed artifact exists, opens and renders correctly, shows verified values and visible limitations, and has working interactions where applicable. Disclose any unperformed render or interaction checks.
 - [ ] **Outcome Evaluation Status**: When applicable, the result distinguishes a completed outcome assessment from a **PENDING** evaluation plan; otherwise it records **NOT APPLICABLE**.
 
 ### Verification Evidence in the Deliverable

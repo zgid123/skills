@@ -59,10 +59,10 @@ A well-formed analytical question satisfies five SMART criteria:
 
 ## Success Criteria and Deliverables
 - **Success Criteria**: Pre-agreed operational, empirical, and decision criteria that determine when the analysis is complete. Success criteria should focus on decision usefulness, magnitude of effect, uncertainty quantification, practical relevance, and reproducibility—never on achieving $p < 0.05$ alone (e.g., *"Identify the factors most strongly associated with churn, quantify effect sizes and uncertainty, assess business relevance, and clearly document limitations before recommending action to the product lead"*).
-- **Deliverables**: Formally agreed artifacts suited to stakeholder needs (e.g., 1-page executive memo, reproducible analytical SQL script/notebook, or interactive BI dashboard).
+- **Deliverables**: Agree the audience, visual artifact, delivery tooling, and acceptance criteria before analysis. Substantial analyses require a usable dashboard; focused questions can use a chart, visual report, or compact table. Include reproducible queries/scripts and supporting result tables where applicable. Respect explicit requests for another format. Define how the stakeholder will open the result and whether it is a snapshot or needs refresh.
 
 ## Cross-References
 - For evidence-based decision frameworks and stakeholder trade-offs: [Data-Driven Business](./data-driven-business.md)
 - For defining primary, secondary, and guardrail metrics: [Metrics and KPIs](./metrics-and-kpis.md)
-- For situating problem framing in the project lifecycle: [The Analytics Lifecycle](./analytics-lifecycle.md)
+- For situating problem framing in the project lifecycle: [The Analytics Lifecycle](../workflows/analytics-lifecycle.md)
 - For classifying tasks into descriptive, diagnostic, predictive, or prescriptive types: [Analytics Types and Selection](./analytics-types.md)

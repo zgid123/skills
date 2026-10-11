@@ -46,5 +46,5 @@ For decision-oriented work, use these four concepts to move from evidence to act
 ## Cross-References
 - For translating business problems into analytical questions: [Problem Definition and Framing](./problem-definition.md)
 - For metric design, leading vs. lagging indicators, and guardrails: [Metrics and KPIs](./metrics-and-kpis.md)
-- For structuring the analytical project lifecycle: [The Analytics Lifecycle](./analytics-lifecycle.md)
+- For structuring the analytical project lifecycle: [The Analytics Lifecycle](../workflows/analytics-lifecycle.md)
 - For presenting recommendations and executive narratives: [Visualization and Storytelling](./visualization-and-storytelling.md)
