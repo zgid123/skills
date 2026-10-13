@@ -1,0 +1,10 @@
+session_id,minute,event
+a,1,product_view
+a,2,landing_view
+a,3,product_view
+a,4,add_to_cart
+a,5,checkout_complete
+b,1,landing_view
+b,2,checkout_complete
+b,3,product_view
+c,1,landing_view

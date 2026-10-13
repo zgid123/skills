@@ -5,7 +5,7 @@ Visualizing data is not decorative; it is an analytical technique to expose stru
 
 ## Visual Results as Deliverables
 
-Create the visual result at a scale appropriate to the question: a usable dashboard for substantial analyses, or a chart, visual report, or compact table for focused questions. Deliver the artifact with a concise interpretation and traceable supporting calculations. Follow [Dashboards and BI](./dashboards-and-bi.md) for tool selection, artifact verification, and handoff.
+Create the visual result at a scale appropriate to the question: a usable report or dashboard for substantial analyses, or a chart, visual report, or compact table for focused questions. Deliver the artifact with a concise interpretation and traceable supporting calculations. Follow [Dashboards and BI](./dashboards-and-bi.md) for tool selection, artifact verification, and handoff.
 
 Inspect the rendered output rather than relying only on its code or proposed layout. Confirm that chart labels, scales, units, periods, displayed values, and material uncertainty match the verified analysis. Label mock data and prototypes explicitly, and disclose render checks that could not be performed.
 
@@ -72,8 +72,8 @@ Recommendation (when warranted)
 ### Executive Summary Structure (The 1-Page Brief)
 When delivering decision-oriented work to leadership, place the bottom line first (Minto Pyramid Principle). Adapt the structure for informational work and omit unsupported sections:
 1. **Core Recommendation or Answer**: The specific operational decision recommended, or the direct answer for an informational request.
-2. **Key Findings**: 2 to 3 bullet points summarizing the core insight and quantified business impact.
-3. **Primary Visualization**: A single, clean, annotated chart providing immediate visual proof.
+2. **Key Findings**: prioritized findings summarizing the core insight and quantified business impact.
+3. **Primary Visualization**: A focused, annotated visual when useful providing immediate visual proof.
 4. **Risks and Limitations**: Data boundaries, unmeasured confounders, and operational trade-offs.
 5. **Next Steps and Ownership**: When applicable, immediate actions, assigned owners, and post-launch monitoring timelines.
 

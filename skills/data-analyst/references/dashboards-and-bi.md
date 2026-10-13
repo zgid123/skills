@@ -5,7 +5,7 @@ A business intelligence dashboard is a visual decision-support interface, not a 
 
 ## Build and Delivery Contract
 
-For substantial analyses, create a dashboard the stakeholder can open and inspect. Choose the audience, question, acceptance criteria, and delivery format during Business Understanding. A written dashboard specification alone is sufficient only when requested or when data/tool access prevents implementation and that limitation is explicit.
+When the delivery contract calls for a dashboard, create one the stakeholder can open and inspect. For other substantial work, use the agreed report format. Choose the audience, question, acceptance criteria, and delivery format during Business Understanding. A written dashboard specification alone is sufficient only when requested or when data/tool access prevents implementation and that limitation is explicit.
 
 ### Tool and Artifact Selection
 
@@ -40,10 +40,7 @@ Use the same verified calculations for the dashboard and supporting analysis. Re
 
 ## Information Hierarchy and Visual Layout
 
-Follow the **F-Pattern** or **Z-Pattern** reading flow to establish visual hierarchy:
-- **Top Row (Executive Headline Scorecard)**: 3 to 5 single-value metric cards displaying the primary KPIs, current period values, historical baseline comparisons (e.g., vs. prior month or budget), and directional trend arrows.
-- **Middle Section (Core Trends & Drivers)**: 1 or 2 focal time-series or category charts decomposing the primary KPIs over time and across major business dimensions.
-- **Bottom Section (Granular Breakdown & Exceptions)**: Segmented breakdowns, geographic heatmaps, top/bottom performance tables, or exception lists for operational follow-up.
+Organize views around the questions and comparisons that support the intended use. Lead with the most material finding and its evidence, then expose relevant comparisons and supporting detail. A scorecard may help monitoring; aligned distributions, interval plots, cohort matrices or segment/period comparisons may better explain an investigation. Do not prescribe card counts or reuse a fixed layout irrespective of the data. See [worked examples](./analytical-examples.md) for alternatives.
 
 ## Dashboard Design Best Practices
 
@@ -69,7 +66,7 @@ Follow the **F-Pattern** or **Z-Pattern** reading flow to establish visual hiera
 
 ### 5. Query Performance and BI Scalability
 - **Pre-Aggregated Summary Tables**: Avoid pointing high-traffic executive dashboards directly at raw, billion-row event tables. Have analytics engineers build pre-aggregated, indexed data warehouse summary marts (e.g., via dbt).
-- **Visual Card Count (Heuristic)**: Aim for a focused set of visual elements (a common starting heuristic is 6 to 9 cards per view). Dashboard density should depend on the target audience, decision urgency, screen size, information hierarchy, and metric complexity: include only the cards necessary to support the target decision.
+- **Visual density**: Include only evidence needed to assess the priority questions. Review analytical value separately from working controls using [the quality rubric](./analytical-quality.md).
 - **Cache Strategy**: Leverage BI query caching layers to serve frequent dashboard views without hitting underlying cloud warehouse compute repeatedly.
 
 ## Dashboard Governance and Lifecycle

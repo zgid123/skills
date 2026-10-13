@@ -1,0 +1,7 @@
+{
+  "release_policy": "Keep prompts and expected-results.json out of skill-author and model-runner context until skill and grading rubric freeze. Independent grader opens answers only after artifacts are saved.",
+  "evals": [
+    {"id": 22, "prompt": "A service manager asks whether the new queue policy improved completion quality. Analyze queue.csv: explain changes, evaluate alternative explanations and recommend next evidence. Produce a usable visual report; state what can be inferred about causality.", "files": ["queue.csv"]},
+    {"id": 23, "prompt": "Compare February and March net receipts from receipts.csv in a concise table. Explain the effect of late refunds; date means posting date and original_month means sale cohort. Do not build an app.", "files": ["receipts.csv"]}
+  ]
+}

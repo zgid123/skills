@@ -1,0 +1,8 @@
+{
+  "grain": "one completed order; order_id unique",
+  "coverage": "completed August and September 2026; synthetic fixed extract",
+  "revenue_usd": "net recognized revenue; no tax; no refunds in this extract",
+  "cost_usd": "variable fulfillment cost",
+  "customer_id": "repeated customers; no acquisition or intervention fields",
+  "purpose": "Operations manager wants to understand performance and decide what to investigate next; no causal identification"
+}

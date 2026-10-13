@@ -1,0 +1,12 @@
+{
+  "request": "Explain customer churn",
+  "available_fields": [
+    "anonymous_comment"
+  ],
+  "rows": [
+    {
+      "anonymous_comment": "I dislike the app"
+    }
+  ],
+  "sampling": "one unsolicited comment; no denominator or dates"
+}

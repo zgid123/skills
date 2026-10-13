@@ -9,7 +9,7 @@ Exploratory Data Analysis (EDA) is an iterative, structured investigation of dat
 - *Guidance*: Use EDA to profile distributions, uncover data quality issues, and map segment patterns. When diagnosing why a metric moved, transition to focused diagnostic root-cause analysis.
 
 ## The Comparative Mindset: "Compared to What?"
-An isolated number or trend has no analytical meaning without a comparative baseline. Always evaluate observations against:
+An isolated number or trend has no analytical meaning without a comparative baseline. When comparison aids the question, choose a relevant available reference; do not invent targets or external benchmarks:
 - **Previous Period**: Prior day, week, month, or year (MoM, YoY).
 - **Target / Plan**: Budgeted goals or forecasted milestones.
 - **Benchmark**: Industry standard, category average, or platform norm.
@@ -82,6 +82,10 @@ To maintain analytical integrity and prevent premature conclusions, categorize a
 - Summarize confirmed empirical facts and observations.
 - Document unexpected anomalies, data quality gaps, and unmeasured variables.
 - Formulate explicit, testable hypotheses to guide subsequent diagnostic analysis, inferential testing, or experimental design.
+
+## Investigation gate
+
+Scale the steps to the question, rather than profiling every column by default. Profiling is preparation for substantive investigation. Use [investigation and synthesis](./investigation-and-synthesis.md) to turn a material observation into a discriminating, executed follow-up, challenge its interpretation, and stop once the prioritized scope is adequately answered or explicitly blocked. Record what the follow-up changed; recommendations for future work alone do not satisfy this gate.
 
 ## Cross-References
 - For data quality profiling, sanity checks, and validation rules: [Data Quality](./data-quality.md)

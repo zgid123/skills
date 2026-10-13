@@ -1,0 +1,1 @@
+Analyze transactions.csv using its dictionary for an operations manager: what changed, what matters, and what should we investigate next? Deliver a substantial usable local report/dashboard, supporting results and reproducible work. Explore credible alternative explanations and say what the extract cannot establish. No hosting needed.

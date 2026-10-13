@@ -1,0 +1,4 @@
+{
+  "22": {"before_completion": 0.85, "after_completion": 0.54, "routine_rates": [0.9, 0.9], "complex_rates": [0.4, 0.5], "review": "Aggregate deterioration coexists with stable/improved within-queue results. Shift to harder queue dominates; 50/50 standardized rates 0.65 and 0.70 illustrate different estimand. No random assignment; no causal policy attribution. Distinguish completion from quality, which lacks a quality measure. Assess workload, case severity, censoring and allocation before recommendation."},
+  "23": {"posting_month": {"February": 240, "March": 120}, "sale_cohort": {"February": 180, "March": 180}, "review": "Posting-month receipts decline 50%; sale-cohort net receipts are equal at snapshot. Specify requested estimand rather than silently assigning refund date; cohort maturity/late-refund limitations matter."}
+}

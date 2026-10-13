@@ -20,9 +20,9 @@
 
 Follow the ten stages of the John Rollins data analytics methodology: **Business Understanding → Analytic Approach → Data Requirements → Data Collection → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment → Feedback**. The workflow is iterative; the technique references provide methods and the safeguards protect integrity throughout.
 
-The five groupings in the diagram connect problem to approach, requirements to collection, understanding to preparation, modeling to evaluation, and deployment to feedback. Use **Deployment** for the delivery stage (the supplied slide's inner box reads “Development”).
+Keep reusable skill guidance, the domain-specific project brief, and dataset-specific evidence separate. Preliminary inspection may refine the contract; record revisions rather than implying all criteria existed before inspection.
 
-Scale the work and documentation to the question and decision risk. A focused calculation can address applicable stages briefly and deliver a compact table. A substantial analysis requires a usable dashboard unless the user explicitly requests a different format. Mark genuinely unnecessary stages or activities **NOT APPLICABLE** with a reason; missing data or unexecuted checks must remain visible limitations.
+Scale the work and documentation to the question and decision risk. A focused calculation can address applicable stages briefly and deliver a compact table. Choose a usable report or dashboard for substantial analyses according to the task; default to a dashboard for substantial visual analysis when no format is specified. Mark genuinely unnecessary stages or activities **NOT APPLICABLE** with a reason; missing data or unexecuted checks must remain visible limitations.
 
 Evaluation validates the analysis before delivery. Feedback concerns stakeholder use and real-world outcomes afterward. Modeling includes ordinary analytical queries and statistics; it does not mandate machine learning or expand the skill into production MLOps.
 
@@ -36,7 +36,8 @@ Establish the business or informational purpose before selecting tools.
 
 1. Identify the stakeholder, intended use, analytical question, deadline, and cost of being wrong.
 2. Define scope, population, time window, grain, relevant metrics and formulas, and success criteria. Define guardrails when an intervention is involved.
-3. Agree the audience and visual delivery acceptance criteria. Substantial analyses require a dashboard; focused questions can use a chart, visual report, or compact table. Respect explicit format constraints.
+3. Establish audience and delivery acceptance criteria from the request; label inferred criteria as proposed rather than agreed. Substantial analyses need a useful report/dashboard; focused questions can use a compact result. Respect explicit format constraints.
+4. Prioritize evidence-supported questions for open-ended requests. Define what constitutes an adequate answer, including comparison, interpretation and material validation, rather than artifact or chart counts.
 
 ### Expected Output
 
@@ -62,7 +63,7 @@ Translate the business question into the simplest defensible analytical method.
 
 1. Classify the question and select descriptive, diagnostic, predictive, prescriptive, causal, funnel, cohort, or temporal techniques as needed.
 2. State the comparisons, assumptions, evidence, and validation needed to distinguish a useful answer from an unsupported claim.
-3. Choose methods proportionate to the task. A relational aggregation can be the entire model; do not require machine learning.
+3. Choose methods proportionate to the task. A relational aggregation can be the entire model; do not require machine learning. State a stopping rule tied to question coverage and material uncertainty, not endless exploration.
 
 ### Expected Output
 
@@ -88,7 +89,8 @@ Specify what evidence is needed before acquiring data.
 
 1. Define required fields, units, source grain, keys, join relationships, population, historical coverage, sampling needs, and freshness.
 2. Identify authoritative sources, owners, access and privacy constraints, and quality conditions required by the approach.
-3. Record missing evidence and decide whether collection or a narrower question can resolve the gap.
+3. Map each priority question to required and available evidence: answerable, conditionally answerable, or unsupported. Record missing evidence and decide whether collection or a narrower question can resolve the gap.
+4. Preserve the original objective when revising scope. Explain supported alternatives and resulting delivery status; an unsupported prediction target need not block useful descriptive work.
 
 ### Expected Output
 
@@ -138,7 +140,7 @@ Assess what the collected data means and whether it supports the approach.
 
 ### Activities
 
-1. Profile schemas, field meanings, units, keys, cardinality, nulls, categories, ranges, distributions, duplicates, and freshness.
+1. Inspect schemas, actual records and relevant documentation to establish entities, field meanings, units, keys, cardinality, nulls, categories, ranges, distributions, duplicates, time semantics and freshness. Column names alone do not establish consequential meanings.
 2. Investigate unusual values, measurement changes, missingness, sampling constraints, and potential join fanout.
 3. Assess fitness for the analytical approach. Return to requirements or collection when evidence is insufficient.
 
@@ -194,6 +196,8 @@ Execute the chosen analytical approach to answer the question.
 1. Build descriptive aggregations, metric decompositions, cohort/funnel analyses, statistical comparisons, scenario calculations, or appropriate predictive models.
 2. Compare relevant segments and time periods; quantify uncertainty and practical effect size when material; inspect alternative explanations.
 3. Preserve calculations and result tables. Create candidate visuals and separate facts, observations, insights, hypotheses, conclusions, recommendations, and limitations.
+4. For material initial findings, execute justified follow-up to discriminate plausible alternatives or quantify heterogeneity; record observation → reason for follow-up → executed result → changed interpretation. Distinguish planned analyses from exploratory discoveries and account for multiplicity where material. A proposed follow-up list is not executed investigation.
+5. Follow [investigation and synthesis](../references/investigation-and-synthesis.md): stop when priority questions are answered or concretely blocked and additional feasible work is unlikely to change the scoped answer. Explain exceptions and blockers.
 
 ### Expected Output
 
@@ -201,7 +205,7 @@ Reproducible analytical results, supporting tables, and candidate visuals.
 
 ### Verification Gate
 
-The method follows the approach, calculations reproduce, and interpretations remain within the available evidence. State INSUFFICIENT EVIDENCE when necessary.
+The method follows the approach, calculations reproduce, and interpretations remain within the available evidence. Major findings trace question, population/comparison, method, magnitude, limits, interpretation and relevant implication. A substantial investigation cannot pass with profiling alone; justified follow-up is executed or its absence is substantiated. State INSUFFICIENT EVIDENCE for specific unsupported claims, not as a blanket substitute for supported analysis.
 
 ### References
 
@@ -223,7 +227,8 @@ Validate analytical correctness and usefulness before delivery.
 
 1. Compare results with the original question, intended use, and predeclared analytical success criteria. Check assumptions, leakage, alternative explanations, and causal language as relevant.
 2. Independently recompute decision-critical metrics when practical; reconcile displayed values and candidate visual encodings with verified results.
-3. Apply the final result verification checklist in the main skill and preserve evidence using the standard below. Return failed checks to the earliest corrective stage.
+3. Apply [the analytical quality rubric](../references/analytical-quality.md) separately to technical correctness, analytical adequacy and communication/usability. Check each material question and criterion against specific evidence; numerical reconciliation and working controls cannot establish usefulness.
+4. Return failed checks to the earliest corrective stage and record the correction and rerun evidence. If blocked, limit affected conclusions and explicitly deliver partial analysis, feasibility assessment or unverified work. Do not mark missing work complete by adding caveats.
 
 ### Expected Output
 
@@ -231,7 +236,7 @@ A verification ledger, limitations, and a decision on whether results are ready 
 
 ### Verification Gate
 
-Material claims are supported and calculations reconcile; unresolved failures visibly block or reduce confidence in affected conclusions.
+Material claims are supported, calculations reconcile, and all material applicable rubric criteria are adequate or stronger. Critical failures block affected claims. Unresolved material gaps block complete status against the original contract; identify the revised scope and status.
 
 ### References
 
@@ -248,8 +253,8 @@ Make the validated analysis accessible in a usable visual artifact.
 
 ### Activities
 
-1. Build the agreed dashboard or smaller visual result. Use accessible existing BI/project tooling; otherwise deliver portable HTML for a dashboard.
-2. Include relevant headline metrics, comparisons, trends or breakdowns, findings, limitations, definitions, and freshness. Add interactions only when they serve the question.
+1. Build the agreed report, dashboard or smaller visual result. Use accessible existing BI/project tooling; otherwise deliver portable HTML for a dashboard.
+2. Organize substantial delivery around priority questions and findings supported by relevant comparisons, distributions or trends, definitions and limitations. Keep extended methodology available without letting it replace findings. Choose encodings for the actual analytical relationship; add interactions only when they serve the question.
 3. Open and inspect the artifact; reconcile visible values, exercise filters and empty states, and check readability. Record checks that could not be executed.
 4. Provide the artifact link or path, supporting result tables, queries/scripts, and opening and refresh instructions. Local delivery is sufficient unless hosting is requested. Label snapshots and illustrative prototypes accurately.
 
@@ -278,7 +283,7 @@ Learn from stakeholder use and assess real-world outcomes when applicable.
 1. Request or record stakeholder feedback on clarity, usefulness, and missing questions. Do not invent stakeholder acceptance; when feedback is unavailable, record it as pending.
 2. For an intervention, compare observed outcomes with the predeclared baseline, target, guardrails, evaluation window, and attribution method. Check implementation fidelity, data integrity, unintended effects, and uncertainty.
 3. When outcome data does not yet exist, provide an evaluation plan with baseline, target, guardrails, window, attribution method, owner, and review date; label the outcome PENDING. When no intervention exists, mark outcome evaluation NOT APPLICABLE.
-4. Use available evidence to continue, modify, reverse, or investigate the intervention, and route learning to the appropriate earlier stage. A pending plan supports handoff but does not verify an outcome.
+4. Use available evidence to continue, modify, reverse, or investigate the intervention, and route learning to the appropriate earlier stage. Record which feedback changed the question, data requirements, method, analysis or presentation and verify affected work again. A pending plan supports handoff but does not verify an outcome.
 
 ### Expected Output
 
@@ -313,15 +318,17 @@ Verification requires recorded evidence, not an unchecked assertion that a revie
 2. Implement mechanically testable checks with task-specific SQL, Python/R, spreadsheet formulas, or equivalent executable tooling whenever the data and environment permit it.
 3. Encode the actual analytical contract: source and output grain, key uniqueness, join cardinality, exclusions, metric formulas, denominator population, time windows, reconciliation totals, statistical assumptions, and metric-specific domain invariants.
 4. Independently recompute decision-critical metrics when practical and investigate discrepancies before reporting the result.
-5. Preserve each material check's method and observed output with the analysis artifacts.
+5. Preserve each material check's method and observed output with the analysis artifacts. Record the actual tested quantity, population, unit and condition; compare ledger entries with code. Derive logged values from checked variables where practical: a response count cannot evidence a unique-user-count condition even when the latter passed.
 6. Record each material check as **PASS**, **FAIL**, **NOT VERIFIED**, or **NOT APPLICABLE**. A check passes only when its expected condition was explicitly evaluated and satisfied. Reserve **NOT APPLICABLE** for a check outside the justified scope, not for missing evidence. **PENDING** is a separate outcome-evaluation state, not a verification-check status: an evaluation-plan completeness check may pass while the future outcome remains pending.
 7. A failed or unavailable check must either send the analysis back to an earlier stage or appear as a visible limitation that blocks or reduces confidence in the affected conclusion.
 
 For every non-trivial deliverable, include a verification ledger with these fields:
 
-| Check | Expected Condition / Tolerance | Method | Evidence | Status | Effect on Confidence |
+| Check / quantity and population | Expected Condition / Tolerance | Method | Observed value, unit and evidence location | Status | Effect on Confidence |
 |---|---|---|---|---|---|
 | Material invariant or claim being verified | Explicit condition that constitutes success | Executed query, calculation, formula, or review method | Observed result and location of saved details | PASS, FAIL, NOT VERIFIED, or NOT APPLICABLE | None, bounded caveat, or conclusion blocked |
+
+Preserve contemporaneous gate decisions and corrections when process compliance matters. Headings, boilerplate and artifact existence do not prove stage execution, predeclared criteria or chronological order.
 
 Use task-specific verification code by default. Add a bundled reusable script only after repeated analyses demonstrate the same stable, domain-independent validation pattern.
 

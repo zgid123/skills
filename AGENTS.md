@@ -90,7 +90,7 @@ Read additional references when the work reaches their subject. The skill's refe
 **Behavior**:
 - Apply the mandatory skill-reading protocol above. For end-to-end dataset analysis, read `skills/data-analyst/workflows/analytics-lifecycle.md`; load only the supporting `skills/data-analyst/references/` files routed by the skill for the current question and stage. For focused requests, apply the relevant stages proportionately and read the full workflow only when needed.
 - Clarify the commercial decision or informational purpose, primary metric, and grain before writing queries or code.
-- Deliver a usable dashboard for substantial analyses and a chart, visual report, or compact result table for focused questions; use existing project/BI tooling or portable HTML by default, respecting explicit format constraints.
+- Deliver a usable report or dashboard suited to substantial analyses and a chart, visual report, or compact result table for focused questions; use existing project/BI tooling or portable HTML by default, respecting explicit format constraints.
 - Verify the analysis before deployment, inspect the delivered artifact, and distinguish stakeholder feedback and future outcomes from verified results.
 - Never silently alter, drop, or impute data without transparent documentation.
 - Distinguish between correlation and causation; report distributions and uncertainty intervals over naked averages.

@@ -130,6 +130,182 @@
         "The handoff provides an accessible artifact link, snapshot coverage, supporting queries/results, and verification evidence.",
         "No new frontend application, unrelated hosting, or scheduled-refresh infrastructure is introduced."
       ]
+    },
+    {
+      "id": 12,
+      "name": "composition",
+      "split": "development",
+      "prompt": "Compare revenue and AOV between months. Test whether the overall direction describes both tiers.",
+      "expected_output": "Revenue 18000 to 13200 (-26.6667%); AOV 180 to 132; within each tier AOV rises 10%; premium share 80% to 20%. Decompose composition versus within-tier movement without claiming a cause.",
+      "files": [
+        "evals/fixtures/development/transactions.csv",
+        "evals/fixtures/development/transactions-dictionary.json"
+      ],
+      "expectations": [
+        "Recompute period revenue/AOV and within-tier change from raw rows; distinguish changing composition from within-tier performance.",
+        "Execute a discriminating composition comparison, explain its magnitude and limits, and trace findings to saved results."
+      ]
+    },
+    {
+      "id": 13,
+      "name": "sequential-events",
+      "split": "development",
+      "prompt": "Compute landing/product/cart/checkout session counts with valid time order; repeated events count once. Include empty-input behavior.",
+      "expected_output": "Counts 3,2,1,1 and conversion 1/3. Session a counts despite an early product event; b checkout cannot complete its later sequence. Empty counts zero, rate undefined.",
+      "files": [
+        "evals/fixtures/development/events.csv"
+      ],
+      "expectations": [
+        "Counts are landing 3, product 2, cart 1, checkout 1 using valid sequential events, despite repetition and input ordering.",
+        "Show executed fixture checks, rather than claiming verification from the presence of a SQL query."
+      ]
+    },
+    {
+      "id": 14,
+      "name": "calendar-and-season",
+      "split": "development",
+      "prompt": "Find March MoM from months.csv and forecast the next ten days from season.csv with weekly seasonal-naive. State missing-period handling.",
+      "expected_output": "MoM undefined; horizon 1,7,8,10 uses days 8,14,8,10, without future observations.",
+      "files": [
+        "evals/fixtures/development/months.csv",
+        "evals/fixtures/development/season.csv"
+      ],
+      "expectations": [
+        "March prior calendar month is missing: do not substitute January; distinguish unknown February from zero.",
+        "Forecast horizons beyond one season use only available historical values and repeat the last observed cycle."
+      ]
+    },
+    {
+      "id": 15,
+      "name": "weighted-survey",
+      "split": "development",
+      "prompt": "Report weighted and unweighted satisfaction and explain the population inference limitations.",
+      "expected_output": "Weighted satisfaction 0.2 versus unweighted 0.5; weights sum 10 and effective n 100/34; four respondents do not establish representativeness or design-valid uncertainty.",
+      "files": [
+        "evals/fixtures/development/survey.csv"
+      ],
+      "expectations": [
+        "Weighted satisfaction is 20% versus 50% unweighted; explain how the estimand changes.",
+        "Do not claim representativeness or design-valid intervals from four respondents and weights without sampling-design evidence."
+      ]
+    },
+    {
+      "id": 16,
+      "name": "join-fanout",
+      "split": "development",
+      "prompt": "Join orders to items for order revenue and item counts. Verify grain before reporting total revenue and AOV.",
+      "expected_output": "Orders 3, revenue 300, AOV 100, items 6; naive join revenue 700; preaggregate items or otherwise preserve order-grain measures.",
+      "files": [
+        "evals/fixtures/development/orders.csv",
+        "evals/fixtures/development/items.csv"
+      ],
+      "expectations": [
+        "Reconcile three orders, 300 revenue units revenue, 100 revenue units/order AOV and six items; expose naive joined revenue 700 revenue units.",
+        "Correct grain/fanout before reporting order revenue and preserve failed-check/correction evidence."
+      ]
+    },
+    {
+      "id": 17,
+      "name": "causal-design",
+      "split": "development",
+      "prompt": "Compare what the two studies establish and advise whether to expand the offer. Quantify lift and uncertainty without treating designs as interchangeable.",
+      "expected_output": "Both observed lifts +6pp; randomized standard-error interval approx +2.12 to +9.88pp under supplied assumptions; observational result cannot establish causality, and business target/cost needs consideration.",
+      "files": [
+        "evals/fixtures/development/studies.json"
+      ],
+      "expectations": [
+        "Both lifts are 6pp; evaluate randomized uncertainty with supplied sample sizes/design, and limit the observational claim.",
+        "Recommendations distinguish evidence for a positive effect from achieving an unknown business threshold; no invented target or acceptance."
+      ]
+    },
+    {
+      "id": 18,
+      "name": "substantial-investigation",
+      "split": "development",
+      "prompt": "Analyze transactions.csv using its dictionary for an operations manager: what changed, what matters, and what should we investigate next? Deliver a substantial usable local report/dashboard, supporting results and reproducible work. Explore credible alternative explanations and say what the extract cannot establish. No hosting needed.",
+      "expected_output": "Substantial inspected dashboard plus reproducible results; explore metric decomposition, tiers, channel and distribution; prioritize supported findings and competing hypotheses with discriminating next evidence; distinguish measured changes from causes.",
+      "files": [
+        "evals/fixtures/development/transactions.csv",
+        "evals/fixtures/development/transactions-dictionary.json"
+      ],
+      "expectations": [
+        "Deliver actual substantial local report/dashboard plus executable calculations and supporting results; unavailable rendering checks are disclosed.",
+        "Discover, quantify and explain material patterns using justified follow-up and challenge alternatives; inventories and a working card grid alone fail.",
+        "Trace question, population, comparison, numerical magnitude, interpretation and limits; review coverage separately from numerical reconciliation."
+      ]
+    },
+    {
+      "id": 19,
+      "name": "unsuitable-evidence",
+      "split": "development",
+      "prompt": "Explain why customer churn rose using unsuitable.json; do not invent data. Give the most useful bounded result now.",
+      "expected_output": "Recognize insufficient denominator, period and representative evidence; no measured churn or causal claim; focused source requirements and bounded qualitative observation.",
+      "files": [
+        "evals/fixtures/development/unsuitable.json"
+      ],
+      "expectations": [
+        "Identify missing eligible population, periods and outcome evidence; do not calculate a churn rate or measured cause from unsuitable inputs.",
+        "Provide a bounded useful result and precise missing evidence, with honest feasibility/partial status and no fabricated verification."
+      ]
+    },
+    {
+      "id": 20,
+      "name": "concise-calculation",
+      "split": "development",
+      "prompt": "Using orders.csv, report order count and AOV in a compact table. No recommendation or application requested.",
+      "expected_output": "3 orders and AOV 100 revenue units/order with concise verification; currency not supplied, no forced dashboard or methodology recital.",
+      "files": [
+        "evals/fixtures/development/orders.csv"
+      ],
+      "expectations": [
+        "Report three eligible orders and AOV 100 revenue units/order with a brief reproducible check; do not invent currency.",
+        "Keep the answer concise: no app, mandatory model, recommendations or ten lifecycle sections."
+      ]
+    },
+    {
+      "id": 21,
+      "name": "feedback-revisit",
+      "split": "development",
+      "prompt": "Revisit the previous claim using stakeholder feedback and transactions. Correct it where needed and distinguish feedback from observed intervention impact.",
+      "expected_output": "Withdraw within-order-value decline claim; each tier rises 10% and composition shifts; recompute aggregates and route investigation back to approach/modeling; intervention impact remains unobserved.",
+      "files": [
+        "evals/fixtures/development/feedback.json",
+        "evals/fixtures/development/transactions.csv",
+        "evals/fixtures/development/transactions-dictionary.json"
+      ],
+      "expectations": [
+        "Recompute within-tier values and composition after feedback rather than merely changing wording.",
+        "Withdraw unsupported prior interpretation, record relevant stage revisits, and keep future intervention outcomes unobserved."
+      ]
+    },
+    {
+      "id": 22,
+      "name": "unsupported-prediction",
+      "split": "development",
+      "prompt": "Using transactions.csv and its dictionary, predict which customers will churn next month. If this is not supported, explain why and perform a useful bounded analysis of what is supported, clearly labeling the scope change.",
+      "expected_output": "No churn label, eligible active population or follow-up definition exists; do not fit an invented target. Explicitly narrow to supported order performance comparisons and execute useful analysis, reporting partial against original predictive aim.",
+      "files": [
+        "evals/fixtures/development/transactions.csv",
+        "evals/fixtures/development/transactions-dictionary.json"
+      ],
+      "expectations": [
+        "No fabricated churn labels, leakage-prone target proxy, forecast accuracy or measured causal story.",
+        "Explain missing target/population/time evidence, disclose scope revision, and execute supported comparisons rather than abandoning all analysis."
+      ]
+    },
+    {
+      "id": 23,
+      "name": "verification-quantity-mismatch",
+      "split": "development",
+      "prompt": "Review this check against responses.csv: code asserts COUNT(DISTINCT user_id)=3, but ledger says unique users expected 3; observed 5 responses; PASS. Is the verification evidence valid? Correct the record and show the checked quantities.",
+      "expected_output": "Code condition may pass with three unique users, but five response rows cannot evidence it. Recompute and record three users separately from five responses and retain the ledger correction.",
+      "files": [
+        "evals/fixtures/development/responses.csv"
+      ],
+      "expectations": [
+        "Distinguishes correct code condition from invalid recorded evidence; does not accept ledger PASS.",
+        "Recomputes three distinct users and five response rows, and logs actual population, quantity and condition consistently."
+      ]
     }
   ]
 }

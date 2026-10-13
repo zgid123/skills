@@ -1,0 +1,16 @@
+{
+  "randomized": {
+    "control_n": 1000,
+    "control_success": 700,
+    "treatment_n": 1000,
+    "treatment_success": 760,
+    "assignment": "random; intent-to-treat; no missing outcomes"
+  },
+  "observational": {
+    "exposed_n": 1000,
+    "exposed_success": 760,
+    "unexposed_n": 1000,
+    "unexposed_success": 700,
+    "assignment": "users choose offer; baseline risk unmeasured"
+  }
+}
