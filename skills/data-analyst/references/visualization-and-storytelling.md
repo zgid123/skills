@@ -11,17 +11,22 @@ Inspect the rendered output rather than relying only on its code or proposed lay
 
 ## Chart Selection by Analytical Objective
 
-Select visualizations strictly based on the primary analytical relationship to be communicated:
+Choose charts, tables or prose according to the comparison readers need to make, before selecting a reusable component. The options below are examples, not mandatory encodings. Repeated chart types are appropriate for similar comparisons; require no minimum chart count, style diversity, interaction or one chart per finding. Tables can expose precise paired values and prose can suffice for a simple bounded answer.
 
 | Analytical Relationship | Recommended Chart | Sub-Type / Usage | Anti-Pattern to Avoid |
 |---|---|---|---|
 | **Comparison (Categorical)** | Horizontal or Vertical Bar Chart | Sorted descending by value for easy ranking | Truncating value axis; 3D bars |
+| **Matched Change** | Paired dots, slope chart or aligned table | Same units/segments across comparable periods; show absolute or relative change as appropriate | Composition-only bars that hide paired movement |
+| **Heterogeneity** | Aligned small multiples, distributions or subgroup table | Compare within-group patterns alongside aggregate results | Aggregate average presented as describing every group |
+| **Sensitivity** | Aligned baseline/alternative estimates, interval plot or comparison table | Raw versus standardized estimates, weighting or assumption variants; label populations | Isolated adjusted number or dense callout hiding a changed conclusion |
 | **Trend Over Time** | Continuous Line Chart | Time on X-axis; multiple lines with direct labels | Non-uniform time steps; overcrowded spaghetti charts |
 | **Distribution Profiling** | Histogram / Box Plot | Histogram for shape/modality; box plot for quantiles | Relying solely on arithmetic mean |
 | **Correlation & Relationship** | Scatter Plot | Continuous X and Y variables; optional trendline | Forcing linear fit on non-linear or clustered data |
 | **Composition (Part-to-Whole)** | Stacked Bar Chart / 100% Bar | Shows proportion across a small number of categories | High-slice pie charts where small wedges cannot be reliably compared |
 | **Multi-Dimensional Matrix** | Heatmap | Two discrete dimensions with color intensity for metric | Rainbow palettes without perceptual order |
 | **Funnel & Sequential Stages** | Funnel / Horizontal Bar Flow | Displays absolute drop-off between ordered steps | Disconnected pie slices |
+
+A 100% stacked bar answers a composition question; it can hide timing, absolute magnitudes, matched-period changes and sensitivity. Reuse it where shares are the intended comparison, not because it is the available component. Preserve consequential follow-up in the reading flow using the [coverage and reader-task review](./dashboards-and-bi.md), with relevant denominators, exclusions and filter scope beside the evidence.
 
 ## Visual Design and Integrity Principles
 

@@ -306,6 +306,97 @@
         "Distinguishes correct code condition from invalid recorded evidence; does not accept ledger PASS.",
         "Recomputes three distinct users and five response rows, and logs actual population, quantity and condition consistently."
       ]
+    },
+    {
+      "id": 24,
+      "name": "raw-markdown-only-findings",
+      "split": "development",
+      "prompt": "Review a delivery packet for a required browser dashboard covering three priority questions: what changed in revenue, whether the change holds within customer tiers, and whether composition explains the aggregate. The numerical audit independently passed: revenue 18000 to 13200, AOV 180 to 132, each tier's AOV rises 10%, and premium share falls 80% to 20%. The browser/controls audit passed. The dashboard shows revenue and aggregate AOV only; its Evidence link downloads analysis.md as raw Markdown, where all within-tier and composition evidence appears. No rendered report exists. The author claims fully complete delivery because calculations and filters pass. Assess this claim using the packet, map missing reader-facing coverage, and prescribe the smallest repair. The actual artifacts are unavailable in this task; distinguish packet evidence from direct inspection.",
+      "expected_output": "Acknowledge correct analysis and functioning controls while rejecting complete browser delivery: two priority comparisons remain only in raw Markdown. Identify missing locations and a minimal readable comparison or rendered-report repair. Direct artifact inspection remains unverified.",
+      "files": [],
+      "expectations": [
+        "Separately judge numerical correctness/functionality, analytical coverage and presentation; analysis may be complete while delivery is partial.",
+        "Map the three questions to findings, comparisons, presentation choices and known or missing locations; flag raw supporting-file-only evidence.",
+        "Require readable within-tier/composition evidence, not merely renaming a Markdown link; do not invent browser inspection or actual user testing."
+      ]
+    },
+    {
+      "id": 25,
+      "name": "template-obscures-comparisons",
+      "split": "development",
+      "prompt": "Audit this substantial dashboard design before implementation. Priority findings are: category shares shift from 60/40 to 40/60; matched branches change from [10,20,30] to [15,18,45] units; exit counts by week are [2,18,3,1]; the raw group gap is +12 percentage points but standardizing to a common mix gives +1 point; weighting alternatives give gaps +12, +5, +1. The proposed reusable component renders every result as a 100% stacked horizontal bar and relegates raw/standardized and weighting results to dense prose. Choose presentations that let readers assess each comparison. Do not build an app. Explain which component reuse is appropriate and which hides the finding.",
+      "expected_output": "Internal coverage map and purpose-based presentation choices distinguish composition, matched change, timing and sensitivity. Keep appropriate share bars and expose consequential comparisons in aligned charts or tables without requiring chart diversity.",
+      "files": [],
+      "expectations": [
+        "Match presentation to composition, change/timing and sensitivity; explain why normalized bars hide absolute or paired differences.",
+        "Expose raw/standardized and weighting comparisons, rather than an isolated adjusted number; request missing population/denominator/period metadata without inventing it.",
+        "No minimum chart count, forced interaction, one-chart-per-finding rule, framework or arbitrary chart-style quota."
+      ]
+    },
+    {
+      "id": 26,
+      "name": "appropriate-chart-reuse",
+      "split": "development",
+      "prompt": "Review a substantial static report with four priority questions, each comparing the shares of the same three service outcomes across regions. The supplied review record locates answers, three-category 100% stacked bars, adjacent counts/denominators, period, labels, selection limitations and methods links at sections North, South, East and West. Counts reconcile and the same eligible population definition applies in every section. No timing, matched change or sensitivity claim is made. A reviewer rejects it solely because all four charts use one type and there are no controls. Is that rejection justified? Use only the supplied record and state what has not been directly inspected.",
+      "expected_output": "Reject chart-diversity and interaction requirements. Shared composition encoding is appropriate; assess coverage and reader-task evidence proportionately, distinguish supplied record from direct inspection.",
+      "files": [],
+      "expectations": [
+        "Accept repeated 100% bars for comparable composition questions; do not demand different styles or filters.",
+        "Use specific section locations and supplied denominator/period/limitation/detail evidence to assess adequacy.",
+        "Do not fabricate independent rendering, user testing or additional findings."
+      ]
+    },
+    {
+      "id": 27,
+      "name": "focused-single-table",
+      "split": "development",
+      "prompt": "Answer this focused question for a manager: how did full-population completed orders change between August and September 2026? The verified counts are 80 and 100; both months use the same eligibility rule, include all completed orders, and contain no missing days. Give a compact table and one sentence. No application or report package is requested.",
+      "expected_output": "One compact table shows 80, 100 and +20 (+25%), with periods/population and a brief calculation. No dashboard, additional charts, artificial uncertainty or extensive review checklist.",
+      "files": [],
+      "expectations": [
+        "Correctly compute +20 orders and +25% versus August.",
+        "One table and concise explanation suffice; no HTML, interaction or chart-diversity requirement.",
+        "State relevant population/period with a proportionate check, without inventing causal explanations."
+      ]
+    },
+    {
+      "id": 28,
+      "name": "rendered-report-progressive-disclosure",
+      "split": "development",
+      "prompt": "Assess this delivery packet against a contract requiring a browser dashboard and linked readable report. The dashboard summary answers the three priority questions (aggregate change, within-tier change, composition) and shows a month/tier comparison table, denominators and period. Its labeled Mix explanation link opens report.html#mix with aligned raw and standardized estimates, common-support exclusions, scope and limitations. report.html#methods has definitions and quality checks. CSV, code and full logs remain downloads. The supplied reviewer record lists inspected locations dashboard#change, dashboard#tiers, report.html#mix and report.html#methods and records successful answer/comparison/population/denominator/period/limitation/detail tasks for each question; numerical and browser checks also passed. Evaluate whether every supporting artifact must be embedded. Base conclusions on the supplied record; actual files are unavailable.",
+      "expected_output": "Coverage is adequate on the supplied evidence: both required roles are met with readable consequential comparisons and progressive disclosure. Raw downloads need not all be rendered; no invented direct inspection.",
+      "files": [],
+      "expectations": [
+        "Map priority findings and comparisons to the documented dashboard/report locations and assess each required artifact against its role.",
+        "Accept linked rendered-report evidence and supporting downloads without requiring every CSV, script or log to be embedded.",
+        "Keep numerical, analytical and presentation judgments separate and identify supplied versus directly observed verification."
+      ]
+    },
+    {
+      "id": 29,
+      "name": "consequential-sensitivity-callout",
+      "split": "development",
+      "prompt": "Review a required browser dashboard plus report whose headline is \"Group A performs much better.\" Verified full-population rates are A 72/100 and B 60/100. A sensitivity calculation standardizes both groups to a common mix and estimates a +1 percentage point gap on common support (A 80 and B 75 observations retained). The dashboard has only raw-rate bars and a dense footnote saying \"adjusted gap 1pp\". Its filter says \"All records\" without explaining that the adjusted calculation excludes records and stays fixed when filters change. The rendered report clearly shows the complete comparison, but the dashboard's contracted role includes explaining whether the headline is robust. Does this delivery pass? Identify the minimum dashboard changes and review tasks. Use the described packet, without claiming direct inspection.",
+      "expected_output": "Analysis can be numerically valid but dashboard delivery is incomplete. Revise headline, make baseline-versus-standardized evidence assessable with population/exclusions/filter scope, and provide a clear route to report detail. Strong report cannot compensate for omitted dashboard robustness explanation.",
+      "files": [],
+      "expectations": [
+        "Expose +12pp raw versus +1pp standardized comparison; distinguish 100/100 original populations from 80/75 retained and do not invent standardized event counts.",
+        "Reject dense footnote and report-only robustness explanation as sufficient for this dashboard contract; fix headline and fixed-reference/filter-scope labeling.",
+        "Specify answer/comparison/population/denominator/period/limitation/detail tasks and missing metadata, and distinguish analysis completion from delivery completion."
+      ]
+    },
+    {
+      "id": 30,
+      "name": "explicit-markdown-only",
+      "split": "development",
+      "prompt": "Deliver a Markdown-only report in your response; do not create HTML or a dashboard. Compare two complete-month service cohorts: August 2026 completed 60 of 100 eligible cases, September completed 75 of 100. Both are full-population snapshots under unchanged eligibility; no case-mix fields or causal design are available. Explain the change, denominator, period and principal limitation in a readable table and brief prose.",
+      "expected_output": "Readable Markdown table and concise interpretation: 60% to 75%, +15pp (+25% relative); causal and composition explanations unsupported. Respect format and avoid HTML or a browser-delivery failure solely for Markdown.",
+      "files": [],
+      "expectations": [
+        "Honor explicit Markdown-only format without adding rendered-report or HTML requirements.",
+        "Correct comparison, eligible denominator and periods are readable in the requested report.",
+        "Give proportionate numerical verification and main limitation; no forced app, interaction or unsupported causality."
+      ]
     }
   ]
 }

@@ -197,7 +197,8 @@ Execute the chosen analytical approach to answer the question.
 2. Compare relevant segments and time periods; quantify uncertainty and practical effect size when material; inspect alternative explanations.
 3. Preserve calculations and result tables. Create candidate visuals and separate facts, observations, insights, hypotheses, conclusions, recommendations, and limitations.
 4. For material initial findings, execute justified follow-up to discriminate plausible alternatives or quantify heterogeneity; record observation → reason for follow-up → executed result → changed interpretation. Distinguish planned analyses from exploratory discoveries and account for multiplicity where material. A proposed follow-up list is not executed investigation.
-5. Follow [investigation and synthesis](../references/investigation-and-synthesis.md): stop when priority questions are answered or concretely blocked and additional feasible work is unlikely to change the scoped answer. Explain exceptions and blockers.
+5. For substantial visual artifacts, read [Dashboards and BI](../references/dashboards-and-bi.md) and [Visualization and storytelling](../references/visualization-and-storytelling.md). Map priority questions → material findings → supporting comparisons → presentation choices → reader-facing locations, retaining consequential follow-up. Maintain this internal review evidence through delivery.
+6. Follow [investigation and synthesis](../references/investigation-and-synthesis.md): stop when priority questions are answered or concretely blocked and additional feasible work is unlikely to change the scoped answer. Explain exceptions and blockers.
 
 ### Expected Output
 
@@ -227,12 +228,12 @@ Validate analytical correctness and usefulness before delivery.
 
 1. Compare results with the original question, intended use, and predeclared analytical success criteria. Check assumptions, leakage, alternative explanations, and causal language as relevant.
 2. Independently recompute decision-critical metrics when practical; reconcile displayed values and candidate visual encodings with verified results.
-3. Apply [the analytical quality rubric](../references/analytical-quality.md) separately to technical correctness, analytical adequacy and communication/usability. Check each material question and criterion against specific evidence; numerical reconciliation and working controls cannot establish usefulness.
+3. Apply [the analytical quality rubric](../references/analytical-quality.md) separately to technical correctness, analytical adequacy and communication/usability. Check each material question and criterion against specific evidence. Use the coverage map and dashboard reader-task review to inspect answer, comparison, population/denominator/period, limitation and supporting-detail access; record locations and failures. Numerical reconciliation, screenshots and working controls cannot establish communication quality.
 4. Return failed checks to the earliest corrective stage and record the correction and rerun evidence. If blocked, limit affected conclusions and explicitly deliver partial analysis, feasibility assessment or unverified work. Do not mark missing work complete by adding caveats.
 
 ### Expected Output
 
-A verification ledger, limitations, and a decision on whether results are ready for delivery.
+A verification ledger and coverage review, limitations, separate numerical/functionality, analytical coverage and presentation judgments, and distinct analysis and delivery readiness decisions.
 
 ### Verification Gate
 
@@ -255,7 +256,7 @@ Make the validated analysis accessible in a usable visual artifact.
 
 1. Build the agreed report, dashboard or smaller visual result. Use accessible existing BI/project tooling; otherwise deliver portable HTML for a dashboard.
 2. Organize substantial delivery around priority questions and findings supported by relevant comparisons, distributions or trends, definitions and limitations. Keep extended methodology available without letting it replace findings. Choose encodings for the actual analytical relationship; add interactions only when they serve the question.
-3. Open and inspect the artifact; reconcile visible values, exercise filters and empty states, and check readability. Record checks that could not be executed.
+3. Open and inspect each required artifact; reconcile visible values, exercise applicable filters and empty states, and complete the reader-task walkthrough through the documented interface. For browser delivery, essential evidence must be readable in the dashboard or linked rendered report; raw Markdown/CSV/code downloads do not suffice. Respect explicit alternative formats. Record locations inspected, failures and checks that could not be executed; do not call a reviewer walkthrough actual user testing.
 4. Provide the artifact link or path, supporting result tables, queries/scripts, and opening and refresh instructions. Local delivery is sufficient unless hosting is requested. Label snapshots and illustrative prototypes accurately.
 
 ### Expected Output
@@ -264,7 +265,7 @@ An accessible visual artifact and reproducible analytical handoff.
 
 ### Verification Gate
 
-The artifact exists and renders, applicable interactions work, displayed values match verified analysis, and access and refresh instructions are clear. Unperformed checks remain NOT VERIFIED.
+Each required artifact meets its agreed role, renders where applicable, and exposes essential findings and consequential follow-up through inspected reading paths. Applicable interactions work, displayed values reconcile, and access/refresh instructions are clear. Material presentation gaps block complete delivery even when analysis is complete; a strong report cannot offset material dashboard omissions. Unperformed checks remain NOT VERIFIED.
 
 ### References
 

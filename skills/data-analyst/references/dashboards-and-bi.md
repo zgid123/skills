@@ -15,14 +15,39 @@ When the delivery contract calls for a dashboard, create one the stakeholder can
 4. For focused questions, use a chart, visual report, or compact result table instead. Respect explicit output constraints such as SQL-only requests.
 5. If evidence is unavailable, state what is blocked and supply a clearly labeled specification or illustrative prototype when useful. Keep sample data visibly distinct from measured results and never claim that an unexecuted query or prototype is verified.
 
+### Finding-to-Interface Coverage
+
+For substantial visual deliverables, maintain a compact internal review map; it need not appear on the dashboard:
+
+| Priority question | Material finding | Supporting comparison | Presentation choice and rationale | Reader-facing location |
+|---|---|---|---|---|
+| Question from the brief | Supported answer, including consequential follow-up | Evidence needed to assess the conclusion | Chart, table or prose suited to the comparison | Page/section, view/filter state, or linked rendered-report anchor |
+
+Update the map when sensitivity or subgroup evidence materially changes interpretation. Flag important findings available only in supporting files, missing comparisons and uninspected locations; these are gaps to resolve or disclose as incomplete delivery. A shared view can support several findings, and one finding can need several comparisons. This is a coverage check, not a chart quota. Choose presentation using [Visualization and storytelling](./visualization-and-storytelling.md); existing components and fixed templates must not dictate the analytical comparison.
+
+### Readable Browser Delivery
+
+When browser delivery is required, essential findings, explanations, denominators and limitations must be readable in the dashboard or a linked rendered report. Raw Markdown, CSV, code and logs are supporting downloads; their existence or links do not establish readable delivery. Respect an explicit Markdown-only or other format request instead.
+
+Use progressive disclosure for methods, definitions, quality checks and detailed evidence through labeled sections, expandable details or rendered-report links. Do not embed or render every supporting artifact. If both dashboard and report are required, define each artifact's role and inspect both: a strong report cannot compensate for material dashboard omissions. A dashboard may summarize a consequential result and link to its readable comparison, but cannot omit that result entirely when it belongs to its agreed role.
+
+When sensitivity or subgroup comparisons alter a headline, expose enough of the baseline and alternative evidence to assess the change. An isolated adjusted number or dense callout is insufficient when readers need the underlying comparison. Keep changed populations, common-support exclusions and filter scope visible where they affect interpretation; label fixed reference populations when they do not follow global filters.
+
 ### Minimum Analytical Content
 
 Include the headline metrics and relevant comparisons, trends or breakdowns, a concise interpretation, limitations, metric definitions, units, period, source, and freshness. Show uncertainty where material. Provide supporting result tables and reproducible queries or scripts alongside the artifact, with a verification ledger or a link to it. Choose content to serve the question rather than filling a fixed number of cards.
 
 Use the same verified calculations for the dashboard and supporting analysis. Recompute rates from the correct numerator and denominator after filtering; do not average displayed percentages unless that is the defined estimand. Distinguish zero, missing, and undefined values visibly. Do not connect a line across missing periods in a way that implies observed data.
 
+### Reader-Task Review
+
+Alongside numerical and browser checks, use the coverage map to inspect each priority question through the documented interface. Verify that a reader can locate the answer, inspect its supporting comparison, identify the population, denominator and relevant period, understand the main limitation, and reach supporting detail. Record the actual page/section, link path and relevant view/filter state inspected, observed result, failures and corrections in the existing review ledger or coverage map; do not create a duplicate checklist.
+
+Rendering, screenshots, functioning controls and self-reported usability do not establish analytical communication quality. Inspect what the displayed evidence lets a reader conclude. Call this a reviewer walkthrough; claim actual user testing only if users performed the tasks and their observations were recorded. Unperformed task checks remain NOT VERIFIED. Apply proportionately: one chart or table with a brief explanation can fully answer a focused question.
+
 ### Artifact Verification and Handoff
 
+- Complete the reader-task review above and record separate numerical/functionality, analytical coverage and presentation judgments. Material presentation gaps block a fully complete delivery claim even if calculations and controls pass.
 - Open the delivered artifact using an available browser or the target BI tool. Inspect labels, units, legends, readable layout at the intended screen size, and visible limitations. If render inspection is unavailable, mark it **NOT VERIFIED**.
 - Reconcile displayed metrics, chart series, and supporting tables against verified calculations. Check default and representative filtered views, reset behavior, and empty selections when interactions exist.
 - Confirm that filtering applies consistently across related cards and charts, preserves grain and denominator definitions, and does not turn undefined values into zero.
@@ -57,7 +82,7 @@ Organize views around the questions and comparisons that support the intended us
 - Avoid creating dozens of granular multi-select dropdowns that confuse non-technical users and trigger massive unindexed database queries.
 
 ### 3. Drill-Down and Progressive Disclosure
-- Allow users to click on high-level chart elements to drill into underlying granular dimensions (e.g., clicking on a regional drop in revenue opens a sub-view filtered to that specific region's product mix).
+- When useful, allow users to click on high-level chart elements to drill into underlying granular dimensions (e.g., clicking on a regional drop in revenue opens a sub-view filtered to that specific region's product mix).
 - Keep initial views simple; hide secondary technical attributes behind click-to-expand details.
 
 ### 4. Data Freshness, Latency, and SLAs
