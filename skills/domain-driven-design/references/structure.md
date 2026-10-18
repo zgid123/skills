@@ -2,7 +2,7 @@
 
 Follow the existing project structure first. DDD defines logical boundaries; the physical structure can vary by language, framework, and package manager.
 
-Use these logical layers unless a project has a stronger convention:
+Use these logical layers unless a project has a stronger convention. This tree describes responsibilities, not a requirement to co-locate every layer. For a modular monolith, follow [Modular Monolith Structure](./large-monolith.md); TypeScript monorepos may place the domain in a workspace package:
 
 ```txt
 <bounded-context>/
@@ -38,7 +38,7 @@ Put these in `domain/`:
 
 - `entities/` - entities and aggregate roots with identity and behavior.
 - `errors/` - domain-specific errors for invalid business operations.
-- `services/` - domain services for business behavior that does not naturally belong to one entity.
+- `services/` - domain services for business behavior that does not naturally belong to one entity, and domain capability contracts such as `IUserProvisioner` whose concrete implementation belongs in infrastructure.
 - `repositories/` - repository contracts used to load and persist domain objects.
 
 ## Application
@@ -50,7 +50,7 @@ Put these in `application/`:
 - `commands/` - write use cases that change system state.
 - `queries/` - read use cases that return data without changing system state.
 
-Application code may call domain behavior, repositories, and infrastructure ports. Keep it focused on orchestration: validate input shape, load domain objects, execute behavior, persist results, and return output.
+Application code may call domain behavior and injected repository or service contracts. Keep it focused on orchestration: validate input shape, load domain objects, execute behavior, persist results, and return output.
 
 In TypeScript projects, commands and queries must use `@cqrsx/core`. Command classes extend `Command`, query classes extend `Query<TResult>`, and handlers implement `ICommandHandler` or `IQueryHandler`. Keep each command/query and its handler in the same file, following `skills/cqrs/SKILL.md`.
 
@@ -70,7 +70,7 @@ Organize infrastructure by concrete technology when a bounded context uses multi
 ```txt
 infrastructure/
   drizzle/
-    schema/
+    schemas/
     migrations/
     instance.ts
     repositories/
@@ -87,6 +87,8 @@ infrastructure/
     repositories/
       TokenRepository.ts
 ```
+
+In a modular monolith, business schemas, repositories, and seed implementations belong to module infrastructure. Root infrastructure composes module schemas into shared clients, owns the shared migration history, and delegates seed execution. Do not interpret the single-context tree above as a reason to move module-owned schemas or seed data to the root.
 
 Avoid a generic `orm/` folder when the project uses multiple persistence technologies. Name the folder after the actual tool or service so ownership stays obvious.
 
@@ -193,5 +195,7 @@ adapters
 infrastructure
   -> domain/application contracts
 ```
+
+Composition roots are allowed to import concrete infrastructure to construct and inject dependencies; this does not permit handlers or domain objects to import those implementations.
 
 Keep dependencies pointing inward toward the domain. Use interfaces or contracts when application code needs persistence or external capabilities.

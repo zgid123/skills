@@ -1,6 +1,6 @@
 ---
 name: domain-driven-design
-description: Alpha's Domain-Driven Design guidance. Always use when modeling business domains, defining bounded contexts, entities (*Entity.ts), value objects (*ValueObject.ts), domain errors (*Error.ts), repository contracts (I*Repository.ts), domain services, application commands/queries, adapters, or TypeScript monorepo domain packages. Enforces business rule protection, clean layer separation, and dependency direction.
+description: Alpha's Domain-Driven Design guidance. Always use when modeling business domains, defining bounded contexts, entities (*Entity.ts), value objects (*ValueObject.ts), domain errors (*Error.ts), repository contracts (I*Repository.ts), domain services, application commands/queries, adapters, modular monolith structure, or TypeScript monorepo domain packages. Enforces business rule protection, clean layer separation, and dependency direction.
 ---
 
 # Domain-Driven Design
@@ -40,6 +40,12 @@ Avoid heavy DDD when:
 - Prefer explicit state transitions over scattered conditionals.
 - In TypeScript projects, create application commands and queries with `@cqrsx/core`; read `skills/cqrs/SKILL.md` before implementing them.
 
+## Monolith Structure
+
+For a modular monolith, read [Modular Monolith Structure](./references/large-monolith.md) before deciding file placement or wiring. Modules own business-specific application code, infrastructure (including schemas and seeds), and adapters. Root adapters compose routes and wiring; root infrastructure owns shared clients, schema composition, migrations, and seed orchestration.
+
+In a TypeScript monorepo, keep domain code in `packages/@domain/<context>` and shared API schemas/view models in `packages/@contracts/<context>` when following that package convention. Do not add a second module-local domain layer. Use explicit module wiring with the shared `@cqrsx/core` bus, and keep concrete implementations out of application handlers.
+
 ## Naming
 
 Prefer names that describe business actions:
@@ -74,7 +80,7 @@ If the answers are weak, keep the design simpler.
 
 - [File Naming](./references/naming.md) - naming rules for entities, repository contracts, commands, queries, and infrastructure implementations.
 - [Logical Structure and Layers](./references/structure.md) - bounded context layout, layer responsibilities, adapters, infrastructure, and dependency direction.
-- [Large Monolith Structure](./references/large-monolith.md) - `modules/<domain>` layout with root-level adapters and infrastructure for projects with many business domains.
+- [Modular Monolith Structure](./references/large-monolith.md) - module ownership, root composition, schemas/seeds, endpoint grouping, and explicit wiring for one deployable server.
 - [TypeScript Monorepo Domains](./references/typescript-monorepo.md) - local domain packages, package exports, workspace dependencies, and app-layer wiring.
 - [Testing Domain Behavior](./references/testing.md) - focused tests for transitions, invariants, domain errors, value objects, and business edge cases.
 - [CQRS](../cqrs/SKILL.md) - required TypeScript command/query/event primitives and handler co-location rules using `@cqrsx/core`.

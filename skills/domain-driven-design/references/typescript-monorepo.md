@@ -1,6 +1,6 @@
 # TypeScript Monorepo Domains
 
-For TypeScript monorepos, keep the domain in a local package so it can stay framework-free and be reused by apps, workers, tests, and adapters.
+For TypeScript monorepos, keep the domain in a local package so it can stay framework-free and be reused by apps, workers, tests, and adapters. The examples use `apps/<app-name>` as a placeholder, not a required directory convention. Follow the repository layout, such as `workspaces/<project-name>` for monorepo applications or `services/<project-name>` for microservices; neither the parent directory nor the application name is prescribed by DDD. Read [Modular Monolith Structure](./large-monolith.md) for root composition and module ownership.
 
 Use this layout when creating a new TypeScript bounded context:
 
@@ -9,6 +9,7 @@ packages/
   @domain/
     <business-domain>/
       src/
+        constants/
         entities/
         errors/
         services/
@@ -26,6 +27,8 @@ apps/
             queries/
           infrastructure/
             drizzle/
+              schemas/
+              seeds/
               repositories/
             mongoose/
               repositories/
@@ -34,6 +37,8 @@ apps/
             security/
           adapters/
             restful/
+              context.ts
+              wire.ts
               hono/
                 internal/
                 public/
@@ -43,11 +48,29 @@ apps/
             grpc/
 ```
 
+Shared API contracts live alongside domain packages when multiple applications consume them:
+
+```txt
+packages/
+  @contracts/
+    <business-domain>/
+      src/
+        schemas/
+          internal/
+          public/
+        viewModels/
+          internal/
+        errors/
+        index.ts
+```
+
+Use contracts for transport validation and response view models, with visibility/version organization as the API requires. Adapters consume those schemas and serialize application results; domain entities do not depend on the API contracts package. Keep business validation and transitions in the domain even when a request schema validates input shape. A query may return domain entities when appropriate; the adapter still controls what is exposed through the response view model.
+
 Rules for TypeScript monorepos:
 
 - The domain package must not import from apps, adapters, infrastructure, ORM libraries, HTTP frameworks, GraphQL libraries, or environment configuration.
-- Export only intentional domain APIs from the domain package entrypoint.
-- Keep repository contracts in the domain package when they are part of the domain boundary.
+- Export only intentional domain APIs from the domain package entrypoint. Declare subpath exports such as `@domain/auth/constants` when error metadata is intentionally shared through the contracts package; do not expose internal implementation paths.
+- Keep repository and capability contracts in the domain package when they are part of the domain boundary, such as `IUserRepository` in `repositories/` and `IUserProvisioner` in `services/`.
 - Put concrete repository implementations in the app or infrastructure package that owns the persistence technology instance.
 - Application commands and queries may depend on the domain package, repository contracts, and `@cqrsx/core`.
 - Adapters call application commands and queries; they should not call ORM repositories directly.
@@ -92,26 +115,43 @@ Then declare it as a workspace dependency from the app or package that needs it:
 Application, infrastructure, and adapter code should import from the package entrypoint:
 
 ```ts
-import { Order, OrderRepository, OrderCannotBeCancelledError } from "@domain/orders";
+import { type IOrderRepository, OrderEntity, OrderError } from '@domain/orders';
 ```
 
 Do not import domain code through relative paths into `packages/`, and do not add `tsconfig` path aliases to fake package imports. The package manager workspace should link `@domain/orders` like any other dependency.
 
-Do not make the domain package depend on the app to solve wiring. Wiring belongs in the app layer:
+Do not make the domain package depend on the app to solve wiring. In the monolith, root `adapters/restful/wire.ts` calls module wiring functions using the shared bus and client. A module's `adapters/restful/wire.ts` constructs its repositories and registers handlers:
 
 ```ts
-import { Cqrsx } from '@cqrsx/core';
+import type { Cqrsx } from '@cqrsx/core';
+
+import type { TDrizzle } from '#/infrastructure/drizzle/config';
+
 import {
   CancelOrderCommand,
   CancelOrderCommandHandler,
-} from './application/commands/CancelOrderCommand';
-import { OrderRepository } from './infrastructure/drizzle/repositories/OrderRepository';
+} from '../../application/commands';
+import { OrderRepository } from '../../infrastructure/drizzle/repositories';
 
-const orderRepository = new OrderRepository(drizzle);
-const cqrsx = new Cqrsx().register(
-  CancelOrderCommand,
-  new CancelOrderCommandHandler(orderRepository),
-);
+export interface IWireOrdersParams {
+  readonly cqrsx: Cqrsx;
+  readonly drizzle: TDrizzle;
+}
+
+export function wireOrders({ cqrsx, drizzle }: IWireOrdersParams): void {
+  const orderRepository = new OrderRepository({
+    drizzle,
+  });
+
+  cqrsx.register(
+    CancelOrderCommand,
+    new CancelOrderCommandHandler({
+      orderRepository,
+    }),
+  );
+}
 ```
+
+Do not create a new bus inside each module or import infrastructure instances inside application handlers. Keep concrete dependencies at composition boundaries.
 
 For other languages, preserve the same dependency rules even if the physical layout differs. Use the language's normal module/package conventions instead of forcing the TypeScript monorepo layout.

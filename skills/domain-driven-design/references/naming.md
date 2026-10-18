@@ -4,6 +4,8 @@ These rules apply to all TypeScript projects that follow Alpha's DDD structure. 
 
 ## Domain Layer
 
+The examples use a local `domain/` folder. In a monorepo domain package, apply the same names under `packages/@domain/<context>/src/` instead.
+
 ### Entities
 
 Files in `domain/entities/` use the suffix `Entity`:
@@ -52,93 +54,53 @@ export interface IAuthRepository {
 Each domain concept gets one error class in its own **PascalCase** file. The file name matches the exported class name exactly.
 
 ```txt
-domain/
+packages/@domain/auth/src/
   errors/
-    UserError.ts
-    OrderError.ts
     AuthError.ts
-    constants/
-      userErrors.ts
-      orderErrors.ts
-      authErrors.ts
-      index.ts
+    UserError.ts
+    index.ts
+  constants/
+    authErrors.ts
+    userErrors.ts
     index.ts
 ```
 
-Error string constants (codes and names) live in `errors/constants/<domain>Errors.ts`. The `constants/` folder has its own `index.ts` barrel that re-exports all constant files. That barrel is consumed **only inside the `errors/` folder** — it must not be re-exported through `errors/index.ts`.
+Keep error codes, names, and message constants in `constants/<concept>Errors.ts`, alongside `errors/`. Error classes use the framework-free `ApplicationError` from `@domain/core`; do not import `HonoError` or HTTP framework libraries into the domain package.
 
 ```ts
-// ✅ domain/errors/constants/authErrors.ts
-export const UNAUTHORIZED_CODE = 1000;
-export const UNAUTHORIZED_NAME = 'Unauthorized';
-
-export const INVALID_CREDENTIALS_CODE = 1001;
-export const INVALID_CREDENTIALS_NAME = 'InvalidCredentials';
-
-export const EXPIRED_TOKEN_CODE = 1002;
-export const EXPIRED_TOKEN_NAME = 'ExpiredToken';
+// packages/@domain/auth/src/constants/authErrors.ts
+export const UNAUTHORIZED_CODE = 10_000;
+export const UNAUTHORIZED_NAME = 'UNAUTHORIZED';
+export const UNAUTHORIZED_MESSAGE = 'Unauthorized';
 ```
 
 ```ts
-// ✅ domain/errors/constants/index.ts — internal barrel, not re-exported outside errors/
-export * from './authErrors';
-export * from './userErrors';
-```
+// packages/@domain/auth/src/errors/AuthError.ts
+import { ApplicationError } from '@domain/core';
 
-```ts
-// ✅ domain/errors/AuthError.ts
-import { HonoError } from '@alphacifer/hono/core';
 import {
-  EXPIRED_TOKEN_CODE,
-  EXPIRED_TOKEN_NAME,
-  INVALID_CREDENTIALS_CODE,
-  INVALID_CREDENTIALS_NAME,
   UNAUTHORIZED_CODE,
+  UNAUTHORIZED_MESSAGE,
   UNAUTHORIZED_NAME,
-} from './constants';
+} from '../constants/authErrors';
 
-export class AuthError extends HonoError {
+export class AuthError extends ApplicationError {
   public static unauthorized(): AuthError {
     return new AuthError({
-      status: 401,
       code: UNAUTHORIZED_CODE,
       name: UNAUTHORIZED_NAME,
-      message: 'Unauthorized',
-    });
-  }
-
-  public static invalidCredentials(): AuthError {
-    return new AuthError({
-      status: 401,
-      code: INVALID_CREDENTIALS_CODE,
-      name: INVALID_CREDENTIALS_NAME,
-      message: 'Invalid credentials',
-    });
-  }
-
-  public static tokenExpired(): AuthError {
-    return new AuthError({
-      status: 401,
-      code: EXPIRED_TOKEN_CODE,
-      name: EXPIRED_TOKEN_NAME,
-      message: 'Token expired',
+      message: UNAUTHORIZED_MESSAGE,
+      httpCode: 401,
     });
   }
 }
 ```
 
-```ts
-// ✅ domain/errors/index.ts — exports error classes only, never constants
-export * from './AuthError';
-export * from './UserError';
-```
+The reference project's framework-free base error carries `httpCode` metadata. Preserve that established contract without coupling errors to Hono; the transport error handler interprets it. Follow existing code ranges rather than assigning arbitrary new codes.
 
-```ts
-// ❌ authErrors.ts — camelCase implies a multi-export module, not a single class
-// ❌ AuthErrors.ts — plural implies multiple exports; use AuthError.ts for one class
-// ❌ auth-error.ts — kebab-case; use PascalCase matching the class name
-// ❌ Exporting constants through errors/index.ts — constants are internal to errors/
-```
+Keep `errors/index.ts` for error classes and `constants/index.ts` for constants. When clients need error metadata, expose an intentional package subpath such as `@domain/auth/constants` and re-export it through `@contracts/auth` rather than exporting server error implementations to clients. This replaces the older convention that restricted constants to `errors/constants/`.
+
+Use `AuthError.ts` for one error class, not `authErrors.ts`, `AuthErrors.ts`, or `auth-error.ts`.
 
 ### Value Objects
 
@@ -216,7 +178,7 @@ export class AuthRepository implements IAuthRepository { ... }
 
 ## Barrel Exports
 
-Add an `index.ts` barrel at the **content folder level** — the leaf directories that hold the actual files. Do not add a barrel at the layer level (`domain/`, `application/`, `infrastructure/`).
+Add an `index.ts` barrel at the **content folder level** — the leaf directories that hold the actual files. Do not add a barrel at the app-local layer level (`domain/`, `application/`, `infrastructure/`). A workspace package entrypoint such as `packages/@domain/auth/src/index.ts` is an intentional public API and is required when the package exports it; it is not an app-local layer barrel.
 
 ```txt
 domain/
@@ -274,7 +236,7 @@ import { CancelOrderCommand } from '#/application';
 | Entity | `domain/entities/` | `<Name>Entity.ts` | `OrderEntity.ts` |
 | Repository contract | `domain/repositories/` | `I<Name>Repository.ts` | `IOrderRepository.ts` |
 | Domain error class | `domain/errors/` | `<Name>Error.ts` | `UserError.ts` |
-| Domain error constants | `domain/errors/constants/` | `<domain>Errors.ts` | `authErrors.ts` |
+| Domain error constants | `domain/constants/` or domain package `src/constants/` | `<domain>Errors.ts` | `authErrors.ts` |
 | Value object | `domain/value-objects/` | `<Name>ValueObject.ts` | `EmailValueObject.ts` |
 | Command | `application/commands/` | `<Feature>Command.ts` | `CancelOrderCommand.ts` |
 | Query | `application/queries/` | `<Feature>Query.ts` | `ListOrdersQuery.ts` |

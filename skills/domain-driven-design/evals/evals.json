@@ -21,6 +21,48 @@
         "No aggregate or domain event is introduced without a current rule.",
         "The response follows existing project structure."
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "We have a Hono modular monolith in workspaces/server with auth already under src/modules/auth, domain packages under packages/@domain, and API contracts under packages/@contracts. Add an orders module with persisted orders, a seed, an internal endpoint, and a public v1 endpoint. Describe the file placement and root registration changes without implementing unrelated features.",
+      "expected_output": "Keep domain code and API contracts in workspace packages; place orders application, adapters, schemas, repositories, and business seeds inside the server module. Compose wiring, endpoints, database schemas, migrations, and seed execution at root.",
+      "files": [],
+      "expectations": [
+        "Domain code belongs in packages/@domain/orders, without a duplicate src/modules/orders/domain folder.",
+        "Shared validation schemas and response view models belong in packages/@contracts/orders.",
+        "Business schemas, repositories, and seed data belong under src/modules/orders/infrastructure/drizzle.",
+        "Root Drizzle configuration composes the orders schemas and generation locations; generated migrations remain in src/infrastructure/drizzle/migrations.",
+        "Root seed orchestration delegates to the orders seed entrypoint.",
+        "Module routes live in adapters/restful/hono/internal and public/v1; root endpoints/internal.ts and endpoints/v1.ts mount them.",
+        "The design remains one deployable server and adds no speculative technology or empty layer scaffolding."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "In our Hono monolith, CreateUserCommand needs Better Auth to provision a user. Auth infrastructure is module-owned, while the database client and CQRS bus are shared. Show how to connect the handler, provisioner, module wiring, and root wiring. Public auth routes must remain accessible without a session.",
+      "expected_output": "Inject a domain capability contract into the handler, implement it in module Better Auth infrastructure, and register the handler through module wiring called by root wiring with the shared bus. Preserve middleware scope and registration order.",
+      "files": [],
+      "expectations": [
+        "The handler depends on IUserProvisioner from @domain/auth and does not import a Better Auth singleton or write provider-owned credential tables.",
+        "UserProvisioner and Better Auth setup stay in modules/auth/infrastructure/betterAuth.",
+        "Module adapters/restful/wire.ts constructs the provisioner and registers the command and co-located handler on the provided CQRS bus.",
+        "Root adapters/restful/wire.ts calls module wiring; the module does not construct a separate CQRS bus.",
+        "Handler registration happens once per app instance rather than during request handling.",
+        "Authenticated internal middleware does not unintentionally protect public auth routes."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Review this proposed auth domain package: errors/AuthError.ts extends HonoError, error constants are private inside errors/constants, and src/index.ts is removed because layer barrels are forbidden. Clients need shared error codes. Align the proposal with our monolith package convention.",
+      "expected_output": "Use the framework-free ApplicationError, sibling constants and errors folders, an intentional constants subpath consumed through contracts, and a public workspace package entrypoint.",
+      "files": [],
+      "expectations": [
+        "AuthError extends ApplicationError from @domain/core without importing a Hono library.",
+        "Error codes, names, and messages live under domain package src/constants with their own barrel.",
+        "Shared error metadata is exposed through an intentional @domain/auth/constants export and @contracts/auth, rather than exposing server error classes to clients.",
+        "The package keeps src/index.ts as its public entrypoint while avoiding unnecessary app-local layer barrels.",
+        "The established httpCode metadata is preserved and interpreted at the transport boundary."
+      ]
     }
   ]
 }
