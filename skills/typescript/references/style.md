@@ -13,12 +13,149 @@ description: Naming and formatting guidelines for Alpha's TypeScript projects
 - Prefer `const` over `let`.
 - Define private class fields and methods with ECMAScript `#private` syntax instead of the TypeScript `private` keyword.
 - Prefer early returns and guard clauses to reduce nesting.
-- Conditions must always use block braces `{}`; do not use single-statement form without braces.
+- Write every `if`, `else if`, and `else` body as a multiline block with braces `{}`, even when it contains only one call, assignment, or early return. Apply this inside callbacks and nested functions as well. Braces keep control flow explicit and make later edits safer; the surrounding function's braces do not satisfy this rule.
 - Format objects with one property per line and a trailing comma after the last property.
-- When passing an object parameter to a function, always put it on multiple lines, even with one property. Put each property on its own line, include a trailing comma, and sort properties by key length from shortest to longest.
-- In callbacks, use a concise arrow return only when the return value is a **single, simple expression** (e.g., accessing a property or calling one function). When the return value is an object literal or requires any multi-step mapping, always use a block body with `return`.
+- When passing an object parameter to a function, always put it on multiple lines, even with one property. Put each property on its own line, include a trailing comma, and follow the semantic property ordering below.
+- Use concise arrow bodies only for single, simple expressions whose entire containing statement stays comfortably short within the project's configured line width. Use a block body with an explicit `return` for object or array literals, multiline expressions, and complex transformations. Apply this to all arrow functions, including callbacks; see [Arrow Function Returns](#arrow-function-returns).
 - Use `_` as a numeric separator for numbers with four or more digits (`1_000`, `10_000`, `100_000`).
 - **Destructure function parameters** at the first level in the function signature. Do not destructure nested properties (level 2+) in the signature; handle nested destructuring inside the function body. If the entire parameter object is needed for other calls, destructure its properties inside the function body instead of the signature.
+
+## Arrow Function Returns
+
+Use an implicit return only when the arrow body is both simple and short. If it is complex or too long, use a block body with an explicit `return`. Both forms are arrow functions; the choice is whether to return implicitly or explicitly.
+
+Keep concise arrows for expressions readers can understand at a glance. Returning a constructed object or array, nesting transformations, or spreading an expression over multiple lines warrants a block body with an explicit `return`, even when TypeScript considers it a single expression. Do not compress a complex expression onto one line to avoid this rule. Judge length using the entire containing statement, including indentation, the variable declaration, collection name, callback parameters, and surrounding call syntax—not just the returned expression. Even a straightforward function call needs a block body with `return` when that line becomes long or cramped. Use the project's configured line width as an upper bound, not a target; prefer a block body earlier when it improves readability, and when in doubt choose the explicit return. Do not merely wrap an implicit arrow body in parentheses or move it to another line to address length. Preserve the returned value when converting an implicit return to a block body.
+
+```ts
+// ✅ Short, simple expressions can stay concise
+const ids = products.map((product) => product.id);
+const labels = names.map((name) => trim(name));
+
+// ✅ Use an explicit return when the containing statement feels long
+const names = namesToNormalize.map((name) => {
+  return normalizeName(name);
+});
+
+// ✅ Array construction uses a block body and explicit return
+const messageFiles = ['en.json', 'vi.json'].flatMap((locale) => {
+  return [
+    resolve(sharedMessagesDirectory, locale),
+    resolve(localMessagesDirectory, locale),
+  ];
+});
+```
+
+```ts
+// ❌ A multiline array return must not use a concise arrow body
+const messageFiles = ['en.json', 'vi.json'].flatMap((locale) => [
+  resolve(sharedMessagesDirectory, locale),
+  resolve(localMessagesDirectory, locale),
+]);
+```
+
+## Statement Spacing
+
+Use blank lines to separate control flow and asynchronous work from surrounding statements, including inside callbacks:
+
+- Insert a blank line before an `if` when another statement precedes it in the same block, and after the entire conditional chain when another statement follows it. Keep `} else if (...) {` and `} else {` connected; do not insert blank lines between branches.
+- Insert a blank line between an awaited statement and an adjacent non-awaited statement. This includes standalone `await` calls, assignments using `await`, declarations initialized with `await`, and `return await`.
+- Consecutive awaited statements may stay together without blank lines, including consecutive declarations initialized with `await`.
+- Do not add blank lines immediately after an opening block brace or immediately before a closing block brace solely to satisfy these rules. These rules separate statements; they do not add blank lines between properties inside interfaces, types, or object literals.
+
+```ts
+// ✅ Separate the lookup, guard clause, and subsequent statement
+const answers = testCase.answers.map((answer) => {
+  const question = seededQuestions[answer.questionNo - 1];
+
+  if (!question) {
+    throw new Error(`Question ${answer.questionNo} not found in seed`);
+  }
+
+  return {
+    questionId: String(question.id),
+    value: Math.round(answer.rawAnswer),
+  };
+});
+
+// ✅ Keep consecutive awaits together, separated from synchronous statements
+const before = 424;
+
+await doSomething();
+await doSomethingElse();
+
+const after = 123;
+
+// ✅ Awaited declarations form an asynchronous group too
+const user = await loadUser();
+const settings = await loadSettings();
+
+useSettings(settings);
+```
+
+```ts
+// ❌ Missing a blank line before the conditional
+const question = seededQuestions[answer.questionNo - 1];
+if (!question) {
+  throw new Error('Question not found');
+}
+
+// ❌ Missing a blank line after the conditional
+if (!question) {
+  throw new Error('Question not found');
+}
+useQuestion(question);
+
+// ❌ Awaited work must be separated from synchronous statements on both sides
+const before = 424;
+await doSomething();
+const after = 123;
+```
+
+## Property Ordering
+
+Organize properties in interfaces, object-shaped type aliases, and object literals (including function arguments) by meaning so readers can understand related data together. Apply this order at each nesting level:
+
+1. **Identifiers and primary keys**: Unique IDs, UUIDs, and slugs.
+2. **Core data fields**: Primary domain data. Keep tightly coupled fields adjacent, such as `firstName` and `lastName`, or `street`, `city`, and `zipCode`.
+3. **System and metadata**: Internal metrics, flags, and system fields such as `status`, `isActive`, and `role`.
+4. **Timestamps**: Creation, modification, and deletion dates, such as `createdAt`, `updatedAt`, and `deletedAt`.
+5. **Optional and extension fields**: All properties marked with `?`, plus loose extension records such as `meta` and `customData`, at the absolute bottom. This takes precedence over the earlier groups: even optional identifiers and timestamps belong here. For object literals, use the declared shape to identify optional properties when available. Preserve semantic grouping within this final group.
+
+Do not insert blank lines between property groups; keep interface, type, and object property blocks continuous. Do not sort properties by string length. Do not sort strictly alphabetically when it breaks semantic grouping or separates logical pairs.
+
+When refactoring object literals, preserve runtime behavior: do not move spreads, duplicate keys, or expressions whose evaluation order matters merely to satisfy ordering.
+
+```ts
+interface IUserProfile {
+  id: string;
+  slug: string;
+  firstName: string;
+  lastName: string;
+  street: string;
+  city: string;
+  zipCode: string;
+  status: string;
+  isActive: boolean;
+  role: string;
+  createdAt: Date;
+  updatedAt: Date;
+  externalId?: string;
+  middleName?: string;
+  deletedAt?: Date;
+  meta?: Record<string, unknown>;
+}
+
+type TProfileSnapshot = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
+  createdAt: Date;
+  customData: Record<string, unknown>;
+};
+```
+
+## General Examples
 
 ```ts
 // Do:
@@ -56,6 +193,13 @@ if (a) {
   return 1;
 }
 
+// ✅ A callback's conditional needs its own multiline block
+const complete = () => {
+  if (!cancelled) {
+    onComplete();
+  }
+};
+
 function getLabel(value: number) {
   switch (value) {
     case 1: {
@@ -67,15 +211,15 @@ function getLabel(value: number) {
   }
 }
 
-// ✅ Object parameters are multi-line and sorted by key length
+// ✅ Object parameters are multi-line and semantically grouped
 const user = await userRepository.findById({
   id: userId,
 });
 
 await emailService.sendWelcomeEmail({
   to: user.email,
-  locale: user.locale,
   userName: user.name,
+  locale: user.locale,
 });
 
 // ✅ Private class fields and methods use #private syntax
@@ -176,6 +320,15 @@ async function handleUserNested(user: IUser | null) {
 // ❌ Conditions must not use single-statement form without braces
 if (a) return 1;
 if (flag) doSomething();
+
+// ❌ The arrow function's braces do not replace the if body's braces
+const complete = () => {
+  if (!cancelled) onComplete();
+};
+
+// ❌ Braces must also be formatted as a multiline block
+if (!cancelled) { onComplete(); }
+
 switch (x) {
   case 1:
     return 'a';
@@ -187,11 +340,11 @@ return { ok: false, error: new Error('Not found') };
 // ❌ Object parameters must not be inline, even with one property
 const user = await userRepository.findById({ id: userId });
 
-// ❌ Object parameters must not be sorted longest-first
+// ❌ Sorting by key length separates recipient data (to and userName)
 await emailService.sendWelcomeEmail({
-  userName: user.name,
-  locale: user.locale,
   to: user.email,
+  locale: user.locale,
+  userName: user.name,
 });
 
 // ❌ Do not use TypeScript private keyword for class internals

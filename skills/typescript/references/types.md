@@ -7,6 +7,7 @@ description: Type and interface guidelines for Alpha's TypeScript projects
 
 - Use **interfaces** for object shapes that may be extended or implemented.
 - Use **type** for unions, intersections, mapped types, and aliases.
+- Order properties in interfaces and object-shaped types using the [semantic property ordering rules](./style.md#property-ordering): identifiers, core data, system/metadata, timestamps, then optional/extension fields. Keep related fields adjacent and do not insert blank lines between property groups.
 - Prefer **readonly** and **const** assertions where values should not change.
 - Model **nullable** intent explicitly: use `T | null` or optional `?`; avoid optional chaining as a substitute for proper null handling in domain logic.
 - Prefer **branded types** or **nominal typing** for domain identifiers instead of raw primitives.

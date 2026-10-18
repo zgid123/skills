@@ -12,7 +12,13 @@
   "scripts": {
     "clear": "pnpm rimraf node_modules"
   },
-  "packageManager": "pnpm@10.11.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.1.2",
+      "onFail": "download"
+    }
+  },
   "devDependencies": {
     "oxfmt": "0.40.0",
     "rimraf": "6.1.3"
