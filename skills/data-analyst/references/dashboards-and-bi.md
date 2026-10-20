@@ -1,6 +1,7 @@
 # Dashboards and Business Intelligence (BI)
 
 ## Overview
+
 A business intelligence dashboard is a visual decision-support interface, not a dumping ground for every query and chart an analyst created. Effective dashboards provide rapid cognitive orientation, display metric status against benchmarks, enable disciplined drill-downs, and prompt timely business actions.
 
 ## Build and Delivery Contract
@@ -20,7 +21,7 @@ When the delivery contract calls for a dashboard, create one the stakeholder can
 For substantial visual deliverables, maintain a compact internal review map; it need not appear on the dashboard:
 
 | Priority question | Material finding | Supporting comparison | Presentation choice and rationale | Reader-facing location |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Question from the brief | Supported answer, including consequential follow-up | Evidence needed to assess the conclusion | Chart, table or prose suited to the comparison | Page/section, view/filter state, or linked rendered-report anchor |
 
 Update the map when sensitivity or subgroup evidence materially changes interpretation. Flag important findings available only in supporting files, missing comparisons and uninspected locations; these are gaps to resolve or disclose as incomplete delivery. A shared view can support several findings, and one finding can need several comparisons. This is a coverage check, not a chart quota. Choose presentation using [Visualization and storytelling](./visualization-and-storytelling.md); existing components and fixed templates must not dictate the analytical comparison.
@@ -58,10 +59,10 @@ Rendering, screenshots, functioning controls and self-reported usability do not 
 ## The Three Core Dashboard Archetypes
 
 | Archetype | Primary Audience | Core Question | Update Cadence | Key Characteristics |
-|---|---|---|---|---|
-| **Executive / Strategic** | C-Suite, VPs, Board | *"Are we on track to hit our strategic goals?"* | Monthly / Weekly | High-level North Star KPIs, period-over-period targets, minimal filters, uncluttered summary scorecards. |
-| **Operational** | Frontline managers, Team leads, Operations | *"Is anything broken right now that requires intervention?"* | Real-time / Hourly / Daily | Live health status, threshold alert banners, exception lists, operational bottlenecks, task-oriented. |
-| **Analytical / Exploratory** | Product managers, Functional analysts, Domain leads | *"What segments, trends, or behaviors drive current performance?"* | Daily / Weekly | Interactive dimensional filters, cohort slicing, drill-downs, correlation views, deeper data tables. |
+| --- | --- | --- | --- | --- |
+| **Executive / Strategic** | C-Suite, VPs, Board | _"Are we on track to hit our strategic goals?"_ | Monthly / Weekly | High-level North Star KPIs, period-over-period targets, minimal filters, uncluttered summary scorecards. |
+| **Operational** | Frontline managers, Team leads, Operations | _"Is anything broken right now that requires intervention?"_ | Real-time / Hourly / Daily | Live health status, threshold alert banners, exception lists, operational bottlenecks, task-oriented. |
+| **Analytical / Exploratory** | Product managers, Functional analysts, Domain leads | _"What segments, trends, or behaviors drive current performance?"_ | Daily / Weekly | Interactive dimensional filters, cohort slicing, drill-downs, correlation views, deeper data tables. |
 
 ## Information Hierarchy and Visual Layout
 
@@ -70,42 +71,50 @@ Organize views around the questions and comparisons that support the intended us
 ## Dashboard Design Best Practices
 
 ### 1. Contextual Reference Points (Heuristic)
-- A naked number (e.g., *"Revenue: $4.2M"*) provides zero actionable context. Include only the contextual information required to support the dashboard's intended decisions:
+
+- A naked number (e.g., _"Revenue: $4.2M"_) provides zero actionable context. Include only the contextual information required to support the dashboard's intended decisions:
   - **Temporal Baselines**: Prior period comparison (MoM, YoY, vs. trailing 7-day average).
   - **Plan / Target**: Budgeted milestones or forecasted expectations.
   - **Benchmarked Health / Thresholds**: Color-coded status indicators (on-track, at-risk, breached) when actionable thresholds exist.
-- *Guidance*: The appropriate contextual references depend on the audience, decision stakes, and update cadence.
+- _Guidance_: The appropriate contextual references depend on the audience, decision stakes, and update cadence.
 
 ### 2. Disciplined Filter Design
+
 - Establish intuitive global filters at the top of the canvas (e.g., Date Range, Region, Product Line, Customer Tier).
 - Set sensible, standardized default filter states (e.g., "Trailing 30 Days", "All Active Regions").
 - Avoid creating dozens of granular multi-select dropdowns that confuse non-technical users and trigger massive unindexed database queries.
 
 ### 3. Drill-Down and Progressive Disclosure
+
 - When useful, allow users to click on high-level chart elements to drill into underlying granular dimensions (e.g., clicking on a regional drop in revenue opens a sub-view filtered to that specific region's product mix).
 - Keep initial views simple; hide secondary technical attributes behind click-to-expand details.
 
 ### 4. Data Freshness, Latency, and SLAs
-- Explicitly display data freshness metadata in the header: *"Data updated as of: 2025-06-15 06:00 UTC (Daily batch sync)"*.
+
+- Explicitly display data freshness metadata in the header: _"Data updated as of: 2025-06-15 06:00 UTC (Daily batch sync)"_.
 - Document the refresh schedule and underlying source table pipeline SLAs so stakeholders know when numbers are finalized.
 
 ### 5. Query Performance and BI Scalability
+
 - **Pre-Aggregated Summary Tables**: Avoid pointing high-traffic executive dashboards directly at raw, billion-row event tables. Have analytics engineers build pre-aggregated, indexed data warehouse summary marts (e.g., via dbt).
 - **Visual density**: Include only evidence needed to assess the priority questions. Review analytical value separately from working controls using [the quality rubric](./analytical-quality.md).
 - **Cache Strategy**: Leverage BI query caching layers to serve frequent dashboard views without hitting underlying cloud warehouse compute repeatedly.
 
 ## Dashboard Governance and Lifecycle
+
 - **Metric Definitions Standard**: Every metric card should include an info tooltip (`ℹ️`) providing the canonical semantic definition, numerator, denominator, and business owner.
 - **Sunset Deprecated Dashboards**: Track dashboard view logs periodically. Archive and deprecate abandoned reports to prevent metric drift and conflicting sources of truth.
 - **Tool-Agnostic Application**: While implementations vary across platforms (e.g., Tableau, Looker, Power BI, Metabase, Apache Superset), the architectural principles of grain, layout hierarchy, and decision utility remain identical.
 
 ## Common Dashboard Anti-Patterns
+
 - **The "Kitchen Sink" Dashboard**: Cramming 25 unrelated charts into a single endless page with no visual hierarchy or unified theme.
 - **The Unvalidated Query**: Publishing dashboard tiles with unverified joins that silently produce duplicate rows or mismatched totals.
 - **The Abandoned Orphan**: Building custom one-off dashboards for a single ad-hoc meeting and leaving them running indefinitely.
 - **Alert Fatigue**: Flooding operational teams with dozens of non-actionable yellow and red status banners.
 
 ## Cross-References
+
 - For KPI architecture, metric trees, and ratio definitions: [Metrics and KPIs](./metrics-and-kpis.md)
 - For chart selection, color usage, and data-to-ink ratio: [Visualization and Storytelling](./visualization-and-storytelling.md)
 - For data warehouse dimensional modeling (fact/dim tables): [Data Engineering for Analysts](./data-engineering.md)

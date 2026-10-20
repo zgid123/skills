@@ -110,12 +110,15 @@ class BookFactory extends Factory<TBook> {
 export const bookFactory = BookFactory.define(({ params, onCreate }) => {
   onCreate(async (book) => {
     await drizzle.$client.query(`SET search_path TO ${testSchema}`);
-    const [insertedBook] = await drizzle.insert(books).values({
-      type: book.type,
-      title: book.title,
-      createdAt: book.createdAt,
-      updatedAt: book.updatedAt,
-    }).returning();
+    const [insertedBook] = await drizzle
+      .insert(books)
+      .values({
+        type: book.type,
+        title: book.title,
+        createdAt: book.createdAt,
+        updatedAt: book.updatedAt,
+      })
+      .returning();
 
     return insertedBook;
   });

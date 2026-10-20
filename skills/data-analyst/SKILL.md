@@ -20,7 +20,7 @@ Turn the user's objective into an evidence-supported answer. Inventory and metho
 Preserve the lifecycle's order of reasoning while iterating when new evidence changes earlier decisions. Modeling includes ordinary queries and statistics, not mandatory machine learning. Record concise gate evidence alongside the work, not ten boilerplate report sections.
 
 | Stage | Required output and evidence to proceed |
-|---|---|
+| --- | --- |
 | 1. Business Understanding | Brief with prioritized questions, intended use, scope and task-specific acceptance criteria. Unconfirmed assumptions are identified. |
 | 2. Analytic Approach | Simplest valid method and comparisons; assumptions, validation and stopping criteria. |
 | 3. Data Requirements | Questions mapped to required evidence: answerable, conditional or unsupported; explicit scope revisions. |
@@ -49,7 +49,7 @@ Preserve the lifecycle's order of reasoning while iterating when new evidence ch
 For non-trivial deliverables, preserve a compact ledger linking material checks to executed code/results or substantive review evidence. For simple answers a brief calculation and check suffice.
 
 | Check / quantity and population | Expected condition / tolerance | Method and evidence location | Actual observed value and unit | Status | Effect on conclusion |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | Task-specific invariant or material claim | Define before assigning status | Executed calculation or evidence-backed review | The quantity actually tested, not a related count | PASS / FAIL / NOT VERIFIED / NOT APPLICABLE | None, bounded limitation or blocked |
 
 A PASS requires observed evidence satisfying the stated condition. Check that the ledger's quantity, population, unit and condition match the code; derive logged values from the checked variable where practical. Independently recompute critical quantities when practical. Record failed checks and their corrective work; a caveat cannot rescue a materially invalid claim. NOT APPLICABLE requires a scope-based reason, never missing evidence. PENDING describes future feedback/outcomes, not a verification pass. Apply [the quality rubric](./references/analytical-quality.md) at delivery for substantial work; no score average can offset a critical failure.
@@ -59,7 +59,7 @@ A PASS requires observed evidence satisfying the stated condition. Check that th
 Load only guidance relevant to the current question and stage. Read additional references when investigation reaches their subject.
 
 | Need | Reference |
-|---|---|
+| --- | --- |
 | Detailed stage activities, outputs, gates and iteration | [Analytics lifecycle](./workflows/analytics-lifecycle.md) |
 | Question prioritization, feasibility, follow-up, stopping, finding synthesis | [Investigation and synthesis](./references/investigation-and-synthesis.md) |
 | Anchored evaluation and completion decision | [Analytical quality](./references/analytical-quality.md) |

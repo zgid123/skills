@@ -55,9 +55,7 @@ describe('#OrderEntity', () => {
         const subject = new OrderEntity();
         subject.cancel('first cancellation');
 
-        expect(() => subject.cancel('second cancellation')).toThrowError(
-          OrderError,
-        );
+        expect(() => subject.cancel('second cancellation')).toThrowError(OrderError);
       });
     });
   });
@@ -108,10 +106,7 @@ Use in-memory fakes instead of mocks for repository dependencies. A fake keeps t
 
 ```ts
 // __tests__/application/commands/CancelOrderCommand.spec.ts
-import {
-  CancelOrderCommand,
-  CancelOrderCommandHandler,
-} from '#/application/commands';
+import { CancelOrderCommand, CancelOrderCommandHandler } from '#/application/commands';
 import { InMemoryOrderRepository } from '#/test-support/fakes/InMemoryOrderRepository';
 import { OrderFactory } from '#/test-support/factories/OrderFactory';
 import { OrderError } from '#/domain/errors';

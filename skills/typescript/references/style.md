@@ -38,10 +38,7 @@ const names = namesToNormalize.map((name) => {
 
 // ✅ Array construction uses a block body and explicit return
 const messageFiles = ['en.json', 'vi.json'].flatMap((locale) => {
-  return [
-    resolve(sharedMessagesDirectory, locale),
-    resolve(localMessagesDirectory, locale),
-  ];
+  return [resolve(sharedMessagesDirectory, locale), resolve(localMessagesDirectory, locale)];
 });
 ```
 
@@ -327,7 +324,9 @@ const complete = () => {
 };
 
 // ❌ Braces must also be formatted as a multiline block
-if (!cancelled) { onComplete(); }
+if (!cancelled) {
+  onComplete();
+}
 
 switch (x) {
   case 1:

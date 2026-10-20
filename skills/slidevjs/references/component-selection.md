@@ -19,7 +19,7 @@ Do not force every slide into a custom component. Avoid placing multiple primary
 ## Quick decision table
 
 | Content relationship | Use | Best fit |
-|---|---|---|
+| --- | --- | --- |
 | Linear workflow with 2-4 stages | `ArcArrowProcess` | A clearly ordered procedure or pipeline where arrows should carry the narrative |
 | Sequential step cards | `ChevronCard` | 2-4 compact stages in a grid where directional chevrons reinforce progression |
 | Numbered steps or feature highlights | `HorizCard` | 2-4 compact cards with optional icons and flexible grid placement |

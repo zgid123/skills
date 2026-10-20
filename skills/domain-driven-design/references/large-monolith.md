@@ -96,7 +96,7 @@ This tree describes ownership, not a scaffold checklist. Add a second module, an
 ## Root Composition and Module Ownership
 
 | Concern | Root server responsibility | Module responsibility |
-|---|---|---|
+| --- | --- | --- |
 | Transport | Create the app/server, install common middleware and error handling, mount module routes | Define business routes, transport mapping, module middleware, and context types |
 | Wiring | Create shared clients and CQRS bus; call module wiring functions | Construct repositories and technical services; inject them into handlers and register messages |
 | Persistence | Compose module schemas into the shared client type and instance | Own tables, relations, schemas, and concrete repositories |

@@ -68,10 +68,7 @@ interface IButtonProps {
 
 export function Button({ label, onClick }: IButtonProps): JSX.Element {
   return (
-    <ShadcnButton
-      className="font-brand rounded-xl"
-      onClick={onClick}
-    >
+    <ShadcnButton className='font-brand rounded-xl' onClick={onClick}>
       {label}
     </ShadcnButton>
   );

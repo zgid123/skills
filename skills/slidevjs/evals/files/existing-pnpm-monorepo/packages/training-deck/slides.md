@@ -1,8 +1,8 @@
 ---
 title: Existing training
-theme: "@alphacifer/slidev-academic-theme"
+theme: '@alphacifer/slidev-academic-theme'
 addons:
-  - "@alphacifer/slidev-addon-theme"
+  - '@alphacifer/slidev-addon-theme'
 ---
 
 # Existing training
@@ -10,5 +10,5 @@ addons:
 <Speaker :date="'2026-10-05'" />
 
 ---
-src: ./pages/intro/main.md
----
+
+## src: ./pages/intro/main.md

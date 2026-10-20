@@ -23,7 +23,7 @@ Read these two skills at the start of every coding or skill-maintenance task:
 Read the following skills when the task matches their trigger. Do not skip them.
 
 | Trigger | Skill to Read |
-|---|---|
+| --- | --- |
 | Creating, refactoring, or reviewing any domain model, aggregate, entity, value object, repository contract, domain service, command, query, or bounded context | `skills/domain-driven-design/SKILL.md`, then the references relevant to the task |
 | Creating, refactoring, or reviewing CQRS commands, command handlers, queries, query handlers, buses, application use cases, read/write separation, or `@cqrsx/core` wiring in TypeScript | `skills/cqrs/SKILL.md`, `skills/domain-driven-design/SKILL.md`, `skills/typescript/SKILL.md`, then the relevant references from each |
 | Creating, editing, refactoring, or reviewing any TypeScript (`.ts`) file, type (`T` prefix), interface (`I` prefix), function parameter object, path alias (`#/` imports), `#private` class member, tsconfig extending `@alphacifer/tsconfig`, or Biome lint/format configuration | `skills/typescript/SKILL.md`, then the references relevant to the task |
@@ -66,6 +66,7 @@ Read additional references when the work reaches their subject. The skill's refe
 **Purpose**: Day-to-day implementation, refactors, and bug fixes.
 
 **Behavior**:
+
 - Apply the mandatory skill-reading protocol above before every task.
 - Follow `README.md` and any `SKILL.md` relevant to the files being changed.
 - When in doubt, infer intent from existing code and skills rather than asking.
@@ -78,6 +79,7 @@ Read additional references when the work reaches their subject. The skill's refe
 **When to use**: When the task is primarily about tests (unit, integration, or end-to-end).
 
 **Behavior**:
+
 - Apply the mandatory skill-reading protocol above, with emphasis on `skills/testing/SKILL.md` and its references.
 - Keep tests deterministic, isolated, and fast.
 - Use factories and helpers instead of duplicating setup logic.
@@ -89,6 +91,7 @@ Read additional references when the work reaches their subject. The skill's refe
 **When to use**: When the task is primarily analytical, exploratory, metric-oriented, or inspecting analytical data pipelines.
 
 **Behavior**:
+
 - Apply the mandatory skill-reading protocol above. For end-to-end dataset analysis, read `skills/data-analyst/workflows/analytics-lifecycle.md`; load only the supporting `skills/data-analyst/references/` files routed by the skill for the current question and stage. For focused requests, apply the relevant stages proportionately and read the full workflow only when needed.
 - Clarify the commercial decision or informational purpose, primary metric, and grain before writing queries or code.
 - Deliver a usable report or dashboard suited to substantial analyses and a chart, visual report, or compact result table for focused questions; use existing project/BI tooling or portable HTML by default, respecting explicit format constraints.

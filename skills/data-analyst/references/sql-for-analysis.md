@@ -1,17 +1,22 @@
 # SQL for Analysis
 
 ## Overview
+
 SQL is the foundational query language for data analysis. Relational querying requires strict mental discipline around data grain, join cardinality, and aggregation boundaries. Before writing any analytical SQL query, establish the golden rule: **Define explicitly what one row of the output table represents.**
 
 ## The Analytical Grain
+
 The grain is the level of atomic detail represented by a single row in a dataset. Changing the grain through aggregation or joins alters how measures must be interpreted:
+
 - Customer grain: One row per customer (`customer_id`).
 - Order grain: One row per order (`order_id`).
 - Order item grain: One row per line item in an order (`order_id`, `item_id`).
 - Daily user grain: One row per user per calendar date (`user_id`, `date`).
 
 ## Common Join Cardinality Pitfalls and Fanout
+
 Joining tables with differing grains without proper aggregation causes **fanout (duplicate amplification)**:
+
 - Joining `orders` (grain: `order_id`) to `order_line_items` (grain: `order_id`, `item_id`) multiplies order-level fields (e.g., shipping fee, order total) across every line item.
 - Summing `orders.order_total` after an unaggregated line-item join silently overstates total revenue by $2\times, 5\times$, or $10\times$.
 - **Mitigation Protocol**: Always aggregate the child table to the parent grain before joining, or use CTEs with validated unique primary keys.
@@ -30,7 +35,9 @@ FROM orders;
 ## Core Analytical SQL Techniques
 
 ### 1. Conditional Aggregation
+
 Execute multi-segment aggregations in a single scan using `CASE WHEN`:
+
 ```sql
 SELECT
   DATE_TRUNC('month', order_date) AS order_month,
@@ -44,7 +51,9 @@ ORDER BY 1;
 ```
 
 ### 2. Analytical Window Functions
+
 Window functions calculate metrics across a set of rows related to the current row without collapsing rows into a single summary:
+
 - **`ROW_NUMBER()` vs. `RANK()` vs. `DENSE_RANK()`**:
   - `ROW_NUMBER()` assigns sequential integers ($1, 2, 3, 4$) deterministically (ideal for deduplication).
   - `RANK()` leaves gaps on ties ($1, 2, 2, 4$).
@@ -52,7 +61,7 @@ Window functions calculate metrics across a set of rows related to the current r
 - **`LAG()` and `LEAD()`**: Access values from preceding or subsequent rows without self-joins.
 - **Running Totals and Moving Averages**:
   ```sql
-SELECT
+  SELECT
     metric_date,
     daily_revenue,
     SUM(daily_revenue) OVER (ORDER BY metric_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_revenue,
@@ -71,7 +80,9 @@ SELECT
   When the total is zero, the percentage is undefined and remains `NULL`; if a different zero-total policy is required, state it explicitly.
 
 ### 3. Deterministic Deduplication
+
 Use `ROW_NUMBER()` inside a CTE to resolve duplicate updates or webhook retries. Always include a deterministic tie-breaker (such as an auto-incrementing ID or hash) so that identical timestamps do not produce non-deterministic results across runs:
+
 ```sql
 WITH ranked_records AS (
   SELECT
@@ -81,7 +92,7 @@ WITH ranked_records AS (
     updated_at,
     event_id,
     ROW_NUMBER() OVER (
-      PARTITION BY order_id 
+      PARTITION BY order_id
       ORDER BY updated_at DESC, event_id DESC
     ) AS ranking
   FROM raw_orders
@@ -92,7 +103,9 @@ WHERE ranking = 1;
 ```
 
 ### 4. Cohort Retention Analysis
+
 Compute triangular cohort retention matrices by joining user signup cohorts to activity events:
+
 ```sql
 WITH user_cohorts AS (
   SELECT
@@ -120,7 +133,9 @@ ORDER BY 1, 2;
 ```
 
 ### 5. Period-Over-Period (PoP) Comparisons
+
 Compare current metrics against the exact prior calendar month or year. Positional `LAG(..., 1)` means "previous observed row," which is not necessarily the previous month when periods are missing. Use exact-period joins or build a complete calendar spine:
+
 ```sql
 WITH monthly_revenue AS (
   SELECT
@@ -143,9 +158,11 @@ LEFT JOIN monthly_revenue previous_year
   ON previous_year.rev_month = current.rev_month - INTERVAL '1 year'
 ORDER BY current.rev_month;
 ```
+
 The interval syntax varies by SQL dialect. If a missing period should represent zero rather than unknown, make that business rule explicit and materialize the missing period with a calendar spine before calculating growth.
 
 ### 6. Funnel and Drop-Off Analysis
+
 Sequential funnels require a defined chronological ordering rule, explicit entity/session boundaries, and conversion timeframes. Select each step only after the timestamp selected for the preceding step; independently taking the first occurrence of every event can miss a valid later sequence.
 
 ```sql
@@ -209,6 +226,7 @@ FROM checkout;
 This example treats `session_id` as the unique funnel entity and the session itself as the conversion window. If session IDs are not globally unique, use the actual composite session key; if sessions do not impose the required maximum duration, add an explicit upper time bound. The example allows equal timestamps with `>=`; use `>` when the event contract guarantees strict ordering and simultaneous events must not count.
 
 ## Common SQL Analytical Anti-Patterns and Mistakes
+
 1. **The Unweighted Ratio Confusion**: Mixing up ratio-of-aggregates (`SUM(conv) / SUM(visitors)`) with unweighted average-of-ratios (`AVG(cvr)`), failing to match the intended business estimand.
 2. **Silent NULL Propagation**: Forgetting that `COUNT(column)` ignores `NULL`s while `COUNT(*)` counts all rows, and `1 + NULL = NULL`.
 3. **Division by Zero**: Failing to wrap denominators in `NULLIF(denominator, 0)`, which causes catastrophic runtime query failure.
@@ -217,7 +235,9 @@ This example treats `session_id` as the unique funnel entity and the session its
 6. **Timezone Discrepancies**: Storing timestamps in UTC while reporting daily metrics in an undefined or mixed timezone. Canonical storage should use a consistent representation (commonly UTC), but business reporting days must align with explicitly defined business/local reporting boundaries.
 
 ## Query Validation Checklist
+
 Before sharing or visualizing the results of any analytical SQL query:
+
 - [ ] What does one row of the output represent?
 - [ ] Did `COUNT(*)` change unexpectedly after any `JOIN` operation?
 - [ ] Are all division operations protected against division by zero with `NULLIF`?
@@ -225,6 +245,7 @@ Before sharing or visualizing the results of any analytical SQL query:
 - [ ] Are timestamps canonically stored and aligned with the designated business reporting timezone?
 
 ## Cross-References
+
 - For metric definitions, ratio pitfalls, and unit economics: [Metrics and KPIs](./metrics-and-kpis.md)
 - For data quality profiling and schema invariants: [Data Quality](./data-quality.md)
 - For downstream exploratory data analysis on SQL extracts: [Exploratory Data Analysis (EDA)](./eda.md)

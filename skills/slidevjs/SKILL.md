@@ -59,7 +59,7 @@ Use this as the default `slides.md`. Replace angle-bracket placeholders with act
 
 ```md
 ---
-title: "<title of seminar>"
+title: '<title of seminar>'
 theme: '@alphacifer/slidev-academic-theme'
 colorSchema: light
 addons:
@@ -83,19 +83,18 @@ duration: <timing>
 <Speaker :date="'2026-09-23'" />
 
 ---
-layout: arc-toc
-hideInToc: true
-transition: slide-left
-indexed: true
+
+layout: arc-toc hideInToc: true transition: slide-left indexed: true
+
 ---
 
 ---
-src: ./pages/<section>/main.md
----
+
+## src: ./pages/<section>/main.md
 
 ---
-layout: thanks
----
+
+## layout: thanks
 ```
 
 Use the seminar timing supplied by the user. If none is supplied and it cannot be inferred, use `30min` as the initial default. Use `2026-09-23` as the `Speaker` date when creating a new deck or adding a missing `Speaker` component. When editing an existing deck, preserve its current `Speaker` date exactly; treat a different date as an intentional author edit and do not reset it to the default.
@@ -123,8 +122,8 @@ src: ./01-<article-1>.md
 ---
 
 ---
-src: ./02-<article-2>.md
----
+
+## src: ./02-<article-2>.md
 ```
 
 Do not skip an article file or import it out of numeric order.

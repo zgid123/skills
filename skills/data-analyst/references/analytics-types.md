@@ -15,7 +15,8 @@ Prescriptive ("What action should we take?")
 ```
 
 ### 1. Descriptive Analytics
-- **Core Question**: *"What happened? What is our current operational state?"*
+
+- **Core Question**: _"What happened? What is our current operational state?"_
 - **Purpose**: Quantify, categorize, and summarize historical and present facts to establish baselines, track performance trends, and provide operational visibility.
 - **Typical Business Questions**:
   - What was our total gross merchandise value (GMV) by product category last month?
@@ -30,7 +31,8 @@ Prescriptive ("What action should we take?")
 - **Limitations**: Solely retrospective; provides zero explanation of underlying mechanisms or drivers.
 
 ### 2. Diagnostic Analytics
-- **Core Question**: *"Why did it happen? What components, segments, or historical factors drove this shift?"*
+
+- **Core Question**: _"Why did it happen? What components, segments, or historical factors drove this shift?"_
 - **Purpose**: Investigate root drivers, isolate anomalies, decompose metrics into mathematical sub-components, and determine structural contributors to observed changes.
 - **Typical Business Questions**:
   - Where did checkout conversion decline occur after the mobile app release, and what factors might explain it?
@@ -42,10 +44,11 @@ Prescriptive ("What action should we take?")
   - Hypothesis issue trees and falsification testing.
   - Cohort retention decay curves and funnel drop-off analysis.
 - **Outputs**: Root cause diagnostic memos, issue tree validations, metric decomposition waterfalls.
-- **Limitations**: Identifies empirical drivers and historical segment contributions; answering causal questions (*"Would changing X change Y?"*) requires randomized experimentation or formal causal identification strategies.
+- **Limitations**: Identifies empirical drivers and historical segment contributions; answering causal questions (_"Would changing X change Y?"_) requires randomized experimentation or formal causal identification strategies.
 
 ### 3. Predictive Analytics (at Analyst Depth)
-- **Core Question**: *"What is likely to happen next?"*
+
+- **Core Question**: _"What is likely to happen next?"_
 - **Purpose**: Estimate future metric trajectories, project probabilities of specific events, and score future outcomes based on historical patterns and relationships.
 - **Typical Business Questions**:
   - What is our expected recurring revenue for the next two quarters?
@@ -60,7 +63,8 @@ Prescriptive ("What action should we take?")
 - **Limitations**: Predictions are probabilistic estimates carrying uncertainty; models assume historical relationships hold and are vulnerable to sudden regime shifts, black swan events, and data leakage. Advanced deep learning and complex MLOps remain out of scope for general analytics.
 
 ### 4. Prescriptive Analytics
-- **Core Question**: *"What specific action should we take?"*
+
+- **Core Question**: _"What specific action should we take?"_
 - **Purpose**: Evaluate alternative decisions, quantify trade-offs, model scenario outcomes, and recommend optimal operational actions subject to real-world constraints.
 - **Typical Business Questions**:
   - How should marketing budget be allocated across 6 channels to maximize acquisition subject to target CAC?
@@ -75,22 +79,25 @@ Prescriptive ("What action should we take?")
 - **Limitations**: Highly sensitive to underlying assumptions, model formulation errors, and unmodeled real-world externalities.
 
 ## Multi-Type Analytical Problem Solving
+
 Most significant business problems require combining analytical types. For example, investigating a revenue slump:
+
 1. **Descriptive**: Establish that total revenue fell 8% MoM in June.
 2. **Diagnostic**: Decompose the drop to reveal a 25% drop in enterprise renewals, driven by a new competitor pricing tier.
 3. **Predictive**: Forecast ARR trajectory over the next 3 quarters if enterprise renewal rates remain depressed.
 4. **Prescriptive**: Model three retention pricing interventions and recommend offering a multi-year discount to protect key accounts.
 
 ## Guidance for Methodology Selection
+
 - **Distinguish Prediction, Diagnosis, and Causation**:
-  - *Predictive question*: What is likely to happen?
-  - *Diagnostic question*: Why did it happen?
-  - *Causal question*: Would changing X change Y?
-  Do not conflate them. Prediction and explanation are different analytical goals: a model can provide accurate predictive scores without establishing why the outcome occurs causally, and identifying historical drivers does not prove that an operational intervention on those drivers will produce the desired change.
+  - _Predictive question_: What is likely to happen?
+  - _Diagnostic question_: Why did it happen?
+  - _Causal question_: Would changing X change Y? Do not conflate them. Prediction and explanation are different analytical goals: a model can provide accurate predictive scores without establishing why the outcome occurs causally, and identifying historical drivers does not prove that an operational intervention on those drivers will produce the desired change.
 - **Establish Descriptive Baseline First**: Always verify data quality, definitions, and descriptive baseline distributions before building predictive or prescriptive models.
 - **Favor Simplicity**: The simplest method that defensibly answers the business question is the preferred method. Do not deploy machine learning when relational SQL aggregation or cohort slicing solves the stakeholder problem.
 
 ## Cross-References
+
 - For end-to-end analytical workflow stages: [The Analytics Lifecycle](../workflows/analytics-lifecycle.md)
 - For framing analytical questions and business decisions: [Problem Definition and Framing](./problem-definition.md)
 - For metric decomposition and KPI structures: [Metrics and KPIs](./metrics-and-kpis.md)

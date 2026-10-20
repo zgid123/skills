@@ -14,7 +14,7 @@ IDs 1–11 are preserved regression prompts. IDs 12–23 add deterministic devel
 These development scenarios exercise delivery judgments and proportional presentation, not a chart-count policy:
 
 | ID | Case | Discriminating review expectation |
-|---|---|---|
+| --- | --- | --- |
 | 24 | Correct functional dashboard; key findings only in raw Markdown | Numerical/functionality pass does not establish readable browser delivery; flag missing reader-facing comparisons. |
 | 25 | Fixed 100% bar template for different comparisons | Preserve appropriate composition bars but choose purposeful evidence for matched changes, timing and sensitivity. |
 | 26 | Repeated bars for similar composition questions | Accept appropriate reuse and static delivery; no diversity or interaction quota. |

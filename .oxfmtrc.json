@@ -2,5 +2,8 @@
   "proseWrap": "never",
   "semi": true,
   "singleQuote": true,
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "ignorePatterns": [
+    ".agents/skills/skill-creator/**"
+  ]
 }

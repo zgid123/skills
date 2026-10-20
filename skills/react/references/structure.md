@@ -41,7 +41,6 @@ src/components/
     index.ts     # export { Modal } from './Modal'
 ```
 
-
 ## `src/features/<feature>` — Feature Slices
 
 Each feature folder is a self-contained vertical slice with four sub-folders and a public barrel.

@@ -232,7 +232,7 @@ import { CancelOrderCommand } from '#/application';
 ## Summary Table
 
 | Layer | Folder | Pattern | Example |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Entity | `domain/entities/` | `<Name>Entity.ts` | `OrderEntity.ts` |
 | Repository contract | `domain/repositories/` | `I<Name>Repository.ts` | `IOrderRepository.ts` |
 | Domain error class | `domain/errors/` | `<Name>Error.ts` | `UserError.ts` |

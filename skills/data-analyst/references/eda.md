@@ -1,15 +1,19 @@
 # Exploratory Data Analysis (EDA)
 
 ## Purpose and Mindset
+
 Exploratory Data Analysis (EDA) is an iterative, structured investigation of data to discover underlying patterns, inspect distributions, verify assumptions, detect candidate anomalies, and formulate testable hypotheses before committing to formal statistical testing, predictive modeling, or business recommendations. EDA should generate hypotheses, not automatically prove them.
 
 ### Crucial Distinction: Exploratory Analysis vs. Diagnostic Analysis
-- **Exploratory Analysis (EDA)** asks: *"What patterns, distributions, correlations, and anomalies exist in this dataset?"* It maps the analytical landscape and generates candidate hypotheses without presuming a specific failure mode.
-- **Diagnostic Analysis** asks: *"Why did a specific business metric movement, anomaly, or failure occur?"* It is focused, hypothesis-driven, and designed to isolate root causes through metric decomposition.
-- *Guidance*: Use EDA to profile distributions, uncover data quality issues, and map segment patterns. When diagnosing why a metric moved, transition to focused diagnostic root-cause analysis.
+
+- **Exploratory Analysis (EDA)** asks: _"What patterns, distributions, correlations, and anomalies exist in this dataset?"_ It maps the analytical landscape and generates candidate hypotheses without presuming a specific failure mode.
+- **Diagnostic Analysis** asks: _"Why did a specific business metric movement, anomaly, or failure occur?"_ It is focused, hypothesis-driven, and designed to isolate root causes through metric decomposition.
+- _Guidance_: Use EDA to profile distributions, uncover data quality issues, and map segment patterns. When diagnosing why a metric moved, transition to focused diagnostic root-cause analysis.
 
 ## The Comparative Mindset: "Compared to What?"
+
 An isolated number or trend has no analytical meaning without a comparative baseline. When comparison aids the question, choose a relevant available reference; do not invent targets or external benchmarks:
+
 - **Previous Period**: Prior day, week, month, or year (MoM, YoY).
 - **Target / Plan**: Budgeted goals or forecasted milestones.
 - **Benchmark**: Industry standard, category average, or platform norm.
@@ -18,10 +22,11 @@ An isolated number or trend has no analytical meaning without a comparative base
 - **Historical Baseline**: Pre-intervention run rate.
 
 ## Cognitive Layers of Analytical Output
+
 To maintain analytical integrity and prevent premature conclusions, categorize analytical statements into seven distinct cognitive layers:
 
 | Layer | Definition | Example |
-|---|---|---|
+| --- | --- | --- |
 | **FACT** | A validated directly measured or derived value whose source, definition, transformation, and data quality are sufficiently known. | "Validated `orders` table contains 14,200 records with 0 unhandled nulls in primary key `order_id`." |
 | **OBSERVATION** | A pattern or property observed in the analyzed data. | "Mobile checkout conversion declined from 4.8% to 3.2% between Q1 and Q2." |
 | **INSIGHT** | An interpretation explaining why an observation matters without presenting an unverified mechanism as established. | "The decline is concentrated among Android v3.2 users, making that release and its checkout path the highest-priority area for investigation." |
@@ -35,16 +40,19 @@ To maintain analytical integrity and prevent premature conclusions, categorize a
 ## Systematic Step-by-Step EDA Workflow
 
 ### Step 1: Shape and Structural Inspection
+
 - Inspect dataset dimensions (row count, column count).
 - Verify data types of each column (numeric, categorical, datetime, boolean).
 - Assess primary key uniqueness and overall record completeness.
 
 ### Step 2: Missingness and Cardinality Profiling
+
 - Compute fill rates and null counts per column.
 - Check cardinality (count of unique values) for categorical dimensions.
 - Identify single-value (zero-variance) columns that provide zero analytical signal.
 
 ### Step 3: Univariate Analysis (Numerical Variables)
+
 - Compute 5-number summary (Min, $Q_1$, Median, $Q_3$, Max) alongside Mean and Standard Deviation.
 - Check distribution shape: symmetrical, right-skewed, left-skewed, bimodal, or uniform.
 - Compare Mean vs. Median: if Mean $\gg$ Median, substantial positive skew is present; use median for typical values.
@@ -52,11 +60,13 @@ To maintain analytical integrity and prevent premature conclusions, categorize a
 - Detect candidate unusual observations using the IQR rule ($1.5 \times \text{IQR}$) or Z-scores ($|z| > 3$). Treat them as signals requiring investigation, not automatic deletion.
 
 ### Step 4: Univariate Analysis (Categorical Variables)
+
 - Generate frequency tables and percentage shares of total for each category.
 - Plot sorted bar charts with a zero baseline.
 - Identify high-cardinality columns, rare tail categories, or unstandardized casing.
 
 ### Step 5: Bivariate Analysis (Relationships and Interactions)
+
 - **Numerical vs. Numerical**:
   - Generate scatter plots to inspect linearity, curvature, heteroscedasticity, and clustering.
   - Calculate correlation coefficients (Pearson for linear, Spearman for monotonic rank relationships). Note that correlation does not imply causation.
@@ -68,6 +78,7 @@ To maintain analytical integrity and prevent premature conclusions, categorize a
   - Plot stacked or grouped bar charts.
 
 ### Step 6: Temporal Patterns and Time Slicing
+
 - Plot primary metrics over time using continuous line charts.
 - Inspect for:
   - **Trends**: Long-term directional movement.
@@ -75,10 +86,12 @@ To maintain analytical integrity and prevent premature conclusions, categorize a
   - **Structural Breaks**: Sudden level shifts or trend changes coinciding with product releases, pricing changes, or macro events.
 
 ### Step 7: Confounding and Simpson's Paradox Checks
+
 - Check whether aggregate trends reverse or disappear when partitioned by major subgroups (Simpson's Paradox).
 - Identify confounding variables that correlate simultaneously with both predictor and outcome.
 
 ### Step 8: Synthesis and Hypothesis Formulation
+
 - Summarize confirmed empirical facts and observations.
 - Document unexpected anomalies, data quality gaps, and unmeasured variables.
 - Formulate explicit, testable hypotheses to guide subsequent diagnostic analysis, inferential testing, or experimental design.
@@ -88,6 +101,7 @@ To maintain analytical integrity and prevent premature conclusions, categorize a
 Scale the steps to the question, rather than profiling every column by default. Profiling is preparation for substantive investigation. Use [investigation and synthesis](./investigation-and-synthesis.md) to turn a material observation into a discriminating, executed follow-up, challenge its interpretation, and stop once the prioritized scope is adequately answered or explicitly blocked. Record what the follow-up changed; recommendations for future work alone do not satisfy this gate.
 
 ## Cross-References
+
 - For data quality profiling, sanity checks, and validation rules: [Data Quality](./data-quality.md)
 - For data cleaning, missing value handling, and reshaping: [Data Wrangling and Transformation](./data-wrangling.md)
 - For SQL aggregation, window functions, and deduplication: [SQL for Analysis](./sql-for-analysis.md)

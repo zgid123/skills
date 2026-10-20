@@ -127,10 +127,7 @@ import type { Cqrsx } from '@cqrsx/core';
 
 import type { TDrizzle } from '#/infrastructure/drizzle/config';
 
-import {
-  CancelOrderCommand,
-  CancelOrderCommandHandler,
-} from '../../application/commands';
+import { CancelOrderCommand, CancelOrderCommandHandler } from '../../application/commands';
 import { OrderRepository } from '../../infrastructure/drizzle/repositories';
 
 export interface IWireOrdersParams {

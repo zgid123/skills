@@ -85,9 +85,7 @@ class CreateUserCommandHandler implements ICommandHandler<CreateUserCommand> {
   }
 }
 
-class GetUserNameQueryHandler
-  implements IQueryHandler<GetUserNameQuery, string>
-{
+class GetUserNameQueryHandler implements IQueryHandler<GetUserNameQuery, string> {
   public async exec(query: GetUserNameQuery): Promise<string> {
     return query.userId;
   }

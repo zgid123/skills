@@ -326,7 +326,7 @@ Verification requires recorded evidence, not an unchecked assertion that a revie
 For every non-trivial deliverable, include a verification ledger with these fields:
 
 | Check / quantity and population | Expected Condition / Tolerance | Method | Observed value, unit and evidence location | Status | Effect on Confidence |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | Material invariant or claim being verified | Explicit condition that constitutes success | Executed query, calculation, formula, or review method | Observed result and location of saved details | PASS, FAIL, NOT VERIFIED, or NOT APPLICABLE | None, bounded caveat, or conclusion blocked |
 
 Preserve contemporaneous gate decisions and corrections when process compliance matters. Headings, boilerplate and artifact existence do not prove stage execution, predeclared criteria or chronological order.
