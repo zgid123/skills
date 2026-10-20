@@ -32,6 +32,7 @@ Read the following skills when the task matches their trigger. Do not skip them.
 | Creating, scaffolding, editing, or reorganizing a Slidev presentation, `slides.md`, Slidev section pages, or a Slidev deck inside a monorepo | `skills/slidevjs/SKILL.md` |
 | Analyzing datasets (.csv, .xlsx, SQL tables, dataframes), performing data analysis, exploratory data analysis (EDA), metric/KPI design, cohort/retention/funnel queries, A/B test analysis, building analytical dashboards or visual reports, or framing business recommendations from data | `skills/data-analyst/SKILL.md`, then only the reference files routed by that skill for the current task |
 | Writing or modifying tests, Vitest suites, test data factories (fishery, faker), mocks, or fakes | `skills/testing/SKILL.md`, then the references relevant to the test type and framework |
+| Writing, structuring, creating, revising, or formatting academic or personal documents in DOCX or LaTeX | `skills/documents/SKILL.md`, then only the references relevant to the requested content and output format |
 | Creating, modifying, improving, evaluating, or benchmarking skills, or optimizing skill descriptions | `.agents/skills/skill-creator/SKILL.md` |
 
 ### Step 3 — Confirm Before Acting

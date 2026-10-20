@@ -1,0 +1,82 @@
+[
+  {
+    "query": "I need to submit a 6-page report for my information systems course next week. Use the assignment brief in coursework/brief.txt and the three readings in coursework/sources/ to explain why the hospital's appointment rollout failed. Include a clear argument, evidence from the readings, and references. I haven't picked a file format; give me something editable that I can submit after checking it.",
+    "should_trigger": true
+  },
+  {
+    "query": "please turn notes/database-course-report.md into my database course report in LaTeX. The lecturer explicitly accepts a .tex project and PDF, and I want both. Keep the supplied SQL results as they are, organize the discussion, and use the university cover page from templates/report-cover.tex.",
+    "should_trigger": true
+  },
+  {
+    "query": "Help me revise chapters 2 and 3 of thesis/main.tex for my master's submission. The literature review repeats itself and the methods chapter describes a survey I have only planned. Keep the citations and chapter labels working, preserve the university template, and return the editable project plus a compiled PDF.",
+    "should_trigger": true
+  },
+  {
+    "query": "We have a draft paper in research/draft.md and a references.bib file for an IEEE workshop submission. Convert it into a two-column IEEE manuscript with the supplied workshop template, make the argument easier to follow, and flag claims that the cited material doesn't support. I need the LaTeX sources and final PDF.",
+    "should_trigger": true
+  },
+  {
+    "query": "Can you rework our HCI manuscript into the ACM template in submission/acmart-project/? Use the measurements in results/ as the only results, retain the authors already in main.tex, and make sure the figures, bibliography, and cross-references still compile. Please include a PDF for the coauthors to review.",
+    "should_trigger": true
+  },
+  {
+    "query": "My supervisor wants our information systems paper in ICIS style but needs to comment in Word. Use paper-draft.md and sources.bib to make a DOCX, keep the selected ICIS styling, and leave missing affiliations as placeholders rather than guessing them.",
+    "should_trigger": true
+  },
+  {
+    "query": "In review-report.docx, replace only the second paragraph under Limitations with the text in replacement.txt. This file has tracked edits, comments, a linked chart, and a bibliography, so preserve them and leave all other wording alone. Return the edited Word file and tell me what you were able to verify.",
+    "should_trigger": true
+  },
+  {
+    "query": "I wrote a personal reflection about changing careers in reflection-notes.txt. Can you shape it into a two-page DOCX for my mentoring group? Keep the slightly informal first-person voice, don't add experiences I haven't described, and avoid making it sound like a research report.",
+    "should_trigger": true
+  },
+  {
+    "query": "I'd like a clean LaTeX version of the family letter in letters/autumn.txt, with an editable source and PDF to print. Keep my Vietnamese wording and the names exactly as supplied, use a font that supports the accents, and don't add a title page or academic sections.",
+    "should_trigger": true
+  },
+  {
+    "query": "Format dissertation-draft.docx to match the university layout PDF in templates/. This is formatting only: preserve every sentence and quotation. Fix heading styles, the automatic contents page, captions, and front-matter page numbers, then check the rendered pages for broken layout.",
+    "should_trigger": true
+  },
+  {
+    "query": "Update docs/installation.md and README.md for the new CLI command names. Verify each example against src/cli/, document the exit codes, and keep the output as Markdown in the repo. This is developer documentation for the package release.",
+    "should_trigger": false
+  },
+  {
+    "query": "Document the new /v2/appointments endpoints by updating api/openapi.yaml from the route handlers. Include the request schemas, 409 responses, and authentication requirements, then validate the OpenAPI spec. We publish it through Swagger UI.",
+    "should_trigger": false
+  },
+  {
+    "query": "Why does this LaTeX expression fail to render in my React math preview: \\frac{\\sum_{i=1}^{n} x_i}{n? Explain the brace error and give me a corrected expression I can paste into the KaTeX component. I only need the expression and explanation in chat.",
+    "should_trigger": false
+  },
+  {
+    "query": "In src/markdown/math-plugin.ts, our parser mistakes escaped dollar signs in code snippets for LaTeX math. Fix the parsing logic and add regression tests for inline code, fenced code blocks, and currency amounts. The output is a code change to the renderer.",
+    "should_trigger": false
+  },
+  {
+    "query": "Build a React toolbar that looks like Word's document styling ribbon: font selector, bold button, and paragraph alignment controls. Use our existing component library and wire the buttons to the editor state in src/editor/. I need the UI implementation, no exported document.",
+    "should_trigger": false
+  },
+  {
+    "query": "Analyze data/course-submissions.csv to compare late-submission rates across departments. The columns are student_id, department, due_at, and submitted_at. Handle missing timestamps explicitly and show a compact result table in chat; don't create a written course report or a Word file.",
+    "should_trigger": false
+  },
+  {
+    "query": "Turn my thesis defense outline in defense-notes.md into a 12-slide PowerPoint for a 15-minute talk. Use the existing university presentation template, keep charts readable from the back of a room, and include speaker notes with the timing for each slide.",
+    "should_trigger": false
+  },
+  {
+    "query": "Extract the invoice number, issue date, currency, and grand total from every PDF under invoices/2026-09/ into one CSV. Flag scanned files and ambiguous amounts in a separate column, and reconcile the CSV row count with the input PDFs. No narrative report is needed.",
+    "should_trigger": false
+  },
+  {
+    "query": "Find all .docx and .tex files under the archive that are over 20 MB, show their sizes and last-modified dates, and group the list by parent folder. This is a storage audit; don't open, rewrite, convert, or format their contents.",
+    "should_trigger": false
+  },
+  {
+    "query": "Our upload API rejects DOCX attachments because the MIME allowlist only accepts PDF. Update src/uploads/validation.ts to accept the correct DOCX MIME type and extension, retain the size limit, and add route-level tests for accepted and rejected uploads. We are changing upload validation, not generating documents.",
+    "should_trigger": false
+  }
+]

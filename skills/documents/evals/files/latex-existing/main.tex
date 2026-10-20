@@ -1,0 +1,39 @@
+\documentclass[12pt,oneside,openany]{book}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage[a4paper,top=3.5cm,left=3.5cm,bottom=3cm,right=2cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+\frontmatter
+\tableofcontents
+\mainmatter
+
+\chapter{Background}
+This supplied paragraph must remain in the edited project. The citation workflow uses BibTeX and should remain intact \cite{doe2024}.
+
+\begin{figure}[htbp]
+  \centering
+  \fbox{\parbox[c][2cm][c]{5cm}{\centering Background figure placeholder}}
+  \caption{Background figure}
+  \label{fig:background}
+\end{figure}
+
+\chapter{Approach}
+This second supplied paragraph must also remain in the edited project.
+
+\begin{figure}[htbp]
+  \centering
+  \fbox{\parbox[c][2cm][c]{5cm}{\centering Approach figure placeholder}}
+  \caption{Approach figure}
+  \label{fig:approach}
+\end{figure}
+
+Figure~\ref{fig:background} shows the first example and Figure~\ref{fig:approach} shows the second.
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
