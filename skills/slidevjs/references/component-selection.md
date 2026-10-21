@@ -179,7 +179,7 @@ Do not force every slide into a custom component. Avoid placing multiple primary
 
 **Purpose:** Show presenter or team attribution with a consistently formatted date.
 
-**When to use:** Use on the cover and optionally on introduction or closing slides. Prefer the `team` prop for multiple presenters. Follow the Slidev skill's scaffold-default and author-edit preservation rule for `date`.
+**When to use:** Use on the cover and optionally on introduction or closing slides. The generic cover uses a single `author`; use `team` only when multiple presenters are explicitly requested. Follow the Slidev skill's scaffold-default and author-edit preservation rule for `date`.
 
 ### `Date`
 
