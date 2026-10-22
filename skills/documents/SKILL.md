@@ -9,6 +9,8 @@ description: Create, revise, and format academic reports, research papers, these
 
 Handle document content and document production in one skill. Route reports and coursework through academic writing with DOCX output, research papers and theses through paper writing with LaTeX output, and personal documents through personal writing in the requested format. Research papers and theses share the same style selection, defined in [Paper writing](references/paper-writing.md#format-and-style), independently of output format. Use [DOCX formatting](references/docx.md) for Word reports and personal documents. Explicit user requirements and controlling university or publication templates take priority.
 
+This skill works independently with its bundled references and assets. Other skills, including Research, are optional enhancements: consult them through the installed skill catalog only when available and relevant. If they are absent, continue using this skill's own guidance and available tools without requiring installation. Missing evidence or production tools still require accurate limitation reporting.
+
 ## Writing voice
 
 These writing rules apply to all documents and both output formats, including academic work, personal reports, reflections, letters, and journals. Write naturally in the author's voice and match the reader, purpose, and level of formality. Use plain English for English documents: familiar words, concrete subjects, direct sentences, and connected paragraphs. Preserve useful technical precision and the author's level of certainty. Follow the user's requested language; the language of a reference template does not determine the language of a new document.

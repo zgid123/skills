@@ -56,3 +56,7 @@ Grade observable requirements from the actual artifact: supplied facts and denom
 For blind comparison, present paired outputs in randomized order without version labels, use the same questions for both, and allow a tie. Keep the preference and its rationale separate from factual grades; do not turn stylistic preferences into invented numerical pass rates. Collect user feedback through the skill-creator review viewer before claiming that writing quality improved.
 
 Record benchmark pass rates only for cases actually executed. Use the skill-creator review viewer for human inspection, and report blocked or unverified checks beside any aggregate score. Keep transcripts, rendering images, temporary build files and benchmark workspaces outside the reusable skill package.
+
+## Standalone installation
+
+Case 24 runs with only Documents installed and Research absent. Use the inline fictional evidence, complete the Markdown draft, and verify the local source policy and evidence boundaries without attempting to read or install Research. This focused case tests independent content work; the existing format-specific cases cover document production.

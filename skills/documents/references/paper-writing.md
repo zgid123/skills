@@ -24,9 +24,16 @@ Use the selected profile's shared typography and citation conventions. Differenc
 
 ## Evidence and citations
 
+For paper discovery, critical reading, literature synthesis, research design, or substantive manuscript development, optionally use Research if it is available in the installed skill catalog. Its absence does not block this workflow: use supplied material and available search/reading tools with the safeguards below. Keep formatting-only work in Documents and preserve existing content and references.
+
+For research work, establish the question and eligibility criteria, log searches actually performed, screen and deduplicate sources, then connect claims to the evidence inspected. Compare findings and limitations rather than listing papers as votes. Scale effort to the requested document; do not claim an exhaustive search or universal novelty from a shortlist.
+
 - Explain how the methodology addresses each research question and objective. Describe data or participants, materials, measures, procedure, and analysis where relevant.
 - Distinguish intended work and expected outcomes from completed work and observed results. Qualify conclusions according to the evidence and limitations, and distinguish association from causation.
 - Cite supplied or actually verified sources only. Never invent publications, authors, DOIs, page numbers, experiments, numerical results, identities, or affiliations. Mark missing information clearly.
+- Label publication status and what was inspected separately: full text, selected sections, abstract, or metadata. Match claims to that access; missing abstract details are unknown, not established flaws. Check accessible corrections or retraction notices when verifying sources, apply corrections, and exclude retracted work from supporting evidence; disclose unavailable checks.
+- Exclude IEEE Access from new research support and citations unless the user explicitly overrides that preference. Match the publication venue with normalized capitalization and whitespace; known repository/preprint versions of the same publication stay excluded. Other IEEE venues and IEEE citation style remain eligible. Do not infer venue from a domain, title, DOI prefix, or another paper's references. Keep unresolved venue decisions pending, and disclose exclusions that limit the evidence.
+- During substantive revision, flag claims relying on excluded sources and replace their support only with verified eligible evidence; otherwise qualify or remove the unsupported claim. During formatting-only work, preserve existing wording, citations, and bibliography.
 - Follow the selected citation profile: APA 7 author-year with an alphabetical bibliography for ICIS, IEEE numbered citations in citation order for IEEE, and the ACM class or venue citation mode and reference format for ACM. Preserve existing bibliography tooling unless the requested style requires migration.
 - Address ethics, privacy, reproducibility, and feasibility when relevant. Keep detailed supporting material in appendices and link it from the main text.
 - Check consistency among questions, objectives, methodology, evaluation, findings, conclusions, citations, captions, and cross-references.

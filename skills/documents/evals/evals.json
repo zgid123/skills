@@ -449,6 +449,20 @@
         "[process] Render the final delivered source and inspect every page for layout, glyphs, numbering, captions, and overflow; record the inspected page count and evidence. If rendering or inspection is absent, this process check is unverified.",
         "[reporting] Report artifact, build or field-refresh, and visual outcomes separately with evidence and reasons; identify unavailable prerequisites accurately. Disclosure does not make an unavailable artifact or unperformed check pass."
       ]
+    },
+    {
+      "id": 24,
+      "name": "standalone-research-writing",
+      "prompt": "Only Documents is installed; Research is absent. Use the supplied fictional evidence to write a short Markdown introduction and proposed-method paragraph, followed by an evidence note. Do not create document files or browse. A: Vale (2024), venue `  ieee   ACCESS  `, abstract claims reminders always improve attendance. A-pre is explicitly the repository version of A. B: Neri (2025), Journal of Community Learning, peer-reviewed, supplied methods/results extract: 200 adults randomized equally, 60/100 attended with reminders versus 50/100 with usual practice over four weeks at two centers; no uncertainty interval supplied. C: Moss (2026), venue unknown, abstract claims large benefits and no further metadata is available. We plan a new reminder pilot; recruitment and data collection have not started. Preserve supported facts, qualify the universal claim, and use supplied IDs as citations.",
+      "expected_output": "A supported Markdown research draft produced with Documents alone, retaining source screening and evidence safeguards.",
+      "files": [],
+      "expectations": [
+        "Completes the requested introduction, proposed-method paragraph, and evidence note without requiring Research installation or stopping because it is absent.",
+        "Excludes A and its explicitly linked A-pre version from new supporting citations, recognizes normalized IEEE Access venue, and keeps unknown-venue C pending.",
+        "Uses B only for the supplied randomized short-term finding of 60% versus 50% (+10 percentage points), labels extract-only access, and qualifies general effectiveness.",
+        "Describes the new study as planned, without fabricating recruitment, approvals, results, uncertainty estimates, or new source verification.",
+        "Returns Markdown only, with no document-production or live-search claims, and does not attempt to read another skill."
+      ]
     }
   ]
 }

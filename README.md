@@ -25,6 +25,7 @@ When adding or updating a skill, include its trigger in `AGENTS.md` and keep an 
 ### Analysis and reporting
 
 - [Data Analyst](skills/data-analyst/SKILL.md) - Investigate data, define metrics, analyze experiments and trends, and report findings with transparent evidence and limitations.
+- [Research](skills/research/SKILL.md) - Learn unfamiliar research topics, find and screen papers, understand their core concepts through layered explanations and examples, map relationships, and follow related ideas through a reading path. Defaults to chat and Markdown; literature synthesis, study design, and manuscript work remain available when requested. Excludes IEEE Access and labels preprints and evidence access. Documents and Research each work independently. See [evaluation instructions](skills/research/evals/README.md).
 
 The data analyst skill includes [evaluation instructions](skills/data-analyst/evals/README.md) and deterministic checks. Run `python3 -m unittest discover -s skills/data-analyst/evals -v` when changing its evaluator. Comparative evaluation notes are in [the data analyst workspace](skills/data-analyst-workspace/README.md).
 
