@@ -6,7 +6,7 @@ This repository contains reusable instructions for AI coding and document agents
 
 Start with [AGENTS.md](AGENTS.md). It maps common tasks to the skill or skills to read. Each skill lives in `skills/<name>/SKILL.md`; follow links in that file only when the current task needs those references.
 
-When adding or updating a skill, include its trigger in `AGENTS.md` and keep an evaluation file at `skills/<name>/evals/evals.json`. Run `python3 scripts/validate_skills.py` to check skill metadata, local links, triggers, evaluation cases, and fixture paths.
+When adding or updating a skill, include its trigger in `AGENTS.md` and keep an evaluation file at `evals/<name>/evals.json`. Run `python3 scripts/validate_skills.py` to check skill metadata, local links in skills, evaluations, and root README/AGENTS documentation, triggers, evaluation cases, and fixture paths. Run `python3 -m unittest discover -s scripts -p 'test_*.py' -v` when changing this validator.
 
 ## Skill catalog
 
@@ -14,6 +14,7 @@ When adding or updating a skill, include its trigger in `AGENTS.md` and keep an 
 
 - [Principles](skills/principles/SKILL.md) - Apply YAGNI, pragmatic reuse, dependency discipline, readable code, and small cohesive changes across engineering tasks.
 - [Testing](skills/testing/SKILL.md) - Write focused, deterministic tests. Controllers, adapters, and route handlers use end-to-end tests.
+- [SWE Lifecycle](skills/swe-lifecycle/SKILL.md) - Coordinate requirements, design, GitHub delivery, implementation, verified knowledge, and durable history. See the [usage guide and limitations](skills/swe-lifecycle/README.md) and [local evaluations](evals/swe-lifecycle/README.md).
 
 ### Languages and application design
 
@@ -25,9 +26,9 @@ When adding or updating a skill, include its trigger in `AGENTS.md` and keep an 
 ### Analysis and reporting
 
 - [Data Analyst](skills/data-analyst/SKILL.md) - Investigate data, define metrics, analyze experiments and trends, and report findings with transparent evidence and limitations.
-- [Research](skills/research/SKILL.md) - Learn unfamiliar research topics, find and screen papers, understand their core concepts through layered explanations and examples, map relationships, and follow related ideas through a reading path. Defaults to chat and Markdown; literature synthesis, study design, and manuscript work remain available when requested. Excludes IEEE Access and labels preprints and evidence access. Documents and Research each work independently. See [evaluation instructions](skills/research/evals/README.md).
+- [Research](skills/research/SKILL.md) - Learn unfamiliar research topics, find and screen papers, understand their core concepts through layered explanations and examples, map relationships, and follow related ideas through a reading path. Defaults to chat and Markdown; literature synthesis, study design, and manuscript work remain available when requested. Excludes IEEE Access and labels preprints and evidence access. Documents and Research each work independently. See [evaluation instructions](evals/research/README.md).
 
-The data analyst skill includes [evaluation instructions](skills/data-analyst/evals/README.md) and deterministic checks. Run `python3 -m unittest discover -s skills/data-analyst/evals -v` when changing its evaluator. Comparative evaluation notes are in [the data analyst workspace](skills/data-analyst-workspace/README.md).
+The data analyst skill includes [evaluation instructions](evals/data-analyst/README.md) and deterministic checks. Run `python3 -m unittest discover -s evals/data-analyst -v` when changing its evaluator.
 
 ### Documents and presentations
 

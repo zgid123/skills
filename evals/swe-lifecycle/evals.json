@@ -1,0 +1,78 @@
+{
+  "skill_name": "swe-lifecycle",
+  "evals": [
+    {
+      "id": 1,
+      "name": "tiny-project-bootstrap",
+      "prompt": "I inherited this tiny Python CLI repository. Please inspect it and get it ready for the next maintainer: make only changes that immediately help someone run the tool, understand its setup, and track any necessary foundation work. GitHub is offline. Don't invent product requirements or fake tracking links.",
+      "expected_output": "A useful, proportionate bootstrap with accurate run instructions and any clearly labeled unpublished setup work. The repository should not gain empty lifecycle scaffolding or speculative feature documentation.",
+      "files": ["fixtures/tiny-bootstrap/"],
+      "expectations": [
+        "[CRITICAL] Existing source and user-authored content are preserved unless a necessary correction is explained.",
+        "[CRITICAL] No feature behavior, installed dependency, completed test, or GitHub item is invented.",
+        "The result gives a maintainer enough accurate information to run the CLI and identify its actual setup needs.",
+        "Authored documentation addresses human maintainers in natural, direct prose, with enough context to understand it without the conversation, no AI-style boilerplate, and no em dashes in newly authored prose.",
+        "Documentation and planning artifacts are limited to those useful for this tiny repository; no empty category directories or placeholder pages are added.",
+        "If setup work is tracked, it is a clearly labeled unpublished draft outside permanent docs."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "routine-token-reuse-fix",
+      "prompt": "Our refresh-token helper lets a token work again after it has been rotated. Please reproduce the bug, make the smallest reliable fix, and tell me exactly what you checked.",
+      "expected_output": "A focused repair with a deterministic regression check, an evidence-based explanation, and no unnecessary lifecycle ceremony.",
+      "files": ["fixtures/token-reuse-bug/"],
+      "expectations": [
+        "[CRITICAL] The old token is rejected after rotation, and the newly issued token remains usable.",
+        "[CRITICAL] A meaningful regression test is run and its actual result is reported without fabricated verification.",
+        "The repair is narrow and does not change unrelated token behavior.",
+        "No new requirement, change proposal, design, or blank documentation structure is added solely because this is a bug.",
+        "Any added documentation or history is useful to the repository and based on observed behavior."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "already-approved-rate-limit-feature",
+      "prompt": "The service owner approved this behavior: limit each client IP to 60 requests in a rolling 60-second window; request 61 receives HTTP 429 with a Retry-After header; other clients are unaffected. Implement it in this repository and verify it. We already settled that policy, so continue without asking me to approve the same scope again. GitHub isn't connected.",
+      "expected_output": "A working, tested rate limit that follows the approved policy, reuses that authorization, and creates only documentation needed to explain the new behavior and delivery.",
+      "files": ["fixtures/rate-limit-feature/"],
+      "expectations": [
+        "[CRITICAL] The per-IP limit, 60-second rolling window, 429 response, Retry-After header, and client isolation match the approved behavior.",
+        "[CRITICAL] Relevant tests are actually run and reported accurately; the agent does not repeat an approval request for the settled scope.",
+        "The implementation reuses repository patterns and avoids unrelated refactors or unnecessary dependencies.",
+        "Any requirement or design documentation is proportionate and does not create a migration proposal solely to justify the initial feature.",
+        "GitHub work remains unpublished; no invented issue identifiers or URLs appear."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "migration-awaiting-approval",
+      "prompt": "We currently use the authentication package shown in this repository. I'm considering replacing it with a small Go service, but the security owner has not approved that change. Inspect the current setup and prepare a concrete migration proposal, design, risks, compatibility and rollback questions, and any useful issue drafts. Do not change implementation code. Show me the finished proposal and ask for the missing approval.",
+      "expected_output": "A concrete, repository-grounded decision packet that preserves current approved behavior and stops before implementation pending owner approval.",
+      "files": ["fixtures/auth-migration/"],
+      "expectations": [
+        "[CRITICAL] No implementation code or migration is changed before approval.",
+        "[CRITICAL] Current behavior and constraints are inspected and claims are grounded in the fixture.",
+        "A proposal explains migration scope, compatibility, risks, rollout, rollback, and unresolved decisions without changing the approved requirement.",
+        "The proposal, design, and any issue drafts are understandable to human reviewers without the authoring conversation or decoding metadata, use concrete explanations rather than AI-style boilerplate, and contain no em dashes in newly authored prose.",
+        "A design is included only to the depth useful for the decision; a proposed replacement ADR does not mark the accepted predecessor superseded early.",
+        "Any GitHub issue content is explicitly an unpublished draft and contains no invented identifiers or URLs.",
+        "The agent presents the concrete draft before asking for approval and does not claim downstream work completed."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "historical-link-and-id-collision",
+      "prompt": "I moved the authentication source file, so one finalized history record now links to a missing path. At the same time, an unmerged branch has a new requirement draft using the same ID as an existing approved requirement. Please inspect the repository history and references, preserve the historical meaning and established ID, and prepare the branch for safe integration.",
+      "expected_output": "A traceable historical source reference and a collision-free new requirement, with existing accepted records preserved and all affected links updated.",
+      "files": ["fixtures/history-and-id-collision/"],
+      "expectations": [
+        "[CRITICAL] The existing approved requirement keeps its established ID and meaning.",
+        "[CRITICAL] The finalized history is not silently rewritten; the moved source is referenced using known revision context or its historical path is clearly preserved as text.",
+        "The unpublished conflicting requirement receives a new available ID, its filename is updated, and all its references are updated together.",
+        "The agent verifies the result with available documentation checks and reports any limits accurately.",
+        "No commit, revision, or remote link is invented."
+      ]
+    }
+  ]
+}

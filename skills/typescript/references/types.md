@@ -11,7 +11,7 @@ description: Type and interface guidelines for Alpha's TypeScript projects
 - Prefer **readonly** and **const** assertions where values should not change.
 - Model **nullable** intent explicitly: use `T | null` or optional `?`; avoid optional chaining as a substitute for proper null handling in domain logic.
 - Prefer **branded types** or **nominal typing** for domain identifiers instead of raw primitives.
-- For exported functions and public instance methods, always accept a single parameter object typed by a named interface, even when there is only one input. Destructure first-level properties in the signature when using them individually.
+- For project-owned exported functions and public instance methods with inputs, accept a single parameter object typed by a named interface, even when there is only one input. Keep zero-argument APIs parameterless. Preserve signatures required by framework or third-party contracts, including CQRS handlers. Destructure first-level properties in the signature when using them individually; retain objects whose identity or behavior matters or that must be passed onward.
 - For private methods and unexported helpers, do not create parameter interfaces just for local usage; use direct parameters for simple inputs, or reuse an existing interface when passing the same shape through.
 
 ```ts
@@ -105,7 +105,7 @@ export async function createUser(params: { email: string; name: string }): Promi
   return userRepository.create(params);
 }
 
-// ❌ Do not expose scalar parameters from exported functions
+// ❌ Project-owned exported APIs with inputs use named interface parameters
 export async function findUser(id: TUserId): Promise<IUser | null> {
   return userRepository.findById(id);
 }
@@ -116,7 +116,7 @@ class UserService {
     return createUser(params);
   }
 
-  // ❌ Do not expose scalar parameters from public instance methods
+  // ❌ Project-owned public methods with inputs use named interface parameters
   public async find(id: TUserId): Promise<IUser | null> {
     return findUser(id);
   }

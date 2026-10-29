@@ -1,0 +1,43 @@
+{
+  "skill_name": "principles",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "In the supplied Node service, two route handlers each format one timestamp with the same two-line expression. A teammate proposes a new shared package for it. Review the proposal and implement only what is needed today. Verify the routes still return the same dates.",
+      "expected_output": "Recommend leaving the harmless duplication or a local helper only if it improves present clarity; no new package.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "No speculative shared package or configuration is introduced.",
+        "The reason identifies present maintenance cost and existing conventions."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Fix the null crash in src/parser.mjs according to the function's documented contract. The repository has old formatting and naming inconsistencies nearby. Add a regression check and run the available tests.",
+      "expected_output": "A narrow null-handling change with appropriate verification and no unrelated refactor.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "The null input is handled according to the function contract.",
+        "Unrelated files and style are preserved."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "category_slug in src/slugs.mjs currently leaves spaces in the result. Make it behave like product_slug for names such as ' Red Chair '. Preserve the existing exports and local conventions, add regression coverage, and verify the change.",
+      "expected_output": "A minimal fix reusing the existing local normalization pattern, preserving snake_case exports and unrelated files.",
+      "expectations": [
+        "category_slug trims, lowercases, and replaces spaces with hyphens like product_slug.",
+        "Existing snake_case exports and the surrounding local style remain compatible.",
+        "No new dependency, shared package, configuration, or abstraction is introduced for this fix.",
+        "Regression coverage includes a multiword category and existing product behavior; unrelated parser and route implementations remain unchanged."
+      ],
+      "files": [
+        "fixtures/project"
+      ]
+    }
+  ]
+}

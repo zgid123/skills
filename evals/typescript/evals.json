@@ -1,0 +1,73 @@
+{
+  "skill_name": "typescript",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "In the supplied service, add an exported findUser function in src/users.ts that accepts a user ID and looks it up through userRepository. Return the found user or null. Follow local naming conventions, and add focused tests.",
+      "expected_output": "A named interface parameter, explicit return type, and first-level destructuring.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "The exported function takes one named interface parameter object.",
+        "The parameter is destructured in the function signature, not in the body.",
+        "The public return type is explicit."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "In packages/users/src/UserName.ts, make UserName.format return lodash-es startCase of the trimmed name. Put trimming in a private normalization method. This pnpm workspace already declares lodash-es at the root at the required version. Add focused tests and keep existing APIs working.",
+      "expected_output": "Use #private syntax and the existing root dependency without another package declaration.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "Private class members use # syntax.",
+        "The child manifest does not duplicate the root dependency."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Update listProfiles in src/profiles.ts: load the profiles, skip any whose status is inactive, trim firstName and lastName, and keep every other field including an absent externalId unchanged. Bring the touched function into the project's TypeScript style and add behavior tests for empty and mixed results. Keep the public API compatible.",
+      "expected_output": "A behavior-preserving profile transformation following conditional braces, statement spacing, explicit arrow object returns, and semantic property ordering.",
+      "expectations": [
+        "Every touched conditional body uses multiline braces, with blank lines separating each conditional chain from adjacent statements.",
+        "Awaited statements are separated from adjacent non-awaited statements without padding block edges.",
+        "Callbacks constructing objects use block bodies with explicit returns.",
+        "Profile fields are ordered by identifiers, related name fields, metadata, timestamps, then optional externalId, without blank lines within the property block.",
+        "Tests cover inactive filtering, trimmed names, preserved fields, and empty input; the implementation does not invent an externalId for profiles that lack it."
+      ],
+      "files": [
+        "fixtures/project"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "In src/events.ts, add an exported AuditListener class implementing the standard DOM EventListenerObject contract; its handleEvent should append the event type to eventLog.entries. Add an exported getEventCount helper that returns the current count without requiring caller input. Cover both direct handleEvent use and registration with EventTarget, and verify the count after dispatch.",
+      "expected_output": "A compatible handleEvent(event: Event) implementation and a zero-argument getEventCount, with explicit return types and executable dispatch tests.",
+      "expectations": [
+        "AuditListener implements EventListenerObject and handleEvent accepts an Event directly, preserving the standard contract.",
+        "getEventCount takes zero arguments and returns an explicitly typed number.",
+        "An EventTarget can register the listener and dispatch an event without casts or adapter wrappers to hide an incompatible signature.",
+        "Tests verify direct calls and EventTarget dispatch append event types and update the count."
+      ],
+      "files": [
+        "fixtures/project"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Apply the project's TypeScript conventions to src/labels.ts, retaining its current public API, guard-clause structure, and behavior. Verify the existing label tests and avoid unrelated edits.",
+      "expected_output": "The existing callback guards use multiline braces and statement spacing, with unchanged label normalization and caller inputs.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "Both existing guard clauses remain and use multiline braced bodies; neither uses a single-statement or single-line block.",
+        "Conditional chains are separated from adjacent statements by blank lines, without adding blank padding at the start or end of the callback body.",
+        "The public API and label behavior are preserved: null and blank labels become Unknown, other labels are trimmed, empty input stays empty, and caller inputs are unchanged.",
+        "The existing label tests and typecheck are actually run successfully, and unrelated implementation files are unchanged."
+      ]
+    }
+  ]
+}

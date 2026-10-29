@@ -18,7 +18,8 @@ description: Naming and formatting guidelines for Alpha's TypeScript projects
 - When passing an object parameter to a function, always put it on multiple lines, even with one property. Put each property on its own line, include a trailing comma, and follow the semantic property ordering below.
 - Use concise arrow bodies only for single, simple expressions whose entire containing statement stays comfortably short within the project's configured line width. Use a block body with an explicit `return` for object or array literals, multiline expressions, and complex transformations. Apply this to all arrow functions, including callbacks; see [Arrow Function Returns](#arrow-function-returns).
 - Use `_` as a numeric separator for numbers with four or more digits (`1_000`, `10_000`, `100_000`).
-- **Destructure function parameters** at the first level in the function signature. Do not destructure nested properties (level 2+) in the signature; handle nested destructuring inside the function body. If the entire parameter object is needed for other calls, destructure its properties inside the function body instead of the signature.
+- **Public API parameters**: Project-owned exported functions and public instance methods with inputs use one named interface parameter object. Keep zero-argument APIs parameterless and preserve signatures required by framework or third-party contracts (for example CQRS `exec(command)` handlers). Do not wrap contract arguments or destructure an object when its identity or behavior is needed.
+- **Destructure function parameters** at the first level in the function signature when using individual properties. Do not destructure nested properties (level 2+) in the signature; handle nested destructuring inside the function body. If the entire parameter object is needed for other calls, destructure its properties inside the function body instead of the signature.
 
 ## Arrow Function Returns
 
@@ -322,12 +323,15 @@ if (flag) doSomething();
 const complete = () => {
   if (!cancelled) onComplete();
 };
+```
 
-// ❌ Braces must also be formatted as a multiline block
-if (!cancelled) {
-  onComplete();
-}
+This invalid single-line block is shown as plain text so formatters preserve the violation:
 
+```text
+if (!cancelled) { onComplete(); }
+```
+
+```ts
 switch (x) {
   case 1:
     return 'a';

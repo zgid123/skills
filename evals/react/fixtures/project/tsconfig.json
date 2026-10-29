@@ -1,0 +1,19 @@
+{
+  "extends": "@alphacifer/tsconfig/base",
+  "compilerOptions": {
+    "types": [
+      "vitest/globals",
+      "node"
+    ],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src",
+    "app",
+    "vitest.config.ts"
+  ]
+}

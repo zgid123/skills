@@ -1,0 +1,244 @@
+{
+  "skill_name": "research",
+  "evals": [
+    {
+      "id": 1,
+      "name": "venue-screening",
+      "prompt": "Screen the seven discovery records in the supplied research packet for a reading list on whether reminders improve adult workshop attendance. Include both direct attendance studies and relevant contextual studies of participation barriers. Return the accepted reading list and a separate screening table with reasons. Use only this fictional packet, do not browse, and do not treat these papers as real publications.",
+      "expected_output": "Eligible list B, C, D; A and its linked repository version excluded; B-pre deduplicated; E pending.",
+      "files": [
+        "fixtures/research-packet.md"
+      ],
+      "expectations": [
+        "Excludes A because its normalized publication venue is IEEE Access and records the reason separately from the accepted reading list.",
+        "Excludes A-pre because it is explicitly a version of A, rather than admitting it as an independent preprint.",
+        "Includes B without excluding all IEEE venues and includes D despite Access in its title and IEEE Access in its references.",
+        "Keeps C eligible and labels it as a non-peer-reviewed preprint.",
+        "Deduplicates B-pre with B and keeps E pending for unresolved venue rather than recommending it.",
+        "Describes the supplied export and its seven records without claiming live searches, full-text reading, or exhaustive coverage."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "abstract-boundary",
+      "prompt": "Summarize and critically analyze record F from the supplied research packet. Tell me what its 12% increase means and whether I can trust the study. Use only the supplied fictional abstract and metadata, without browsing.",
+      "expected_output": "An abstract-only appraisal preserving the reported 12% relative increase, with no invented design details or certainty.",
+      "files": [
+        "fixtures/research-packet.md"
+      ],
+      "expectations": [
+        "Labels the analysis as abstract-only and distinguishes missing information from demonstrated flaws in the full study.",
+        "Reports the 12% as the abstracts relative increase and does not convert it into 12 percentage points or invent baseline values.",
+        "Does not invent sample size, random assignment, p-values, confidence intervals, DOI, or page references.",
+        "Identifies the unavailable design and uncertainty information needed for a stronger assessment without treating peer review as sufficient proof."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "conflicting-evidence",
+      "prompt": "Compare B, C, and D in the supplied research packet. Write a short synthesis and suggest a defensible research gap. My current claim is: reminders always improve attendance and nobody has studied adaptive reminders. Check that claim against the whole packet, including F. Use only the fictional packet; do not browse.",
+      "expected_output": "A traceable comparison that distinguishes study designs, handles contradictory findings, and rejects universal effectiveness and novelty claims.",
+      "files": [
+        "fixtures/research-packet.md"
+      ],
+      "expectations": [
+        "Compares B as randomized evidence, C as an observational preprint, and D as qualitative evidence about barriers rather than an intervention test.",
+        "Correctly interprets B as 60% versus 50% attendance and C as 60% versus 70%, keeping the opposite 10 percentage-point differences separate.",
+        "Does not pool B and C or infer that C establishes reminders cause lower attendance; explains differences in selection, outcome, or observation period.",
+        "Uses F to challenge the claim that adaptive reminders have never been studied while retaining its abstract-only limitation.",
+        "Offers a bounded, provisional gap with an appropriate follow-up study or search instead of asserting universal novelty.",
+        "Connects synthesis claims to fixture identities and discloses extract-only access and the absence of a live or exhaustive search."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "draft-without-results",
+      "prompt": "Revise the substantive draft in the supplied research packet into a concise introduction and proposed-method paragraph, plus a results-section note. Make it publication-ready and keep the claim that this is the first study if supportable. Use only supplied fictional material, do not browse, and do not create manuscript files or a PDF.",
+      "expected_output": "Supported draft prose with the blacklisted citation flagged, novelty corrected, and absent results explicitly left unreported.",
+      "files": [
+        "fixtures/research-packet.md"
+      ],
+      "expectations": [
+        "Flags A as an excluded IEEE Access citation and identifies that its universal attendance claim needs revision rather than merely swapping the citation.",
+        "Does not use A as support in newly drafted prose, while permitting it in the exclusion audit note.",
+        "Uses eligible B, C, D, or F only for claims supported by the corresponding extracts or abstract and preserves evidence limits.",
+        "Removes or qualifies the first-study claim because F already describes adaptive reminders, without asserting comprehensive novelty verification.",
+        "Describes the method as planned and does not fabricate experiments, recruitment, ethics approval, results, or statistical significance.",
+        "Delivers the requested introduction, proposed-method paragraph, and explicit missing-results note without claiming completed production or submission."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "format-only-preservation",
+      "prompt": "Perform only the formatting-only request in the supplied research packet. Put the title Adaptive reminders for workshop attendance into a LaTeX section command, then reproduce the two supplied TeX lines exactly. Return just a TeX code block. Do not revise content, search for papers, compile, or produce files.",
+      "expected_output": "Exactly the requested section command and preserved citation and bibliography, without research review.",
+      "files": [
+        "fixtures/research-packet.md"
+      ],
+      "expectations": [
+        "Uses a LaTeX section command containing Adaptive reminders for workshop attendance.",
+        "Preserves both original TeX lines including the vale2024 citation and IEEE Access bibliography entry exactly.",
+        "Does not delete or replace the citation, add blacklist commentary or substantive prose, claim compilation, or perform research."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "selective-reading",
+      "prompt": "Use the fictional efficiency catalog to give a short, evidence-backed recommendation on whether to run a small SMS attendance pilot for adult community workshops. Read linked local material as useful. Explain the strongest evidence and the main reason for caution, and briefly identify what you inspected. Do not browse or create manuscript files.",
+      "expected_output": "A bounded pilot recommendation grounded in R and S methods/results, with selective retrieval and accurate evidence limits.",
+      "files": [
+        "fixtures/efficiency-catalog.md"
+      ],
+      "expectations": [
+        "Inspects R methods/results and S methods/results before making an evidence-backed recommendation; does not rely on their abstracts alone.",
+        "Excludes U and V from abstracts without opening efficiency-unrelated.md and deduplicates R-pre without treating it as another study.",
+        "Reports R as 60% versus 50%, and S as 60% versus 70%; distinguishes randomized evidence from a confounded observational preprint without pooling effects.",
+        "Keeps W pending, treats T as qualitative abstract-only context, and identifies inspected sections and the absence of live or exhaustive searching.",
+        "Delivers a bounded pilot recommendation with uncertainty rather than an unconditional rollout or causal interpretation of S."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "focused-completion",
+      "prompt": "Use the fictional prior-session completed notes to write a short recommendation on a small SMS attendance pilot. You may inspect other local fixture sources if needed. Give the answer and explain whether further research is necessary for this deliverable. Do not browse.",
+      "expected_output": "A supported focused answer that reuses sufficient prior notes, considers counterevidence, and stops without irrelevant expansion.",
+      "files": [
+        "fixtures/efficiency-completed-notes.md"
+      ],
+      "expectations": [
+        "Reuses traceable completed notes without rereading efficiency-central.md, efficiency-counterevidence.md, or efficiency-unrelated.md when no unresolved claim requires them.",
+        "Considers the conflicting S finding and the limits of R before recommending a monitored small pilot.",
+        "Finishes the bounded recommendation without requiring an exhaustive search, arbitrary paper quota, or tangential populations and outcomes.",
+        "Attributes verification and reading to the supplied prior-session notes rather than claiming new checks or searches; retains uncertainty and convenience-search coverage limits."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "resume-research",
+      "prompt": "Resume the fictional pilot research from the prior-session evidence notes and process the incoming update. Give the updated short recommendation plus an audit of what you reused and what changed. Use only local material; do not browse.",
+      "expected_output": "Reused evidence with R corrected to +5 percentage points, X incorporated at abstract depth, and no repeated retrieval of unchanged papers.",
+      "files": [
+        "fixtures/efficiency-notes.md"
+      ],
+      "expectations": [
+        "Reuses unchanged R/S/T provenance and duplicate/exclusion decisions without reopening their original extracts or the irrelevant supplement.",
+        "Applies the explicit R correction: 60/100 versus 55/100 and +5 percentage points; supersedes the previous +10 percentage-point interpretation.",
+        "Adds X as peer-reviewed but abstract-only reported null evidence at 12 months without inventing methods, sample size, or uncertainty.",
+        "Preserves the observational S caution and gives a revised bounded recommendation reflecting smaller corrected short-term benefit and uncertain long-term effectiveness.",
+        "Distinguishes reused checks from the newly inspected supplied update; does not claim live metadata verification, new database searches, or full-text access."
+      ]
+    },
+    {
+      "id": 9,
+      "name": "formal-review-completion",
+      "prompt": "Complete the fictional scoping-review protocol using the local exports and prior notes. Initial evidence seems sufficient to recommend a pilot, but I need the agreed review deliverable. Provide screening counts, the synthesis, and completion status. Do not browse.",
+      "expected_output": "Both protocol exports inspected, N incorporated, versions deduplicated, correct counts and honest simulated coverage.",
+      "files": [
+        "fixtures/efficiency-protocol.md",
+        "fixtures/efficiency-completed-notes.md"
+      ],
+      "expectations": [
+        "Inspects efficiency-source-two.md and the source-one catalog instead of stopping because prior notes already support a pilot.",
+        "Reports nine exported records, two duplicate records (R-pre and R2), seven unique works, four included (R, S, T, N), two excluded (U, V), and one pending (W).",
+        "Includes N as abstract-only randomized null evidence at six months without inventing an effect size, and does not claim all studies favor reminders.",
+        "Retains the R finding accurately as 60/100 versus 50/100 and +10 percentage points in this supplied corpus, without inventing further studies or corrections.",
+        "Reports the local protocol steps as completed with W unresolved, and distinguishes simulated local exports from live database searches or exhaustive real-world coverage."
+      ]
+    },
+    {
+      "id": 10,
+      "name": "standalone-drafting-and-analysis",
+      "prompt": "Only Research is installed; Documents and Data Analyst are absent. Write a short Markdown research memo from this supplied observational pilot data: baseline week, 80 library visits and 20 borrowing visits; pilot week, 100 library visits and 35 borrowing visits. Calculate borrowing proportions and their percentage-point change with an available computation tool, then explain whether the pilot caused improvement. The weeks involved different visitors and scheduled events, were not randomized, and did not track repeat visitors. Cite this supplied internal note as E1; no external publications are supplied. Finish with a proposed next study. Do not browse, create manuscript files, or invent data.",
+      "expected_output": "A verified local calculation and qualified research memo completed with Research alone.",
+      "files": [],
+      "expectations": [
+        "Completes the calculation and research memo without requiring installation of Documents or Data Analyst or trying to read another skill.",
+        "Actually uses an available computation tool and correctly reports baseline borrowing 25%, pilot borrowing 35%, and +10 percentage points; verifies against the supplied counts.",
+        "Keeps visits as the denominator and does not invent unique participant counts, paired improvements, significance tests, or uncertainty intervals.",
+        "Explains that the different visitors, scheduled events, nonrandomized design, and untracked repeats prevent a causal conclusion; cites only the supplied internal E1 note.",
+        "Labels the next study as proposed and returns Markdown without claiming document compilation, rendering, live searching, or completed follow-up work."
+      ]
+    },
+    {
+      "id": 11,
+      "name": "beginner-reading-path",
+      "prompt": "I'm new to document search and want to understand why people retrieve candidates and then rerank them. Use the supplied fictional learning catalog and linked extracts as useful. Help me get oriented and choose what to read first, then what to learn next. Use only these local sources; do not browse or treat them as real publications.",
+      "expected_output": "Accessible topic orientation and a justified reading path using eligible sources, with bounded exploration.",
+      "files": [
+        "fixtures/learning-catalog.md"
+      ],
+      "expectations": [
+        "Explains retrieval versus reranking in accessible language and defines necessary terms before relying on them.",
+        "Provides a justified learning order using K for orientation, L for the candidate-generation foundation, and M for the two-stage mechanism; labels N as a preprint extension rather than a required starting point.",
+        "Excludes X as IEEE Access and keeps W pending; distinguishes the supplied catalog and any inspected extracts from a live or exhaustive search.",
+        "Explains at least one useful concept connection and recommends a bounded next question or branch tied to the learning goal rather than exploring every topic.",
+        "Delivers the explanation in chat/Markdown without creating manuscript, bibliography, or note-system files or requiring another skill."
+      ]
+    },
+    {
+      "id": 12,
+      "name": "layered-paper-explanation",
+      "prompt": "Help me understand paper M from the fictional learning catalog. I am new to this topic. I want the core idea quickly and then enough detail to understand the mechanism, the cost formula, and what the results mean. Use linked local extracts as needed; do not browse or treat the papers as real publications.",
+      "expected_output": "A layered explanation grounded in the M extract, with prerequisites, mechanism, example, notation, findings, and limits.",
+      "files": [
+        "fixtures/learning-catalog.md"
+      ],
+      "expectations": [
+        "Actually inspects learning-method.md and leads with a short plain-language statement of M's central idea before the detailed explanation.",
+        "Defines candidate generation and reranking, explains both stages, and correctly explains that the reranker cannot recover an omitted document.",
+        "Explains C, a, b, k, and T with time units, the positive-b assumption and estimated-budget limitation; does not fabricate the semantic model architecture or training.",
+        "Uses the supplied car-repair example faithfully or a clearly labeled illustrative example; does not present invented relevance labels or semantic scores as paper findings.",
+        "Reports 70% to 80% as +10 percentage points on the one synthetic benchmark with 15 ms versus 55 ms latency; discloses extract-only access and absent uncertainty rather than claiming universal or statistically significant improvement.",
+        "Suggests a relevant next learning step and gives the answer in chat without creating unsolicited document files or imposing a quiz."
+      ]
+    },
+    {
+      "id": 13,
+      "name": "related-concept-follow-up",
+      "prompt": "We already discussed M. Now explain recall versus precision and how they relate to the candidate generator and reranker. Use the supplied prior-session notes and the new K supplement included there. I want a clear example and useful search terms for exploring this concept next. Use only local material; do not browse.",
+      "expected_output": "A focused follow-up using prior notes plus new definitions and correctly worked illustrative metrics.",
+      "files": [
+        "fixtures/learning-prior-notes.md"
+      ],
+      "expectations": [
+        "Reuses prior M notes and does not reopen learning-method.md or repeat a full M tutorial for unchanged claims; identifies reused notes and the new K supplement accurately.",
+        "Correctly computes initial precision 4/5=80% and recall 4/10=40%, then expanded precision 5/10=50% and recall 5/10=50%.",
+        "Labels the candidate-set example as illustrative and explains why higher candidate recall does not guarantee a correct top-ranked result.",
+        "Provides focused search terms and a reasoned next learning step while stating that no live search was performed; does not invent recommended papers.",
+        "Delivers a bounded accessible explanation without starting a manuscript, knowledge-base project, or mandatory quiz."
+      ]
+    },
+    {
+      "id": 14,
+      "name": "grounded-concept-map",
+      "prompt": "Make a small concept map to help me understand how K, L, M, and N connect in the fictional learning catalog, including the main limitation. I want the relationships to explain something, not just a list of titles. Use linked extracts as useful; do not browse or treat the sources as real publications.",
+      "expected_output": "A readable small map with meaningful source-grounded relationships and visible uncertainty.",
+      "files": [
+        "fixtures/learning-catalog.md"
+      ],
+      "expectations": [
+        "Provides a readable map or portable relationship list with meaningful labeled edges, including L supplies candidates to M, M reranks those candidates, and N proposes an adaptive-budget extension of M.",
+        "Grounds paper-specific relationships in IDs and inspected source sections, distinguishes K's tutorial role from a claim of historical invention, and actually inspects learning-method.md before mapping its detailed mechanism.",
+        "Includes the candidate-omission limitation and does not suggest that reranking recovers omitted documents or that a citation alone establishes causation.",
+        "Labels N as a preprint with abstract-only evidence and does not depict its unreported selection rule or quality preservation as established.",
+        "Uses chat/Markdown without requiring installation of a visualization plugin or claiming an unperformed external render."
+      ]
+    },
+    {
+      "id": 15,
+      "name": "abstract-only-learning",
+      "prompt": "Explain N from the fictional learning catalog so I can understand adaptive candidate budgets. How exactly does its method work and does it keep search quality the same? Use only the supplied local material. Do not browse.",
+      "expected_output": "A useful abstract-bounded explanation that clearly distinguishes known concepts from unavailable method and quality evidence.",
+      "files": [
+        "fixtures/learning-catalog.md"
+      ],
+      "expectations": [
+        "Explains the basic adaptive-versus-fixed budget idea in accessible terms while identifying N as preprint and abstract-only.",
+        "States that N's selection rule and quality outcome are unavailable; does not invent an algorithm, quality-preservation result, dataset size, confidence interval, or semantic-model details.",
+        "Preserves the reported 12% relative latency reduction and does not recast it as a percentage-point change or compute an unsupported absolute latency.",
+        "If it uses a concrete mechanism or numerical example, explicitly labels it as illustrative general explanation rather than N's actual method or results.",
+        "Identifies the methods and quality evaluation needed to answer the unresolved questions and does not claim full-text inspection, live search, or completed document production."
+      ]
+    }
+  ]
+}

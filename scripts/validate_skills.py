@@ -28,7 +28,9 @@ def validate() -> list[str]:
             errors.append(f"{skill_file}: duplicate skill name {name}")
         names.add(name)
 
-        eval_file = skill_file.parent / "evals/evals.json"
+        if (skill_file.parent / "evals").exists():
+            errors.append(f"{skill_file.parent}: keep evaluations outside installable skills")
+        eval_file = ROOT / "evals" / skill_file.parent.name / "evals.json"
         if not eval_file.exists():
             errors.append(f"{eval_file}: missing evaluation cases")
             continue
@@ -52,10 +54,11 @@ def validate() -> list[str]:
             if not case.get("expectations"):
                 errors.append(f"{eval_file}: case {case_id} needs verifiable expectations")
             for fixture in case.get("files", []):
-                if not (skill_file.parent / fixture).exists():
+                if not (eval_file.parent / fixture).exists():
                     errors.append(f"{eval_file}: missing fixture {fixture}")
 
-    for markdown in SKILLS.rglob("*.md"):
+    markdown_files = [ROOT / "README.md", ROOT / "AGENTS.md", *SKILLS.rglob("*.md"), *(ROOT / "evals").rglob("*.md")]
+    for markdown in markdown_files:
         for target in re.findall(r"\]\(([^)]+)\)", markdown.read_text()):
             if target.startswith(("https:", "http:", "#", "mailto:")):
                 continue

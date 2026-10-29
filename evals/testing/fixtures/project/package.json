@@ -1,0 +1,20 @@
+{
+  "name": "testing-eval-fixture",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@alphacifer/tsconfig": "0.0.16",
+    "typescript": "5.9.3",
+    "vitest": "5.0.5",
+    "@libsql/client": "0.18.0",
+    "drizzle-orm": "0.45.4",
+    "hono": "4.13.14",
+    "fishery": "2.4.0",
+    "@faker-js/faker": "10.6.0",
+    "@types/node": "24.10.0"
+  }
+}

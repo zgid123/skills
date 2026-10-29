@@ -100,9 +100,9 @@ components/
 
 ### `hooks/` — Shared Feature Hooks
 
-- Contains only hooks **used by two or more widgets** within the same feature.
-- If a hook is only used by one widget, place it as `hooks.ts` inside that widget's folder instead.
-- Move a widget-local `hooks.ts` into the shared `hooks/` folder only when a second widget needs it — same promotion rule as for components.
+- Contains only hooks **used by two or more components or widgets** within the same feature.
+- If a hook is only used by one component or widget, place it as `hooks.ts` inside that consumer's folder instead.
+- Move a consumer-local `hooks.ts` into the shared `hooks/` folder only when a second component or widget needs it — same promotion rule as for components.
 - Return values and callbacks only; never render JSX.
 
 ### `utils/` — Pure Helpers

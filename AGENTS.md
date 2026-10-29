@@ -24,6 +24,7 @@ Read the following skills when the task matches their trigger. Do not skip them.
 
 | Trigger | Skill to Read |
 | --- | --- |
+| Bootstrapping project documentation, discovering or evolving requirements, proposing changes, designing delivery, planning GitHub milestones/issues, synchronizing implementation knowledge, recording historical changes, or finalizing software lifecycle work | `skills/swe-lifecycle/SKILL.md` |
 | Creating, refactoring, or reviewing any domain model, aggregate, entity, value object, repository contract, domain service, command, query, or bounded context | `skills/domain-driven-design/SKILL.md`, then the references relevant to the task |
 | Creating, refactoring, or reviewing CQRS commands, command handlers, queries, query handlers, buses, application use cases, read/write separation, or `@cqrsx/core` wiring in TypeScript | `skills/cqrs/SKILL.md`, `skills/domain-driven-design/SKILL.md`, `skills/typescript/SKILL.md`, then the relevant references from each |
 | Creating, editing, refactoring, or reviewing any TypeScript (`.ts`) file, type (`T` prefix), interface (`I` prefix), function parameter object, path alias (`#/` imports), `#private` class member, tsconfig extending `@alphacifer/tsconfig`, or Biome lint/format configuration | `skills/typescript/SKILL.md`, then the references relevant to the task |

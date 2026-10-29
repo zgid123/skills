@@ -1,0 +1,46 @@
+{
+  "skill_name": "cqrs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a CancelOrder command and handler to the supplied TypeScript app using its installed @cqrsx/core. Cancellation must call the OrderEntity cancellation behavior before saving. Wire it into startup with an injected repository and include a callable dispatch example. Test successful persistence and rejection of a shipped order with an in-memory repository.",
+      "expected_output": "A co-located command and handler with registration and exec dispatch; domain entity owns the rule.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "Command and handler are in the same file.",
+        "The handler invokes domain behavior before persistence.",
+        "The command is dispatched with cqrsx.exec."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The supplied TypeScript app needs a filtered invoice list with its own result shape. Add the query path using the installed @cqrsx/core and the IInvoiceProjection port, accepting open or paid status. Wire it at startup, show dispatch, and test filtering without changing the domain model.",
+      "expected_output": "A Query<TResult> and co-located handler returning a read model, with no domain mutation.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "Query and handler are co-located.",
+        "The query extends Query with an explicit result type.",
+        "No domain state is mutated."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Using the installed @cqrsx/core in this app, add a RecordHeartbeatCommand carrying a source string and a HeartbeatRecordedEvent carrying the same source. A command handler should write heartbeat:<source> through the IAuditLog port, then publish the event. An event handler should write observed:<source> through that port. Wire and test dispatch through the real bus, including that an audit failure prevents event publication. Keep port contracts compatible.",
+      "expected_output": "Co-located messages and handlers using compatible exec signatures, explicit register/exec/publish, and failure-safe orchestration.",
+      "expectations": [
+        "Each command/event lives with its own handler and implements the installed ICommandHandler or IEventHandler exec signature without a wrapper parameter that breaks bus dispatch.",
+        "The command is invoked with cqrsx.exec and the event is emitted with cqrsx.publish; both handlers are registered.",
+        "The existing IAuditLog.append(entry: string) contract remains callable directly without a breaking object wrapper.",
+        "An in-memory audit fake verifies heartbeat then observed entries through real bus dispatch.",
+        "A rejected heartbeat audit write rejects dispatch and no observed event entry is written."
+      ],
+      "files": [
+        "fixtures/project"
+      ]
+    }
+  ]
+}

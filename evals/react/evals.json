@@ -1,0 +1,46 @@
+{
+  "skill_name": "react",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build a presentational UserCard component in the supplied React TypeScript project with name and email props. It belongs only to the users feature. Make it available through the users feature's public entrypoint and add a rendering test.",
+      "expected_output": "A named function export with IUserCardProps, explicit JSX return type, and feature-local placement.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "The component uses a function declaration and named export.",
+        "Props use a named IUserCardProps interface.",
+        "The component stays in the users feature."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Update app/billing/page.tsx in this Next.js app-router scaffold to render the existing BalanceWidget and InvoiceWidget. Both widgets need the same local currency preference hook, initially USD, with a way to switch to EUR; keep each widget's hook state independent. Place and implement the hook and exports, and add rendering coverage. The route must remain a valid Next.js page.",
+      "expected_output": "Use the required router default export while placing the shared hook in billing/hooks.",
+      "files": [
+        "fixtures/project"
+      ],
+      "expectations": [
+        "The page uses the framework-required default export.",
+        "The shared hook lives in the feature hooks directory.",
+        "Other components use named exports."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "EmailPreview and ContactPreview in the users feature duplicate useId-based description ID logic. Extract that local UI logic into one hook consumed by both components while preserving their rendered labels and accessible associations. UserMenu has its own menu toggle hook; keep its behavior intact. Add rendering coverage for the affected components.",
+      "expected_output": "One feature-shared hook for two components, with the single-consumer UserMenu hook retained beside UserMenu.",
+      "expectations": [
+        "A single hook under src/features/users/hooks is consumed by both EmailPreview and ContactPreview.",
+        "The extracted hook preserves unique description IDs and matching aria-describedby references for each rendered component.",
+        "The single-consumer UserMenu hook remains co-located with UserMenu instead of being promoted to shared hooks.",
+        "Components use named function exports, explicit JSX return types, and named React imports.",
+        "Rendering tests verify labels and accessible associations without asserting React-generated ID strings."
+      ],
+      "files": [
+        "fixtures/project"
+      ]
+    }
+  ]
+}
