@@ -14,8 +14,7 @@ description: Naming and formatting guidelines for Alpha's TypeScript projects
 - Define private class fields and methods with ECMAScript `#private` syntax instead of the TypeScript `private` keyword.
 - Prefer early returns and guard clauses to reduce nesting.
 - Write every `if`, `else if`, and `else` body as a multiline block with braces `{}`, even when it contains only one call, assignment, or early return. Apply this inside callbacks and nested functions as well. Braces keep control flow explicit and make later edits safer; the surrounding function's braces do not satisfy this rule.
-- Format objects with one property per line and a trailing comma after the last property.
-- When passing an object parameter to a function, always put it on multiple lines, even with one property. Put each property on its own line, include a trailing comma, and follow the semantic property ordering below.
+- Format every non-empty object literal, including objects passed as function or method arguments, with one property per line and a trailing comma, even when it has only one shorthand property; see [Objects and Object Arguments](#objects-and-object-arguments).
 - Use concise arrow bodies only for single, simple expressions whose entire containing statement stays comfortably short within the project's configured line width. Use a block body with an explicit `return` for object or array literals, multiline expressions, and complex transformations. Apply this to all arrow functions, including callbacks; see [Arrow Function Returns](#arrow-function-returns).
 - Use `_` as a numeric separator for numbers with four or more digits (`1_000`, `10_000`, `100_000`).
 - **Public API parameters**: Project-owned exported functions and public instance methods with inputs use one named interface parameter object. Keep zero-argument APIs parameterless and preserve signatures required by framework or third-party contracts (for example CQRS `exec(command)` handlers). Do not wrap contract arguments or destructure an object when its identity or behavior is needed.
@@ -50,6 +49,44 @@ const messageFiles = ['en.json', 'vi.json'].flatMap((locale) => [
   resolve(localMessagesDirectory, locale),
 ]);
 ```
+
+## Objects and Object Arguments
+
+Write every non-empty object literal across multiple lines: put each property on its own line and add a trailing comma after the last one. This applies to returned objects, variable initializers, and objects passed as function or method arguments. A single property, including a shorthand property such as `{ id }`, gets no exception. Order the properties as described in [Property Ordering](#property-ordering).
+
+Formatters such as Biome, Prettier, and oxfmt keep an expanded object expanded but never expand an inline one, so a passing format check does not mean the code follows this rule. Write the object expanded from the start.
+
+```ts
+// ✅ Single shorthand property is still multiline with a trailing comma
+const project = await this.#projectRepository.findOne({
+  id,
+});
+
+if (!project) {
+  throw ProjectError.notFound();
+}
+
+await this.#projectRepository.delete({
+  id,
+});
+```
+
+```ts
+// ❌ Inline object arguments, even with one shorthand property
+const project = await this.#projectRepository.findOne({ id });
+
+await this.#projectRepository.delete({ id });
+```
+
+This invalid example, which is multiline but missing the trailing comma, is shown as plain text so formatters preserve the violation:
+
+```text
+await this.#projectRepository.delete({
+  id
+});
+```
+
+Empty objects (`{}`) stay inline. Destructuring patterns in parameters and declarations are not object literals and are outside this rule.
 
 ## Statement Spacing
 
