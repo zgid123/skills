@@ -36,8 +36,8 @@ Do not force every slide into a custom component. Avoid placing multiple primary
 | Title that moves before content appears | `TransitionHeading` | Click-driven intro slides, especially with `shifting-intro` |
 | Presenter and date attribution | `Speaker` | Cover, introduction, or closing attribution |
 | Standalone formatted date | `Date` | Custom covers or footers that do not need speaker attribution |
-| Audience questions | `QnA` | Final or penultimate Q&A transition |
-| Closing thank-you artwork | `ThanksContent` or `thanks` layout | The final slide |
+| Audience questions | `QnA` | Penultimate Q&A transition, immediately before the `thanks` slide |
+| Closing thank-you artwork | `ThanksContent` or `thanks` layout | The final slide; nothing follows it |
 
 ## Cards
 
@@ -191,7 +191,7 @@ Do not force every slide into a custom component. Avoid placing multiple primary
 
 **Purpose:** Signal the audience question period with an animated Q&A title.
 
-**When to use:** Use on the final or penultimate slide when the presentation explicitly includes a question period. Do not add it automatically when the requested ending is only a thank-you slide.
+**When to use:** Use on the penultimate slide, immediately before the `thanks` slide, when the presentation explicitly includes a question period. Do not add it automatically when the requested ending is only a thank-you slide.
 
 ### `ThanksContent`
 

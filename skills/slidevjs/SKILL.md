@@ -36,13 +36,16 @@ Treat a package as present when it is a direct entry in the root manifest's depe
 
 Read [HTML Spacing](./references/html-spacing.md) before writing or editing HTML in a Slidev `.md` file. Avoid unnecessary blank lines between elements, preserve spacing required for rendering, and check affected slides in preview.
 
-Read [CSS Formatting](./references/css-formatting.md) before creating or editing a `<style>` block inside a Slidev `.md` file. Apply its multiline class-rule formatting and verification checklist.
+Read [CSS Formatting](./references/css-formatting.md) before writing any CSS for a deck, including a `<style>` block, `style.css`, or inline `style` attribute. Use theme defaults first; never override theme or addon styles without the user's explicit permission. Apply its multiline class-rule formatting and verification checklist.
 
 ## Verification
 
 Before finishing, confirm:
 
 - The deck passes the [Deck Structure](./references/deck-structure.md#verification) checklist, with existing assets and author-edited dates preserved.
+- The `thanks` slide is the last slide; no appendix, backup, references, or other slides follow it.
+- No visible content extends beyond the slide's content area into the margins or page-number area.
+- No theme or addon styles are overridden without the user's explicit permission.
 - The theme and addon declarations exactly use the two `@alphacifer` packages at the correct package boundary, with no duplicate declarations introduced in monorepo child manifests.
 - Titles, visible highlights, and presenter notes follow [Content and Presenter Notes](./references/content-and-notes.md#verification).
 - Diagram and card components fit the content relationship and supported item count described in the component selection guide.

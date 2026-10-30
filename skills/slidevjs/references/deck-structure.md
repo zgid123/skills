@@ -86,7 +86,9 @@ Use one `Speaker` component with a single `author` and no custom classes in the 
 
 ### Required navigation and closing slides
 
-Every deck must include at least one slide with `layout: arc-toc` and at least one with `layout: thanks`. The default sequence is cover, contents slide, section imports, then the thank-you slide. The contents title is optional: include `# <contents title>` only when supplied or requested; otherwise omit the heading and leave the `arc-toc` slide body empty. Use `hideInToc: true` on both layouts and `indexed: true` on the contents slide. Additional contents and thank-you slides are allowed wherever the presentation needs them; preserve existing additional instances rather than reducing them to exactly one.
+Every deck must include at least one slide with `layout: arc-toc` and at least one with `layout: thanks`. The default sequence is cover, contents slide, section imports, then the thank-you slide. The contents title is optional: include `# <contents title>` only when supplied or requested; otherwise omit the heading and leave the `arc-toc` slide body empty. Use `hideInToc: true` on both layouts and `indexed: true` on the contents slide. Additional contents slides are allowed wherever the presentation needs them; preserve existing additional instances rather than reducing them to exactly one.
+
+The `thanks` slide ends the presentation: it must be the last slide of the deck, and nothing may follow it. Do not add appendix, backup, extra results, references, bibliography, Q&A, or contact slides after it, even though academic decks often keep such material after the closing slide. Place material the user wants presented before the `thanks` slide (a `QnA` slide goes immediately before it), move supporting detail into presenter notes, or omit it. When editing a deck that already has slides after `thanks`, do not add more; point them out to the user instead of silently deleting or moving them.
 
 ### Preserve Slidev frontmatter
 
@@ -157,14 +159,16 @@ Replace `<slide content>` with the actual content for that slide, using Markdown
 
 - Flatten section articles into `slides.md` or section entry files.
 - Skip imports, reorder articles unintentionally, or reset an existing `Speaker` date to the scaffold default.
-- Collapse per-slide YAML into a paragraph or heading, or remove additional contents or thank-you slides merely to enforce a single instance.
+- Collapse per-slide YAML into a paragraph or heading, or remove additional contents slides merely to enforce a single instance.
+- Add any slide after the `thanks` slide, including appendix, backup, references, or Q&A slides.
 - Replace existing assets or overwrite unrelated content while scaffolding.
 
 ## Verification
 
 - Confirm `slides.md`, `assets/main.png`, and `assets/heading.png` exist.
 - Confirm every section has `main.md` and at least one numbered article file.
-- Confirm at least one `arc-toc` slide and one `thanks` slide exist with the required frontmatter; additional instances are allowed. A contents title is optional and must be omitted when none is supplied or requested.
+- Confirm at least one `arc-toc` slide exists with the required frontmatter; additional instances are allowed. A contents title is optional and must be omitted when none is supplied or requested.
+- Confirm exactly one `thanks` slide exists, with the required frontmatter, and that it is the final slide of the rendered deck with no slides after it.
 - Confirm cover placeholders are replaced and the generic cover uses a title, an optional `##` subtitle, and one `Speaker` component with `author`, without `team` or custom classes. Omit the subtitle heading when no subtitle is supplied or requested.
 - Confirm the root deck imports every section and section entry files import every numbered article in numeric order.
 - Resolve every `src` and `background` path from the file containing it.

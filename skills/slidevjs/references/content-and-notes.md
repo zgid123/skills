@@ -11,6 +11,7 @@ Keep slides focused on the highlights the audience needs to see, and use present
 - Put detailed explanations, worked examples, supporting context, and speaking cues in the presenter notes for the relevant slide.
 - Keep enough context visible for the audience to understand the message. Leave essential qualifications, units, labels, and evidence needed to interpret a claim on the slide.
 - Split content across slides when there are multiple main ideas or the visible content remains crowded.
+- Keep all visible content inside the layout's content area, the padded region inside the slide margins. Titles, diagrams, cards, captions, and footer-like summary lines such as `603 câu hỏi · 124 CSV` must not cross into the margins, the slide edge, or the page-number area. When content does not fit, condense it, move detail into notes, or split the slide.
 - Preserve useful existing notes when editing slides, and update them to match changed content. Add notes where supporting detail is needed; simple covers and dividers do not need filler notes.
 
 ```md
@@ -38,6 +39,7 @@ Ask the audience which data in their application can tolerate a short delay.
 - Move essential context into notes until the visible slide becomes misleading or incomprehensible.
 - Repeat the visible bullets verbatim as the entire note; add the explanation or example the speaker needs.
 - Shrink text or choose a decorative component to accommodate too much content.
+- Push content past the content area with absolute positioning, negative margins, fixed heights, or extra rows below a diagram; do not hide overflow with `overflow: hidden` or scaling.
 
 ```md
 # A detailed explanation of how caching repeated reads works and all the considerations involved
@@ -56,3 +58,4 @@ Use an HTML comment block at the end of the relevant slide, after visible conten
 - Check detailed explanations and examples are in the relevant notes, with no useful source detail silently discarded during condensation.
 - Confirm each note comment is at the end of its slide and remains attached to the correct slide when adding separators.
 - When preview is available, inspect audience and presenter views to confirm visible content stays concise and notes appear on the intended slide. Report if preview verification is unavailable.
+- In preview, check every created or edited slide, including after all clicks are revealed, and confirm no element extends beyond the content area into the margins, slide edge, or page-number area.
