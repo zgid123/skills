@@ -52,7 +52,7 @@ const messageFiles = ['en.json', 'vi.json'].flatMap((locale) => [
 
 ## Objects and Object Arguments
 
-Write every non-empty object literal across multiple lines: put each property on its own line and add a trailing comma after the last one. This applies to returned objects, variable initializers, and objects passed as function or method arguments. A single property, including a shorthand property such as `{ id }`, gets no exception. Order the properties as described in [Property Ordering](#property-ordering).
+Write every non-empty object literal across multiple lines: put each property on its own line and add a trailing comma after the last one. This applies to returned objects, variable initializers, and objects passed as function or method arguments. It covers every call, not only project-owned APIs: options objects passed to third-party or framework APIs (Drizzle, ORM, HTTP, and validation libraries), objects nested inside other objects, and objects inside chained calls or schema definitions follow the same rule. A single property, including a shorthand property such as `{ id }`, gets no exception. Order the properties as described in [Property Ordering](#property-ordering).
 
 Formatters such as Biome, Prettier, and oxfmt keep an expanded object expanded but never expand an inline one, so a passing format check does not mean the code follows this rule. Write the object expanded from the start.
 
@@ -69,6 +69,22 @@ if (!project) {
 await this.#projectRepository.delete({
   id,
 });
+
+// ✅ Library options objects inside chained schema calls are multiline too
+export const seriesPosts = sqliteTable('series_posts', {
+  ...baseUuidSchema,
+  seriesId: text('series_id')
+    .notNull()
+    .references(() => series.id, {
+      onDelete: 'cascade',
+    }),
+  postId: text('post_id')
+    .notNull()
+    .unique()
+    .references(() => posts.id, {
+      onDelete: 'cascade',
+    }),
+});
 ```
 
 ```ts
@@ -76,6 +92,11 @@ await this.#projectRepository.delete({
 const project = await this.#projectRepository.findOne({ id });
 
 await this.#projectRepository.delete({ id });
+
+// ❌ Third-party options objects get no exception
+const seriesId = text('series_id')
+  .notNull()
+  .references(() => series.id, { onDelete: 'cascade' });
 ```
 
 This invalid example, which is multiline but missing the trailing comma, is shown as plain text so formatters preserve the violation:
