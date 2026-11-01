@@ -8,7 +8,19 @@ Record the objective, audience, intended use, priority questions, deliverables, 
 
 For each priority question, map the required population, fields, units, relationships, period and evidence to what is actually available. Classify it as answerable, conditionally answerable (state the condition), or unsupported (state the missing evidence). Resolve consequential meanings through dictionaries, metadata, documentation or targeted clarification. Do not infer sensitive or consequential meanings from column names alone.
 
-When evidence fails, return to approach, requirements or collection. Preserve the original objective and explain the impact of any narrowed scope. Propose supported alternatives rather than silently substituting a different objective. A missing prediction label may block prediction while leaving meaningful descriptive or comparative questions answerable. Conversely, a profile of unrelated columns does not satisfy a blocked predictive request; label the changed scope and status.
+When evidence fails, return to approach, requirements or collection. Preserve the original objective and explain the impact of any narrowed scope. A profile of unrelated columns does not satisfy a blocked request; label the changed scope and status.
+
+### Pivot, do not stop
+
+A feasibility verdict alone is a thin deliverable. When the main question is unsupported:
+
+1. State the blocker precisely in one or two sentences: the missing linkage, timing, outcome or field, and what data would remove it.
+2. List the questions the data *can* answer that still serve the original purpose. Rank them by usefulness to the reader.
+3. Pick the best one or two and analyze them properly: real comparisons, follow-up, findings with numbers. For example, a dataset with outcomes but no usable timing can still show which behaviours differ between outcome groups; a survey without student linkage can still show how practices differ across schools or countries.
+4. Lead the report with the finding, and put the feasibility verdict in the summary's status line and in Limitations, not as the headline.
+5. Label the result as partial analysis against the original aim. Do not present a substitute question as if it answered the original one, and do not fabricate data to keep the original question alive.
+
+If no related question is worth answering, say so plainly and keep the deliverable short.
 
 ## From profiling to investigation
 

@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic two-category survey extract with replicate weights for a Fay BRR demonstration; weights are deliberately simple and are not a real survey design.",
+  "grain": "one row per respondent",
+  "fields": {
+    "satisfied": "Binary top-box response: 1 satisfied, 0 not satisfied",
+    "final_weight": "Final analysis weight for the weighted point estimate",
+    "replicate_1 through replicate_4": "Replicate weights; compute each weighted share, then Fay BRR standard error with k=0.5"
+  },
+  "replicate_weight_columns": ["replicate_1", "replicate_2", "replicate_3", "replicate_4"],
+  "fay_k": 0.5
+}

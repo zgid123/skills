@@ -76,16 +76,16 @@ Does the effect matter to the business? (Practical & economic significance)
 
 | Analytical Scenario | Recommended Test | Key Assumptions | Non-Parametric / Small-Sample Alternatives |
 | --- | --- | --- | --- |
-| Compare sample mean to benchmark | One-Sample t-Test | Independent observations, approximate normality of sample mean. | Wilcoxon Signed-Rank Test |
-| Compare means of 2 independent groups | Independent Two-Sample t-Test (Welch's t-test preferred) | Independent samples; Welch's test relaxes equal variance assumption. | Mann–Whitney U Test |
-| Compare means before and after on same subjects | Paired t-Test | Paired observations, normally distributed differences. | Wilcoxon Signed-Rank Test |
-| Compare means across 3+ independent groups | One-Way ANOVA | Independent groups, approximate normality, homogeneity of variance. | Kruskal–Wallis Test |
+| Compare sample mean to benchmark | One-Sample t-Test | Independent observations; mean sampling distribution adequately modeled. | Wilcoxon signed-rank tests symmetric differences about zero; not generally a mean test |
+| Compare means of 2 independent groups | Independent Two-Sample t-Test (Welch's t-test preferred) | Independent samples; Welch's test relaxes equal variance. | Mann–Whitney tests distribution equality; not generally a mean test |
+| Compare means before and after on same subjects | Paired t-Test | Independent pairs; mean of paired differences adequately modeled. | Wilcoxon signed-rank tests symmetric paired differences about zero; not generally a mean test |
+| Compare means across 3+ independent groups | One-Way ANOVA | Independent groups; mean model and variance assumptions adequate. | Kruskal–Wallis compares distributions; not generally a mean test |
 | Compare categorical frequencies / proportions | Chi-Square ($\chi^2$) Test of Independence | Independent observations. Rule of thumb heuristic: expected frequencies $\ge 5$ in most cells. | Fisher's Exact Test (small $2\times 2$ tables), Monte Carlo / exact tests, or category consolidation |
 | Linear association between continuous variables | Pearson Correlation ($r$) | Linear relationship, continuous variables, bivariate normality. | Spearman Rank Correlation ($\rho$) |
 
 ## Multiple Comparisons and Family-Wise Error Rate
 
-When testing multiple hypotheses or segmenting results across many sub-cohorts simultaneously, the probability of at least one false positive inflates rapidly: $$\alpha_{\text{family}} = 1 - (1 - \alpha)^k$$ For 20 simultaneous tests at $\alpha = 0.05$, the chance of a false positive is $1 - (0.95)^{20} \approx 64\%$.
+For $k$ independent tests, family-wise error is $$1 - (1 - \alpha)^k$$ (about 64% for 20 tests at $\alpha = .05$); dependence changes this rate.
 
 - **Correction Techniques**:
   - **Bonferroni Correction**: Adjusts significance threshold to $\alpha / k$ (conservative).
@@ -94,10 +94,7 @@ When testing multiple hypotheses or segmenting results across many sub-cohorts s
 
 ## Resampling and Bootstrap Fundamentals
 
-When data violates parametric distribution assumptions or when estimating complex statistics (e.g., medians, percentiles, ratios of sums):
-
-- **Bootstrapping**: Repeatedly resample the observed dataset with replacement (typically 1,000 to 10,000 iterations), compute the statistic on each replicate, and derive empirical confidence intervals from the resulting distribution percentiles (e.g., 2.5th and 97.5th percentiles for a 95% CI).
-- Highly effective for non-standard metrics where analytical standard error formulas do not exist.
+For complex statistics, bootstrap by sampling unit and preserve repeated or clustered observations together. A basic resample does not account for selection or model-fitting uncertainty unless those steps are repeated.
 
 ## Cross-References
 

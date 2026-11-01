@@ -3,5 +3,8 @@
   "oxc.fmt.configPath": ".oxfmtrc.json",
   "[markdown]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   }
 }

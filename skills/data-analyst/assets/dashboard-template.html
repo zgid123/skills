@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+  Dashboard template (data-analyst skill). Works offline: no libraries, charts are drawn as SVG.
+  How to use:
+  1. Copy to <output>/dashboard.html.
+  2. Replace the JSON inside <script id="dashboard-data"> with your verified results (write it from code,
+     e.g. json.dump from the same tables saved in results/). Keep everything else.
+  3. Config:
+     meta      title (a finding), subtitle, status, source, updated, reportHref
+     filters   [{id, label, options, default}] — a filter applies to every table that has a column named `id`
+     tables    {name: [row objects]} — tidy rows, one value per column
+     kpis      [{label, table, value, where?, format, note?}] — first matching row after filters
+     sections  [{title (a claim), note, chart: {...}}]
+               chart.type: "bar"      x (category), y (value), highlight?, sort? (default true)
+                           "line"     x (ordered), y, series (column naming each line), highlight?
+                           "interval" x (label), y (estimate), low, high, reference? (default 0)
+                           "table"    columns: [{key, label, format?}]
+               chart.table, chart.format ("pct" | "pct1" | "int" | "dec1" | "dec2" | "dec3" | "signed3"), chart.where? {col: value}
+               chart.ignoreFilters: true keeps a view fixed (say "Not filtered" in its note); line charts accept zero: true
+               chart.xType: "number" | "date" | "category" — inferred as number when all x values are numeric, else category; set "date" for ISO YYYY-MM-DD strings
+  4. The example data below is ILLUSTRATIVE. Replace it before delivery and open the page to check values.
+-->
+    <title>{{SHORT TITLE}}</title>
+    <style>
+      :root {
+        --bg: #f5f7f9;
+        --surface: #ffffff;
+        --ink: #1f2933;
+        --muted: #52606d;
+        --line: #e4e7eb;
+        --grid: #edf0f2;
+        --accent: #1f6f8b;
+        --context: #9aa5b1;
+        --warn: #b4560f;
+        --warn-soft: #fdf1e7;
+        --accent-soft: #e6f1f5;
+        --s1: #1f6f8b;
+        --s2: #d9822b;
+        --s3: #2a9d8f;
+        --s4: #c44569;
+        --s5: #6c5b7b;
+        --s6: #8d99ae;
+        --radius: 10px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --bg: #12171c;
+          --surface: #1b2229;
+          --ink: #e8ecef;
+          --muted: #a3afba;
+          --line: #2c363f;
+          --grid: #242d35;
+          --accent: #6cb6d1;
+          --context: #5f6b76;
+          --warn: #f0a868;
+          --warn-soft: #3a2a1c;
+          --accent-soft: #1d3540;
+          --s1: #6cb6d1;
+          --s2: #f0a868;
+          --s3: #5cc8b8;
+          --s4: #e67a9a;
+          --s5: #a99bc0;
+          --s6: #aab4c3;
+        }
+      }
+      :root[data-theme='dark'] {
+        --bg: #12171c;
+        --surface: #1b2229;
+        --ink: #e8ecef;
+        --muted: #a3afba;
+        --line: #2c363f;
+        --grid: #242d35;
+        --accent: #6cb6d1;
+        --context: #5f6b76;
+        --warn: #f0a868;
+        --warn-soft: #3a2a1c;
+        --accent-soft: #1d3540;
+        --s1: #6cb6d1;
+        --s2: #f0a868;
+        --s3: #5cc8b8;
+        --s4: #e67a9a;
+        --s5: #a99bc0;
+        --s6: #aab4c3;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          15px/1.5 -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Inter,
+          Roboto,
+          sans-serif;
+      }
+      main {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 2rem 1rem 3rem;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.88rem;
+        margin: 0;
+      }
+      h1 {
+        font-size: clamp(1.4rem, 3.5vw, 2rem);
+        line-height: 1.2;
+        margin: 0.3rem 0 0.5rem;
+      }
+      .subtitle {
+        color: var(--muted);
+        margin: 0 0 1rem;
+        max-width: 52rem;
+      }
+      .status {
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.15rem 0.55rem;
+        border-radius: 999px;
+        background: var(--warn-soft);
+        color: var(--warn);
+        margin-right: 0.5rem;
+      }
+      .links a {
+        color: var(--accent);
+        margin-right: 1rem;
+        font-size: 0.9rem;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 0.75rem 1rem;
+        margin: 1.25rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+      .controls label {
+        font-size: 0.9rem;
+        color: var(--muted);
+        display: flex;
+        gap: 0.45rem;
+        align-items: center;
+      }
+      select,
+      button {
+        font: inherit;
+        color: var(--ink);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0.3rem 0.5rem;
+      }
+      button {
+        cursor: pointer;
+      }
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+      }
+      .kpi {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--accent);
+        border-radius: var(--radius);
+        padding: 0.85rem 1rem;
+      }
+      .kpi .value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.15;
+      }
+      .kpi .label {
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+      .kpi .note {
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 0.25rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 32rem), 1fr));
+        gap: 1rem;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 1rem 1.1rem;
+        min-width: 0;
+      }
+      .card h2 {
+        font-size: 1.05rem;
+        margin: 0 0 0.25rem;
+        line-height: 1.3;
+      }
+      .card .note {
+        color: var(--muted);
+        font-size: 0.86rem;
+        margin: 0 0 0.6rem;
+      }
+      .chart svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        overflow: visible;
+      }
+      .chart text {
+        fill: var(--ink);
+        font-size: 12px;
+      }
+      .chart .axis text {
+        fill: var(--muted);
+        font-size: 11px;
+      }
+      .chart .gridline {
+        stroke: var(--grid);
+      }
+      .chart .baseline {
+        stroke: var(--context);
+      }
+      .empty {
+        color: var(--muted);
+        font-style: italic;
+        padding: 1rem 0;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.88rem;
+        font-variant-numeric: tabular-nums;
+      }
+      th,
+      td {
+        padding: 0.4rem 0.55rem;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        white-space: nowrap;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+      td.num,
+      th.num {
+        text-align: right;
+      }
+      footer {
+        color: var(--muted);
+        font-size: 0.82rem;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="meta" id="meta"></p>
+        <h1 id="title"></h1>
+        <p class="subtitle" id="subtitle"></p>
+        <p><span class="status" id="status"></span><span class="links" id="links"></span></p>
+      </header>
+      <div class="controls" id="controls"></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="grid" id="sections"></div>
+      <footer id="footer"></footer>
+    </main>
+
+    <script type="application/json" id="dashboard-data">
+      {
+        "meta": {
+          "title": "Missing early work flags most students who later withdraw",
+          "subtitle": "ILLUSTRATIVE EXAMPLE DATA — replace with verified results. Early-warning view for course tutors.",
+          "status": "Retrospective analysis",
+          "source": "Example dataset · later cohort test set",
+          "updated": "2026-10-31",
+          "reportHref": "report.html"
+        },
+        "filters": [
+          { "id": "cutoff", "label": "Warning day", "options": [30, 60, 90], "default": 60 }
+        ],
+        "tables": {
+          "summary": [
+            {
+              "cutoff": 30,
+              "students": 6102,
+              "at_risk_rate": 0.351,
+              "flagged": 1471,
+              "recall": 0.315
+            },
+            {
+              "cutoff": 60,
+              "students": 5903,
+              "at_risk_rate": 0.329,
+              "flagged": 927,
+              "recall": 0.368
+            },
+            {
+              "cutoff": 90,
+              "students": 5746,
+              "at_risk_rate": 0.311,
+              "flagged": 787,
+              "recall": 0.367
+            }
+          ],
+          "risk_by_status": [
+            { "cutoff": 30, "group": "Missed an assignment", "rate": 0.82 },
+            { "cutoff": 30, "group": "Submitted everything", "rate": 0.29 },
+            { "cutoff": 60, "group": "Missed an assignment", "rate": 0.85 },
+            { "cutoff": 60, "group": "Submitted everything", "rate": 0.26 },
+            { "cutoff": 90, "group": "Missed an assignment", "rate": 0.88 },
+            { "cutoff": 90, "group": "Submitted everything", "rate": 0.24 }
+          ],
+          "ap_by_cutoff": [
+            { "day": 30, "model": "Behaviour", "ap": 0.49 },
+            { "day": 60, "model": "Behaviour", "ap": 0.65 },
+            { "day": 90, "model": "Behaviour", "ap": 0.65 },
+            { "day": 30, "model": "Scores", "ap": 0.39 },
+            { "day": 60, "model": "Scores", "ap": 0.45 },
+            { "day": 90, "model": "Scores", "ap": 0.57 },
+            { "day": 30, "model": "Base rate", "ap": 0.35 },
+            { "day": 60, "model": "Base rate", "ap": 0.33 },
+            { "day": 90, "model": "Base rate", "ap": 0.31 }
+          ],
+          "gain": [
+            { "cutoff": 30, "label": "Day 30", "est": -0.045, "lo": -0.059, "hi": -0.03 },
+            { "cutoff": 60, "label": "Day 60", "est": -0.06, "lo": -0.078, "hi": -0.043 },
+            { "cutoff": 90, "label": "Day 90", "est": 0.031, "lo": 0.016, "hi": 0.049 }
+          ],
+          "by_course": [
+            { "cutoff": 60, "course": "AAA", "flag_rate": 0.1, "precision": 0.48, "recall": 0.2 },
+            { "cutoff": 60, "course": "BBB", "flag_rate": 0.43, "precision": 0.39, "recall": 0.5 },
+            { "cutoff": 60, "course": "DDD", "flag_rate": 0.1, "precision": 0.94, "recall": 0.25 }
+          ]
+        },
+        "kpis": [
+          {
+            "label": "Students evaluated",
+            "table": "summary",
+            "value": "students",
+            "format": "int"
+          },
+          {
+            "label": "Later failed or withdrew",
+            "table": "summary",
+            "value": "at_risk_rate",
+            "format": "pct"
+          },
+          {
+            "label": "Flagged for review",
+            "table": "summary",
+            "value": "flagged",
+            "format": "int"
+          },
+          {
+            "label": "At-risk students caught",
+            "table": "summary",
+            "value": "recall",
+            "format": "pct",
+            "note": "Share of later at-risk students on the review list"
+          }
+        ],
+        "sections": [
+          {
+            "title": "Missing one assignment triples later risk",
+            "note": "Share later failing or withdrawing, by submission status at the warning day.",
+            "chart": {
+              "type": "bar",
+              "table": "risk_by_status",
+              "x": "group",
+              "y": "rate",
+              "format": "pct",
+              "highlight": "Missed an assignment"
+            }
+          },
+          {
+            "title": "Behaviour signals beat scores until day 90",
+            "note": "Average precision on the later cohort (higher is better; base rate = no skill). Not filtered.",
+            "chart": {
+              "type": "line",
+              "table": "ap_by_cutoff",
+              "x": "day",
+              "y": "ap",
+              "series": "model",
+              "format": "dec2",
+              "highlight": "Behaviour"
+            }
+          },
+          {
+            "title": "Adding scores only helps by day 90",
+            "note": "Combined minus behaviour-only average precision, 95% bootstrap interval. Not filtered.",
+            "chart": {
+              "type": "interval",
+              "table": "gain",
+              "x": "label",
+              "y": "est",
+              "low": "lo",
+              "high": "hi",
+              "format": "signed3",
+              "ignoreFilters": true
+            }
+          },
+          {
+            "title": "Workload falls unevenly across courses",
+            "note": "At 20% review capacity. Small courses are descriptive.",
+            "chart": {
+              "type": "table",
+              "table": "by_course",
+              "columns": [
+                { "key": "course", "label": "Course" },
+                { "key": "flag_rate", "label": "Flagged", "format": "pct" },
+                { "key": "precision", "label": "Truly at risk", "format": "pct" },
+                { "key": "recall", "label": "Caught", "format": "pct" }
+              ]
+            }
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      (function () {
+        'use strict';
+        const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+        const state = {};
+        (DATA.filters || []).forEach((f) => {
+          state[f.id] = f.default ?? f.options[0];
+        });
+
+        const FORMATS = {
+          pct: (v) => (v * 100).toFixed(0) + '%',
+          pct1: (v) => (v * 100).toFixed(1) + '%',
+          int: (v) => Math.round(v).toLocaleString(),
+          dec1: (v) => v.toFixed(1),
+          dec2: (v) => v.toFixed(2),
+          dec3: (v) => v.toFixed(3),
+          signed3: (v) => (v > 0 ? '+' : '') + v.toFixed(3),
+        };
+        const fmt = (v, f) =>
+          v === null || v === undefined || Number.isNaN(v)
+            ? '—'
+            : (FORMATS[f] || ((x) => String(x)))(v);
+        const esc = (s) =>
+          String(s).replace(
+            /[&<>"]/g,
+            (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c],
+          );
+        const SERIES = ['--s1', '--s2', '--s3', '--s4', '--s5', '--s6'].map((v) => `var(${v})`);
+
+        function rows(cfg) {
+          let out = DATA.tables[cfg.table] || [];
+          if (!cfg.ignoreFilters) {
+            for (const [k, v] of Object.entries(state)) {
+              if (out.length && k in out[0]) out = out.filter((r) => String(r[k]) === String(v));
+            }
+          }
+          for (const [k, v] of Object.entries(cfg.where || {}))
+            out = out.filter((r) => String(r[k]) === String(v));
+          return out;
+        }
+
+        function niceStep(span, count) {
+          const raw = span / count,
+            p = Math.pow(10, Math.floor(Math.log10(raw)));
+          return [1, 2, 2.5, 5, 10].map((m) => m * p).find((m) => m >= raw);
+        }
+        // Rounded axis ticks covering [lo, hi]; set includeZero for bar charts.
+        function ticks(lo, hi, includeZero) {
+          if (includeZero) {
+            lo = Math.min(0, lo);
+            hi = Math.max(0, hi);
+          }
+          if (hi === lo) {
+            hi = lo + 1;
+          }
+          const step = niceStep(hi - lo, 4),
+            start = Math.floor(lo / step + 1e-9) * step,
+            end = Math.ceil(hi / step - 1e-9) * step;
+          const out = [];
+          for (let v = start; v <= end + step / 2; v += step) out.push(Math.round(v / step) * step);
+          return out;
+        }
+        const widthOf = (el) => Math.max(300, Math.round(el.clientWidth || 560));
+
+        function bar(el, data, c) {
+          const valid = (d) => typeof d[c.y] === 'number' && Number.isFinite(d[c.y]);
+          const invalid = data.filter((d) => d[c.y] !== null && d[c.y] !== undefined && !valid(d));
+          if (invalid.length) throw new Error('Bar values must be finite numbers or null');
+          if (c.sort !== false) data = [...data].sort((a, b) => valid(a) === valid(b) ? (valid(a) ? b[c.y] - a[c.y] : 0) : valid(a) ? -1 : 1);
+          const longest = Math.max(...data.map((d) => String(d[c.x]).length));
+          const W = widthOf(el),
+            rowH = 34,
+            left = Math.min(longest * 7 + 14, W * 0.45),
+            right = 56,
+            top = 6,
+            H = top + data.length * rowH + 22;
+          const vals = data.filter(valid).map((d) => d[c.y]);
+          if (!vals.length) {
+            el.innerHTML = `<p class="empty">${data.map((d) => `${esc(d[c.x])}: unavailable`).join(' · ')}</p>`;
+            return;
+          }
+          const tk = ticks(Math.min(...vals), Math.max(...vals), true),
+            min = tk[0],
+            max = tk[tk.length - 1];
+          const x = (v) => left + ((v - min) / (max - min)) * (W - left - right);
+          let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.alt || 'bar chart')}">`;
+          for (const v of tk) {
+            const gx = x(v);
+            s += `<line class="gridline" x1="${gx}" x2="${gx}" y1="${top}" y2="${H - 20}"/><g class="axis"><text x="${gx}" y="${H - 5}" text-anchor="middle">${esc(fmt(v, c.format))}</text></g>`;
+          }
+          data.forEach((d, i) => {
+            const y = top + i * rowH + 6;
+            s += `<text x="${left - 10}" y="${y + 14}" text-anchor="end">${esc(d[c.x])}</text>`;
+            if (d[c.y] === null || d[c.y] === undefined) {
+              s += `<text class="empty" x="${left + 6}" y="${y + 15}">Unavailable</text>`;
+              return;
+            }
+            const v = d[c.y],
+              focus = c.highlight === undefined || c.highlight === d[c.x];
+            const x0 = x(Math.min(0, v)),
+              w = Math.abs(x(v) - x(0));
+            s += `<rect x="${x0}" y="${y}" width="${Math.max(w, 1)}" height="22" rx="3" fill="${focus ? 'var(--accent)' : 'var(--context)'}"><title>${esc(d[c.x])}: ${esc(fmt(v, c.format))}</title></rect>`;
+            s += `<text x="${x(v) + (v >= 0 ? 6 : -6)}" y="${y + 15}" text-anchor="${v >= 0 ? 'start' : 'end'}" font-weight="${focus ? 600 : 400}">${esc(fmt(v, c.format))}</text>`;
+          });
+          s += `<line class="baseline" x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${H - 20}"/></svg>`;
+          el.innerHTML = s;
+        }
+
+        // Move label positions (y) apart so neighbours are at least `gap` px apart, within [minY, maxY].
+        function spread(labels, gap, minY, maxY) {
+          labels.sort((a, b) => a.y - b.y);
+          for (let i = 0; i < labels.length; i++) {
+            const floor = i === 0 ? minY : labels[i - 1].y + gap;
+            labels[i].y = Math.max(labels[i].y, floor);
+          }
+          for (let i = labels.length - 1; i >= 0; i--) {
+            const ceil = i === labels.length - 1 ? maxY : labels[i + 1].y - gap;
+            labels[i].y = Math.min(labels[i].y, ceil);
+          }
+        }
+
+        function line(el, data, c) {
+          const W = widthOf(el),
+            H = 260,
+            left = 48,
+            right = Math.min(130, W * 0.3),
+            top = 10,
+            bottom = 28;
+          const xType = c.xType || (data.every((d) => typeof d[c.x] === 'number') ? 'number' : 'category');
+          if (!['number', 'date', 'category'].includes(xType)) throw new Error(`Unknown line xType: ${xType}`);
+          const xValue = (value) => {
+            if (xType === 'category') return value;
+            if (xType === 'number') {
+              if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error('Numeric line x values must be finite numbers');
+              return value;
+            }
+            if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value) || !Number.isFinite(Date.parse(`${value}T00:00:00Z`)) || new Date(`${value}T00:00:00Z`).toISOString().slice(0, 10) !== value)
+              throw new Error('Date line x values must be valid ISO YYYY-MM-DD strings');
+            return Date.parse(`${value}T00:00:00Z`);
+          };
+          const xs = [...new Set(data.map((d) => d[c.x]))];
+          if (xType !== 'category') xs.sort((a, b) => xValue(a) - xValue(b));
+          const xCoordinates = xs.map(xValue);
+          const xMin = Math.min(...xCoordinates), xMax = Math.max(...xCoordinates);
+          const categoryOrder = new Map(xs.map((value, index) => [value, index]));
+          const groups = [...new Set(data.map((d) => d[c.series]))];
+          const validValues = data.map((d) => d[c.y]).filter((v) => typeof v === 'number' && Number.isFinite(v));
+          if (!validValues.length) {
+            el.innerHTML = '<p class="empty">No valid values for this selection.</p>';
+            return;
+          }
+          const invalid = data.find((d) => d[c.y] !== null && d[c.y] !== undefined && (typeof d[c.y] !== 'number' || !Number.isFinite(d[c.y])));
+          if (invalid) throw new Error('Line y values must be finite numbers or null');
+          const vals = validValues;
+          const tk = ticks(Math.min(...vals), Math.max(...vals), !!c.zero),
+            lo = tk[0],
+            hi = tk[tk.length - 1];
+          const x = (v) => {
+            if (xType === 'category') return left + (xs.length === 1 ? 0.5 : xs.indexOf(v) / (xs.length - 1)) * (W - left - right);
+            const value = xValue(v);
+            return left + (xMax === xMin ? 0.5 : (value - xMin) / (xMax - xMin)) * (W - left - right);
+          };
+          const y = (v) => top + ((hi - v) / (hi - lo)) * (H - top - bottom);
+          let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.alt || 'line chart')}">`;
+          for (const v of tk) {
+            s += `<line class="gridline" x1="${left}" x2="${W - right}" y1="${y(v)}" y2="${y(v)}"/><g class="axis"><text x="${left - 6}" y="${y(v) + 4}" text-anchor="end">${esc(fmt(v, c.format))}</text></g>`;
+          }
+          let xLabelIndexes = xs.map((_, index) => index);
+          if (xType === 'date' && xs.length > 2) {
+            const middleLabelSpacing = 78;
+            const endpointLabelSpacing = 113;
+            xLabelIndexes = [0];
+            let lastLabelX = x(xs[0]);
+            for (let index = 1; index < xs.length - 1; index++) {
+              const currentX = x(xs[index]);
+              const spacingFromPrevious = xLabelIndexes.length === 1 ? endpointLabelSpacing : middleLabelSpacing;
+              if (
+                currentX - lastLabelX >= spacingFromPrevious &&
+                x(xs[xs.length - 1]) - currentX >= endpointLabelSpacing
+              ) {
+                xLabelIndexes.push(index);
+                lastLabelX = currentX;
+              }
+            }
+            xLabelIndexes.push(xs.length - 1);
+          }
+          xLabelIndexes.forEach((index) => {
+            const anchor = xType !== 'date' ? 'middle' : index === 0 ? 'start' : index === xs.length - 1 ? 'end' : 'middle';
+            const labelClass = xType === 'date' ? ' class="x-tick-label"' : '';
+            s += `<g class="axis"><text${labelClass} x="${x(xs[index])}" y="${H - 8}" text-anchor="${anchor}">${esc(xs[index])}</text></g>`;
+          });
+          const labels = [];
+          groups.forEach((g, i) => {
+            const pts = data.filter((d) => d[c.series] === g).sort((a, b) =>
+              xType === 'category'
+                ? categoryOrder.get(a[c.x]) - categoryOrder.get(b[c.x])
+                : xValue(a[c.x]) - xValue(b[c.x]),
+            );
+            const color =
+              c.highlight === undefined
+                ? SERIES[i % SERIES.length]
+                : g === c.highlight
+                  ? 'var(--accent)'
+                  : 'var(--context)';
+            const w = c.highlight === g ? 3 : 2;
+            let segment = [];
+            const drawSegment = () => {
+              if (segment.length > 1) s += `<polyline fill="none" stroke="${color}" stroke-width="${w}" points="${segment.map((p) => `${x(p[c.x])},${y(p[c.y])}`).join(' ')}"/>`;
+              segment = [];
+            };
+            pts.forEach((p) => {
+              if (p[c.y] === null || p[c.y] === undefined) {
+                drawSegment();
+                return;
+              }
+              segment.push(p);
+              s += `<circle cx="${x(p[c.x])}" cy="${y(p[c.y])}" r="3.5" fill="${color}"><title>${esc(g)} · ${esc(p[c.x])}: ${esc(fmt(p[c.y], c.format))}</title></circle>`;
+            });
+            drawSegment();
+            const last = [...pts].reverse().find((p) => p[c.y] !== null && p[c.y] !== undefined);
+            if (last)
+              labels.push({ x: x(last[c.x]), y0: y(last[c.y]), y: y(last[c.y]), color, bold: c.highlight === g, text: `${g} ${fmt(last[c.y], c.format)}` });
+          });
+          // End-of-line labels: push apart labels that would overlap, keeping them inside the plot.
+          spread(labels, 14, top + 4, H - bottom);
+          labels.forEach((l) => {
+            if (Math.abs(l.y - l.y0) > 2)
+              s += `<line x1="${l.x + 3}" x2="${l.x + 7}" y1="${l.y0}" y2="${l.y}" stroke="${l.color}" stroke-width="1"/>`;
+            s += `<text class="line-end-label" x="${l.x + 8}" y="${l.y + 4}" fill="${l.color}" style="fill:${l.color}" font-weight="${l.bold ? 600 : 400}">${esc(l.text)}</text>`;
+          });
+          el.innerHTML = s + '</svg>';
+        }
+
+        function interval(el, data, c) {
+          const valid = (d) => [d[c.y], d[c.low], d[c.high]].every((v) => typeof v === 'number' && Number.isFinite(v));
+          const missing = (d) => [d[c.y], d[c.low], d[c.high]].some((v) => v === null || v === undefined);
+          if (data.some((d) => !valid(d) && !missing(d))) throw new Error('Interval values must be finite numbers or null');
+          const longest = Math.max(...data.map((d) => String(d[c.x]).length));
+          const W = widthOf(el),
+            rowH = 36,
+            left = Math.min(longest * 7 + 14, W * 0.45),
+            right = 64,
+            top = 6,
+            H = top + data.length * rowH + 22;
+          const ref = c.reference === undefined ? 0 : c.reference;
+          const validData = data.filter(valid);
+          if (!validData.length) {
+            el.innerHTML = `<p class="empty">${data.map((d) => `${esc(d[c.x])}: unavailable`).join(' · ')}</p>`;
+            return;
+          }
+          const all = validData.flatMap((d) => [d[c.low], d[c.high]]).concat(ref === null ? [] : [ref]);
+          const tk = ticks(Math.min(...all), Math.max(...all), false),
+            lo = tk[0],
+            hi = tk[tk.length - 1];
+          const x = (v) => left + ((v - lo) / (hi - lo)) * (W - left - right);
+          let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.alt || 'interval chart')}">`;
+          for (const v of tk) {
+            s += `<line class="gridline" x1="${x(v)}" x2="${x(v)}" y1="${top}" y2="${H - 20}"/><g class="axis"><text x="${x(v)}" y="${H - 5}" text-anchor="middle">${esc(fmt(v, c.format))}</text></g>`;
+          }
+          if (ref !== null)
+            s += `<line class="baseline" stroke-dasharray="4 3" x1="${x(ref)}" x2="${x(ref)}" y1="${top}" y2="${H - 20}"/>`;
+          data.forEach((d, i) => {
+            const y = top + i * rowH + 16;
+            s += `<text x="${left - 10}" y="${y + 4}" text-anchor="end">${esc(d[c.x])}</text>`;
+            if (!valid(d)) {
+              s += `<text class="empty" x="${W - right}" y="${y + 4}" text-anchor="end">Unavailable</text>`;
+              return;
+            }
+            const crosses = ref !== null && d[c.low] <= ref && d[c.high] >= ref;
+            const color = crosses ? 'var(--context)' : 'var(--accent)';
+            s += `<line x1="${x(d[c.low])}" x2="${x(d[c.high])}" y1="${y}" y2="${y}" stroke="${color}" stroke-width="3" stroke-linecap="round"/>`;
+            s += `<circle cx="${x(d[c.y])}" cy="${y}" r="5.5" fill="${color}"><title>${esc(d[c.x])}: ${esc(fmt(d[c.y], c.format))} [${esc(fmt(d[c.low], c.format))}, ${esc(fmt(d[c.high], c.format))}]</title></circle>`;
+            s += `<text x="${x(d[c.high]) + 8}" y="${y + 4}">${esc(fmt(d[c.y], c.format))}</text>`;
+          });
+          el.innerHTML = s + '</svg>';
+        }
+
+        function table(el, data, c) {
+          const cols = c.columns || Object.keys(data[0]).map((k) => ({ key: k, label: k }));
+          const isNum = (col) => typeof data[0][col.key] === 'number';
+          let s = `<div class="table-wrap"><table><thead><tr>${cols.map((col) => `<th class="${isNum(col) ? 'num' : ''}">${esc(col.label)}</th>`).join('')}</tr></thead><tbody>`;
+          data.forEach((r) => {
+            s += `<tr>${cols.map((col) => `<td class="${isNum(col) ? 'num' : ''}">${esc(col.format ? fmt(r[col.key], col.format) : r[col.key])}</td>`).join('')}</tr>`;
+          });
+          el.innerHTML = s + '</tbody></table></div>';
+        }
+
+        const RENDER = { bar, line, interval, table };
+
+        function renderHeader() {
+          const m = DATA.meta || {};
+          document.getElementById('meta').textContent = [
+            m.source,
+            m.updated && `Updated ${m.updated}`,
+          ]
+            .filter(Boolean)
+            .join(' · ');
+          document.getElementById('title').textContent = m.title || '';
+          document.getElementById('subtitle').textContent = m.subtitle || '';
+          const status = document.getElementById('status');
+          if (m.status) status.textContent = m.status;
+          else status.remove();
+          document.getElementById('links').innerHTML = m.reportHref
+            ? `<a href="${esc(m.reportHref)}">Read the full report</a>`
+            : '';
+          document.title = m.title || document.title;
+          document.getElementById('footer').textContent =
+            'Values are supplied from the analysis output. Filters apply only to views whose data contains the filtered field; views marked “Not filtered” stay fixed.';
+        }
+
+        function kpiState(k) {
+          const matches = rows(k);
+          if (matches.length > 1) return { state: 'ambiguous', value: '—' };
+          if (matches.length === 0 || matches[0][k.value] === null || matches[0][k.value] === undefined)
+            return { state: 'unavailable', value: '—' };
+          return { state: 'value', value: fmt(matches[0][k.value], k.format) };
+        }
+
+        function kpiCard(k) {
+          const result = kpiState(k);
+          const note = result.state === 'value' ? (k.note ? `<div class="note">${esc(k.note)}</div>` : '') : `<div class="note">${result.state}</div>`;
+          return `<div class="kpi"><div class="value">${esc(result.value)}</div><div class="label">${esc(k.label)}</div>${note}</div>`;
+        }
+
+        function renderControls() {
+          const el = document.getElementById('controls');
+          if (!(DATA.filters || []).length) {
+            el.remove();
+            return;
+          }
+          el.innerHTML =
+            DATA.filters
+              .map(
+                (f) =>
+                  `<label>${esc(f.label)} <select data-id="${esc(f.id)}">${f.options.map((o) => `<option value="${esc(o)}"${String(o) === String(state[f.id]) ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select></label>`,
+              )
+              .join('') + `<button type="button" id="reset">Reset</button>`;
+          el.querySelectorAll('select').forEach((s) =>
+            s.addEventListener('change', (e) => {
+              state[e.target.dataset.id] = e.target.value;
+              render();
+            }),
+          );
+          el.querySelector('#reset').addEventListener('click', () => {
+            DATA.filters.forEach((f) => {
+              state[f.id] = f.default ?? f.options[0];
+            });
+            el.querySelectorAll('select').forEach((s) => {
+              s.value = String(state[s.dataset.id]);
+            });
+            render();
+          });
+        }
+
+        function render() {
+          document.getElementById('kpis').innerHTML = (DATA.kpis || []).map(kpiCard).join('');
+          const host = document.getElementById('sections');
+          host.innerHTML = '';
+          // Lay out every card first so each chart is measured at its final width.
+          const cards = (DATA.sections || []).map((sec) => {
+            const card = document.createElement('section');
+            card.className = 'card';
+            card.innerHTML = `<h2>${esc(sec.title)}</h2>${sec.note ? `<p class="note">${esc(sec.note)}</p>` : ''}<div class="chart"></div>`;
+            host.appendChild(card);
+            return [sec, card.querySelector('.chart')];
+          });
+          cards.forEach(([sec, target]) => {
+            const data = rows(sec.chart);
+            if (!data.length) {
+              target.innerHTML = `<p class="empty">No data for this selection.</p>`;
+              return;
+            }
+            (RENDER[sec.chart.type] || table)(target, data, sec.chart);
+          });
+        }
+
+        renderHeader();
+        renderControls();
+        render();
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(render, 150);
+        });
+      })();
+    </script>
+  </body>
+</html>

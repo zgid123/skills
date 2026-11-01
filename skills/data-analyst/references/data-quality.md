@@ -15,6 +15,27 @@ Data quality is the measure of data fitness for operational, decision-making, an
 | **Uniqueness** | Records representing an entity or event appear exactly once without duplicate rows. | Primary key uniqueness tests (`COUNT(*) = COUNT(DISTINCT id)`). | Webhook retry inserts duplicate `order_id` records. |
 | **Freshness / Timeliness** | Data reflects the latest operational state within acceptable latency SLAs. | `MAX(event_timestamp)` inspection vs. current system clock. | Daily dashboard shows data from 3 days ago due to stalled pipeline. |
 
+## Extended Dimensions and the Data Quality Report
+
+Southekal's twelve dimensions extend the core six. Assess only those that matter for the task:
+
+| Dimension | Question | Typical criterion |
+| --- | --- | --- |
+| Completeness | Are key fields populated? | % null or missing per field |
+| Consistency | Do sources agree? | Count of conflicts between sources |
+| Conformity (validity) | Do values follow formats and standards? | % values in the expected format or code set |
+| Uniqueness | Are there duplicates? | % duplicate records per key |
+| Correctness | Is the value error-free (yes/no)? | Boolean check against a trusted source |
+| Accuracy | Does the value reflect reality? | % values matching the real-world entity |
+| Accessibility | Can users retrieve it when needed? | Time or steps to access |
+| Security | Is it protected from unauthorized use? | Access violations; personal data exposure |
+| Timeliness | Is it fresh enough for the decision? | Lag between event and availability |
+| Redundancy | Is data unnecessarily duplicated across systems? | % redundant copies |
+| Coverage | Does it span the needed population, scope and period? | Share of the target population or period present |
+| Integrity | Do relationships hold (keys, links)? | Count of broken foreign keys or orphan records |
+
+A **data quality report** lists, per relevant dimension: the criterion, the measured value, the finding and its consequence for the analysis, and the action taken. If a 1–5 score per dimension is requested (1 = very poor, 5 = very good), derive each score from the measured criterion and state the cut-offs, so the score is evidence rather than opinion.
+
 ## Practical Validation Checks and Invariants
 
 ### 1. Structural and Primary Key Invariants
@@ -42,20 +63,20 @@ Data quality is the measure of data fitness for operational, decision-making, an
 
 ### 3. Range, Boundary, and Category Checks
 
-- **Numerical Ranges**: Verify that values satisfy physical constraints ($price \ge 0$, $0 \le percentage \le 100$, $duration \ge 0$).
+- **Numerical Ranges**: Derive bounds from metric semantics; for example, net revenue retention can exceed 100%.
 - **Allowed Categories**: Verify that categorical values belong to the approved domain enum list (e.g., `order_status` in `('pending', 'paid', 'shipped', 'cancelled', 'refunded')`).
 - **Temporal Boundaries**: Verify that event timestamps are within physically valid intervals ($created\_at \le updated\_at$, $event\_time \le current\_timestamp$).
 
 ### 4. Reconciliation and Aggregation Sanity Checks
 
-- **Source-to-Target Reconciliation**: Sum of line items must equal order totals; sum of daily revenue across marts must match the core financial ledger.
+- **Source-to-Target Reconciliation**: Reconcile like-for-like amounts. If items are pre-discount merchandise, check subtotal − discount + shipping + tax against the order total, per source definitions.
   ```sql
-  -- Total line items vs order header
+  -- Assumes item_amount is pre-discount merchandise and these are separate order components.
   SELECT o.order_id, o.total_amount, SUM(li.item_amount) AS calculated_amount
   FROM orders o
   JOIN order_line_items li ON o.order_id = li.order_id
   GROUP BY o.order_id, o.total_amount
-  HAVING ABS(o.total_amount - SUM(li.item_amount)) > 0.01;
+  HAVING ABS(SUM(li.item_amount)-o.discount+o.shipping+o.tax-o.total_amount)>0.01;
   ```
 - **Row Count Multiplier Audit**: Track `COUNT(*)` immediately before and after joins to detect Cartesian products or fanout.
 

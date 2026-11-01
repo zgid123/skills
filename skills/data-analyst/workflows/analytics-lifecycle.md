@@ -2,341 +2,259 @@
 
 ## Contents
 
-- [Operational Overview](#operational-overview)
-- [Stage 1: Business Understanding](#stage-1-business-understanding)
-- [Stage 2: Analytic Approach](#stage-2-analytic-approach)
-- [Stage 3: Data Requirements](#stage-3-data-requirements)
-- [Stage 4: Data Collection](#stage-4-data-collection)
-- [Stage 5: Data Understanding](#stage-5-data-understanding)
-- [Stage 6: Data Preparation](#stage-6-data-preparation)
-- [Stage 7: Modeling](#stage-7-modeling)
-- [Stage 8: Evaluation](#stage-8-evaluation)
-- [Stage 9: Deployment](#stage-9-deployment)
-- [Stage 10: Feedback](#stage-10-feedback)
-- [Verification Model](#verification-model)
-- [Non-Linear Feedback Loops](#non-linear-feedback-loops)
+- [Ten-Stage Data Analytics Methodology](#ten-stage-data-analytics-methodology)
+  - [Contents](#contents)
+  - [How to use this workflow](#how-to-use-this-workflow)
+  - [1. Business Understanding](#1-business-understanding)
+  - [2. Analytic Approach](#2-analytic-approach)
+  - [3. Data Requirements](#3-data-requirements)
+  - [4. Data Collection](#4-data-collection)
+  - [5. Data Understanding](#5-data-understanding)
+  - [6. Data Preparation](#6-data-preparation)
+  - [7. Modeling](#7-modeling)
+  - [8. Evaluation](#8-evaluation)
+  - [9. Deployment](#9-deployment)
+  - [10. Feedback](#10-feedback)
+  - [Verification ledger](#verification-ledger)
+  - [Going back](#going-back)
 
-## Operational Overview
+## How to use this workflow
 
-Follow the ten stages of the John Rollins data analytics methodology: **Business Understanding → Analytic Approach → Data Requirements → Data Collection → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment → Feedback**. The workflow is iterative; the technique references provide methods and the safeguards protect integrity throughout.
+John Rollins' data science methodology (CRISP-DM based) answers ten questions in order, grouped in five pairs:
 
-Keep reusable skill guidance, the domain-specific project brief, and dataset-specific evidence separate. Preliminary inspection may refine the contract; record revisions rather than implying all criteria existed before inspection.
+| Pair | Stage | Question it answers |
+| --- | --- | --- |
+| From problem to approach | 1. Business Understanding | What is the problem you are trying to solve? |
+|  | 2. Analytic Approach | How can you use data to answer the question? |
+| From requirements to collection | 3. Data Requirements | What data do you need to answer the question? |
+|  | 4. Data Collection | Where is the data coming from, and how will you get it? |
+| From understanding to preparation | 5. Data Understanding | Is the data you collected representative of the problem? |
+|  | 6. Data Preparation | What additional work is needed to manipulate and work with the data? |
+| From modeling to evaluation | 7. Modeling | In what way can the data be visualized or modeled to get the required answer? |
+|  | 8. Evaluation | Does the model really answer the initial question, or does it need adjusting? |
+| From deployment to feedback | 9. Deployment | Can you put the result into practice? |
+|  | 10. Feedback | Can you get constructive feedback to improve the answer? |
 
-Scale the work and documentation to the question and decision risk. A focused calculation can address applicable stages briefly and deliver a compact table. Choose a usable report or dashboard for substantial analyses according to the task; default to a dashboard for substantial visual analysis when no format is specified. Mark genuinely unnecessary stages or activities **NOT APPLICABLE** with a reason; missing data or unexecuted checks must remain visible limitations.
+The stages are an order of reasoning, not a report outline. Real work loops back: profiling reveals a problem, a finding raises a new question, feedback changes the population. When that happens, return to the stage that owns the decision, fix it, and note the change in `NOTES.md`. Modeling and evaluation in particular run as a loop.
 
-Evaluation validates the analysis before delivery. Feedback concerns stakeholder use and real-world outcomes afterward. Modeling includes ordinary analytical queries and statistics; it does not mandate machine learning or expand the skill into production MLOps.
+Scale each stage. For a focused question several stages take one sentence of thought. For a substantial project each stage leaves a short record in `NOTES.md` (a few lines or a small table, not boilerplate). Mark a stage **NOT APPLICABLE** only when the task genuinely does not need it; missing data or unrun checks stay visible as limitations.
 
-## Stage 1: Business Understanding
+The most common failure is rushing into data collection and analysis before framing the problem. Spend real thought on stages 1–3.
 
-### Purpose
+## 1. Business Understanding
 
-Establish the business or informational purpose before selecting tools.
+**Question**: What is the problem you are trying to solve?
 
-### Activities
+**Do**
 
-1. Identify the stakeholder, intended use, analytical question, deadline, and cost of being wrong.
-2. Define scope, population, time window, grain, relevant metrics and formulas, and success criteria. Define guardrails when an intervention is involved.
-3. Establish audience and delivery acceptance criteria from the request; label inferred criteria as proposed rather than agreed. Substantial analyses need a useful report/dashboard; focused questions can use a compact result. Respect explicit format constraints.
-4. Prioritize evidence-supported questions for open-ended requests. Define what constitutes an adequate answer, including comparison, interpretation and material validation, rather than artifact or chart counts.
+- **Purpose and reader.** State what the reader needs to decide or learn. For exploratory or informational work, begin with that purpose and inspect the data and its documentation to refine answerable questions; the absence of a business decision does not make the analysis unready.
+- **Business goal and decision, when applicable.** For work intended to guide a decision or intervention, identify the goal, decision-maker, action and what success means. Narrow the analysis to evidence that can inform that choice.
+- **SMART goal, when a target is needed.** For a decision or intervention with a meaningful target and timeframe, restate it as Specific, Measurable, Achievable, Relevant and Time-bound. Do not invent a target for exploratory work.
+- **KPIs, when evaluating a decision or intervention.** Pick a primary KPI that shows whether the goal is met and secondary measures that capture relevant effects or guardrails. Define each by population, numerator/denominator, unit and window. For exploratory work, define the analytical measures needed to answer the questions instead of forcing intervention KPIs.
+- **Requirements from stakeholders.** When a stakeholder is available, ask: What are your business goals? How do you define success, and what metric shows it? What are your biggest challenges? What decisions will you make from this analysis? What risks do you see, and what would stop you using it? Synthesize input: organize → identify themes → prioritize → refine questions → validate themes. When the user is available and a consequential answer is missing, grill them one question at a time with [grilling](../references/grilling.md) before finalizing the brief. When no stakeholder is available, write these answers as _proposed_ assumptions.
+- **Domain knowledge.** Use it to ask relevant questions, read numbers in context, choose methods suited to the domain and sanity-check results. Read the dataset documentation and domain sources before deciding what a field means.
+- **Business questions → analytical questions.** Turn each vague business question into a set of analytical questions that are **Clear** (no ambiguity, assumptions explicit), **Specific** (one aspect each), **Scoped** (population, period), **Data-oriented** (names the data needed) and **Answerable** (you know what the answer looks like, its unit and a plausible range). Example: "How successful was my campaign?" → "What was the overall positive response rate for the Q3 campaign?", "How did it differ by channel?", "…by demographic group?"
+- **Classify the decision.** Strategic, tactical or operational; programmed (recurring) or non-programmed (one-off); one-way door (hard to reverse) or two-way door (reversible). Irreversible, strategic decisions justify more rigor; reversible operational ones need a fast, good-enough answer.
+- **Deliverable.** Agree or propose the format: inline answer, report, dashboard, or the user's own required structure. Check the [playbooks](../SKILL.md#playbooks) for a matching problem type.
 
-### Expected Output
+**Produce**: a proportionate brief in `NOTES.md` — purpose, reader, prioritized analytical questions, scope and deliverable; include business/SMART goals and primary/secondary KPIs when a decision or intervention needs them, otherwise mark them not applicable. Label proposed assumptions.
 
-An analysis brief containing the question, purpose, scope, relevant metrics, constraints, and intended artifact.
+**Gate**: questions pass the Clear/Specific/Scoped/Data-oriented/Answerable test; define decision success criteria, metric definitions, grain and period when they affect the answer.
 
-### Verification Gate
+**References**: [Problem definition](../references/problem-definition.md), [Data-driven business](../references/data-driven-business.md), [Metrics and KPIs](../references/metrics-and-kpis.md)
 
-The question and intended use are explicit; relevant metric definitions, grain, period, and acceptance criteria are unambiguous.
+## 2. Analytic Approach
 
-### References
+**Question**: How can you use data to answer the question?
 
-- [Problem Definition and Framing](../references/problem-definition.md)
-- [Data-Driven Business and Decision-Making](../references/data-driven-business.md)
-- [Metrics and KPIs](../references/metrics-and-kpis.md)
+**Do**
 
-## Stage 2: Analytic Approach
+- **Match each question to an analytics type**:
+  - _Descriptive_ — what happened / current status → descriptive statistics, summaries, KPIs, charts.
+  - _Diagnostic_ — why did it happen → segmentation, drill-down, correlation, root-cause analysis, inferential statistics.
+  - _Predictive_ — what will happen next → forecasting, classification or regression with baselines and holdouts.
+  - _Prescriptive_ — what should we do → what-if scenarios, optimization, decision analysis under uncertainty.
+- **Match the model to the requirement**: probabilities of an outcome → predictive model; relationships → descriptive model; yes/no answer → classification; natural segments → clustering. Causal questions need an identification strategy (experiment or quasi-experiment).
+- Name the comparison that answers each question (before vs after, group vs group, model vs baseline) and the baseline a reader would use without your analysis.
+- Name the alternative explanation most likely to fool you and how you will test it.
+- Decide when to stop: priority questions answered or concretely blocked, and further work unlikely to change the answer.
 
-### Purpose
+**Produce**: one line per question in `NOTES.md`: analytics type, method, comparison, baseline, main threat.
 
-Translate the business question into the simplest defensible analytical method.
+**Gate**: the approach can answer the question with feasible evidence; the simplest adequate method is chosen.
 
-### Activities
+**References**: [Analytics types](../references/analytics-types.md), [Statistics and inference](../references/statistics-and-inference.md), [Causal reasoning](../references/causal-reasoning.md), [Predictive analysis](../references/predictive-analysis.md)
 
-1. Classify the question and select descriptive, diagnostic, predictive, prescriptive, causal, funnel, cohort, or temporal techniques as needed.
-2. State the comparisons, assumptions, evidence, and validation needed to distinguish a useful answer from an unsupported claim.
-3. Choose methods proportionate to the task. A relational aggregation can be the entire model; do not require machine learning. State a stopping rule tied to question coverage and material uncertainty, not endless exploration.
+## 3. Data Requirements
 
-### Expected Output
+**Question**: What data do you need to answer the question?
 
-A method and evaluation plan, including material assumptions and success criteria.
+**Do**
 
-### Verification Gate
+- **Step 1 — outcomes of interest**: which measured outcome answers each question (the KPI, the target event)?
+- **Step 2 — context data**: which data explains the outcome — who (entity attributes), what (products, courses), when (time), where (region, channel), how (behaviour, events)?
+- For each, specify content, format, grain, keys, period, population, and the measurement scale (nominal, ordinal, interval, ratio; discrete vs continuous; time series vs cross-sectional), because the scale decides valid summaries and methods.
+- Know the data type you need: reference data (permitted values), master data (entities), transactional data (events), metadata and the data dictionary.
+- **Map availability**: mark each question **answerable**, **conditional** (state the condition) or **unsupported** (state exactly what is missing). For unsupported questions, narrow the question, collect more data (with permission), or pivot to the most valuable related question the data supports.
 
-The approach can answer the question with feasible evidence and appropriate analytical validity.
+**Produce**: a question → required data → available data → status table in `NOTES.md`.
 
-### References
+**Gate**: every priority question has a status; gaps trigger a revision rather than silent substitution.
 
-- [Analytics Types and Selection](../references/analytics-types.md)
-- [Statistics and Statistical Inference](../references/statistics-and-inference.md)
-- [Causal Reasoning](../references/causal-reasoning.md)
+**References**: [Data collection](../references/data-collection.md), [Data quality](../references/data-quality.md), [Investigation and synthesis](../references/investigation-and-synthesis.md)
 
-## Stage 3: Data Requirements
+## 4. Data Collection
 
-### Purpose
+**Question**: Where is the data coming from (all sources), and how will you get it?
 
-Specify what evidence is needed before acquiring data.
+**Do**
 
-### Activities
+- Use supplied data first. Identify all relevant sources — structured, semi-structured and unstructured; internal (databases, files, experiments, proofs of concept, surveys) and external (open, government, purchased; first-, second- or third-party).
+- Collect the minimum relevant data. Merge sources where needed, eliminate redundant data, and defer data that is inaccessible — recording it as a gap.
+- If collection reveals gaps, go back to Data Requirements.
+- **Privacy and ethics**: analyze only data you are authorized to use; work in a secure environment; remove or pseudonymize personal identifiers before sharing outputs; use data and insights fairly and for the stated benefit. Do not expose individual records in shared reports or dashboards.
+- Record source, version or download date (only if known — never invent one), filters, row counts and coverage. Keep raw inputs untouched.
 
-1. Define required fields, units, source grain, keys, join relationships, population, historical coverage, sampling needs, and freshness.
-2. Identify authoritative sources, owners, access and privacy constraints, and quality conditions required by the approach.
-3. Map each priority question to required and available evidence: answerable, conditionally answerable, or unsupported. Record missing evidence and decide whether collection or a narrower question can resolve the gap.
-4. Preserve the original objective when revising scope. Explain supported alternatives and resulting delivery status; an unsupported prediction target need not block useful descriptive work.
+**Produce**: a source inventory in `NOTES.md` (source, owner, format, coverage, access, sensitivity); extraction code in `code/`.
 
-### Expected Output
+**Gate**: inputs trace to their source; missing coverage is resolved or disclosed before claims depend on it; sensitive data is handled appropriately.
 
-Minimum data requirements and a source/access plan.
+**References**: [Data collection](../references/data-collection.md), [Data engineering](../references/data-engineering.md), [Reproducibility and governance](../references/reproducibility-and-governance.md)
 
-### Verification Gate
+## 5. Data Understanding
 
-Required evidence is specified and sourcing is feasible, or gaps explicitly trigger a revised question or approach.
+**Question**: Is the data you collected representative of the problem to be solved?
 
-### References
+**Do**
 
-- [Data Sourcing and Collection](../references/data-collection.md)
-- [Data Quality](../references/data-quality.md)
-- [Data Engineering for Analysts](../references/data-engineering.md)
-- [Reproducibility and Data Governance](../references/reproducibility-and-governance.md)
+- **Profile first**: run `scripts/profile_data.py` for record counts, column types, fill rates, distinct values, candidate keys and duplicates. Then read actual records and the metadata (how was it collected or generated? what quality?).
+- **Move from native view to analytics view**: establish entities, grain, keys, relationships, units, category codes, measurement scales and time semantics (what does each date record: event, submission, logging, release?).
+- **Descriptive statistics and visualization**: central tendency (mean, median, mode), position (percentiles, quartiles), spread (range, SD, IQR, coefficient of variation) and shape (skew: right skew means mean > median). Central tendency alone is never enough. Use histograms and box plots for distributions, scatter plots and correlation heatmaps for relationships, line charts for time.
+- **Assess data quality** against the dimensions that matter for this task (Southekal's twelve): completeness, consistency, conformity (validity), uniqueness, correctness, accuracy, accessibility, security, timeliness, redundancy, coverage, integrity. For each relevant dimension record the evaluation criterion, what you found and its consequence. When a scored quality report is requested (e.g., a 1–5 score per dimension), base each score on the measured criterion.
+- Look for the usual mess: bad formats, trailing spaces, duplicates, empty rows, synonyms and abbreviations, scale differences, skew and outliers, missing values (also coded as "?", 0, N/A or blank).
+- **Representativeness**: does the population, period and coverage match the problem? Check selection effects, missingness patterns across groups and periods, and join fanout.
+- Note preliminary insights, and whether more data is needed. If the data cannot support the approach, go back to stage 2 or 3.
 
-## Stage 4: Data Collection
+**Produce**: data dictionary notes and a data quality summary in `NOTES.md` (dimension → criterion → finding → consequence).
 
-### Purpose
+**Gate**: meanings come from records and documentation, not column names; quality issues and representativeness limits are known well enough to prepare and analyze responsibly.
 
-Acquire traceable inputs that meet the data requirements.
+**References**: [EDA](../references/eda.md), [Data quality](../references/data-quality.md), [SQL for analysis](../references/sql-for-analysis.md)
 
-### Activities
+## 6. Data Preparation
 
-1. Extract the minimum relevant data from accessible authoritative sources; an existing supplied dataset may satisfy collection.
-2. Preserve raw inputs or point-in-time references and extraction queries; record source versions, timestamps, filters, row counts, and coverage.
-3. Compare actual coverage with requirements and document inaccessible sources or unavailable periods. Never fabricate records to fill a gap.
+**Question**: What additional work is required to manipulate and work with the data?
 
-### Expected Output
+**Do**
 
-Traceable raw data or reproducible extraction queries with a provenance and coverage record.
+- **Blend**: combine sources with joins and unions; check join cardinality so joins do not multiply rows.
+- **Clean** with the checklist: character variables have valid values; numeric variables are in range; missing values and duplicates are handled; ID variables are unique; dates are valid; files that need combining are combined.
+- **Missing values**: check with the source first. Options — drop the variable or the rows, impute (zero, mean/median, mode, similar records or interpolation, a model), mask with a "missing" category, or leave missing. Choose by why data is missing; record what you chose and how many rows it affects. Never treat "missing" as zero by default.
+- **Outliers**: ask whether each is an error or legitimate and whether it belongs to the population. Detect with plots, IQR rules, z-scores or residuals. Correct, remove, transform, treat as missing, or keep and use robust methods (medians, resistant models) — and document the choice.
+- **Format and transform**: standardize units and formats; extract date parts (month, weekday, elapsed time); encode categories (ordinal → ordered codes, nominal → dummy/one-hot); bin numbers when categories serve the question; normalize (min-max, z-score) when scales differ for modeling. Check strongly correlated features (multicollinearity).
+- **Feature engineering**: build variables that answer the questions — and for predictive work, only from information available at the prediction time.
+- **Sampling** (when data is too large or for surveys): set the margin of error and confidence level, record the sampling frame, seed and size.
+- Reconcile row counts at each step, key uniqueness, control totals and denominators. Validate consequential transformations with stakeholders or documentation. A good plan today beats a perfect plan tomorrow: prepare what the questions need, not everything possible.
 
-### Verification Gate
+**Produce**: reproducible prepared tables (or queries) plus a preparation log in `NOTES.md` (step → rows/entities affected → reason).
 
-Inputs can be traced to their source and requirements; missing coverage is resolved or disclosed before claims depend on it.
+**Gate**: grain, keys, counts and totals reconcile; every material exclusion, imputation or transformation is recorded with affected counts.
 
-### References
+**References**: [Data wrangling](../references/data-wrangling.md), [SQL for analysis](../references/sql-for-analysis.md), [Data quality](../references/data-quality.md)
 
-- [Data Sourcing and Collection](../references/data-collection.md)
-- [Reproducibility and Data Governance](../references/reproducibility-and-governance.md)
+## 7. Modeling
 
-## Stage 5: Data Understanding
+**Question**: In what way can the data be visualized or modeled to get the answer required?
 
-### Purpose
+**Do**
 
-Assess what the collected data means and whether it supports the approach.
+- Run the planned analysis: descriptive aggregations and visualizations, diagnostic drill-downs and decompositions, cohort/funnel analyses, statistical comparisons, or baseline-first predictive models (descriptive vs predictive as chosen in stage 2). Sometimes a well-chosen visualization is the whole model.
+- For each material initial result, ask what else could explain it and run the check that tells the explanations apart (within-segment comparison, standardization, alternative definition, sensitivity, later holdout). Record: observation → why follow up → result → how the interpretation changed.
+- **Form and challenge hypotheses**: state what you think explains the pattern, then actively look for evidence that would disprove it. Be aware of your own bias (confirmation, anchoring) before concluding.
+- Quantify magnitude and, where inference is claimed, uncertainty.
+- Draft each finding in the report voice: claim, number, comparison, meaning, main limit. Draft its chart with `scripts/chart_style.py`.
+- Stop when the stage 2 stopping rule is met. Do not slice indiscriminately, hunt significance or add models for appearance.
 
-### Activities
+**Produce**: result tables in `results/`, charts in `figures/`, draft findings.
 
-1. Inspect schemas, actual records and relevant documentation to establish entities, field meanings, units, keys, cardinality, nulls, categories, ranges, distributions, duplicates, time semantics and freshness. Column names alone do not establish consequential meanings.
-2. Investigate unusual values, measurement changes, missingness, sampling constraints, and potential join fanout.
-3. Assess fitness for the analytical approach. Return to requirements or collection when evidence is insufficient.
+**Gate**: every finding traces to code and numbers, has a comparison, and has survived its most plausible alternative or carries that limit. Profiling alone cannot pass this gate for a substantial investigation.
 
-### Expected Output
+**References**: [Investigation and synthesis](../references/investigation-and-synthesis.md), [Statistics and inference](../references/statistics-and-inference.md), [Experimentation](../references/experimentation.md), [Causal reasoning](../references/causal-reasoning.md), [Time series](../references/time-series-analysis.md), [Predictive analysis](../references/predictive-analysis.md), [Visualization and storytelling](../references/visualization-and-storytelling.md)
 
-A data profile, quality assessment, and documented analytical limitations.
+## 8. Evaluation
 
-### Verification Gate
+**Question**: Does the model or analysis really answer the initial question, or does it need adjusting?
 
-Data semantics, grain, quality, and limitations are understood well enough to prepare and analyze responsibly.
+**Do**
 
-### References
+- **Answer check**: re-read the brief. Does each analytical question have an answer, a partial answer with a stated blocker, or an explicit unsupported status? Does the result meet the SMART goal's success criteria?
+- **Diagnostic check — does it work as intended?** Independently recompute decision-critical numbers (different code path or query); check leakage, wrong denominators, residuals and errors; for models, evaluate on held-out data (temporal holdout or cross-validation) against baselines with metrics suited to the decision.
+- **Statistical check — is it real?** Check significance and uncertainty where inference is claimed (intervals, effect sizes; account for multiple comparisons). Avoid unsupported causal language.
+- Fill the [verification ledger](#verification-ledger).
+- Review against [the quality rubric](../references/analytical-quality.md) privately. Fix what fails, iterating with Modeling; do not write self-assigned scores into a deliverable.
 
-- [Exploratory Data Analysis (EDA)](../references/eda.md)
-- [Data Quality](../references/data-quality.md)
-- [SQL for Analysis](../references/sql-for-analysis.md)
+**Produce**: ledger in `NOTES.md`; status: complete analysis, partial analysis, feasibility assessment or unverified work.
 
-## Stage 6: Data Preparation
+**Gate**: no critical failure; material claims are supported; failed checks are fixed or the claim is removed or limited.
 
-### Purpose
+**References**: [Analytical quality](../references/analytical-quality.md), [Data quality](../references/data-quality.md), [Statistics and inference](../references/statistics-and-inference.md)
 
-Produce analysis-ready inputs while preserving transformation transparency.
+## 9. Deployment
 
-### Activities
+**Question**: Can you put the result into practice?
 
-1. Clean, typecast, filter, deduplicate, join, reshape, and derive variables only as needed; preserve the original input.
-2. Document exclusions, imputations, and other material changes with affected row counts and justification.
-3. Reconcile row counts, key uniqueness, join cardinality, control totals, and relevant denominators; prevent leakage for predictive tasks.
+**Do**
 
-### Expected Output
+- **Communicate in the required format**: follow the user's explicit format or outline first. Otherwise use the project's existing report or BI tooling. If neither applies, build from `assets/report-template.html` and add `assets/dashboard-template.html` when interactive exploration helps. Structure it with the Pyramid principle (answer first, then supporting findings) and keep to about three key messages (Rule of Three). Tell the story: highlight what matters, arrange for clarity, sequence the findings.
+- Address every relevant stakeholder — direct, indirect, upstream, downstream — at the right level of detail.
+- Open the rendered artifact. Check that numbers match `results/`, charts render, filters work, and that the main findings are readable in the artifact itself (not only in linked CSV or Markdown).
+- **Plan the rollout** when the result will be used operationally: start with a limited group or test setting, state how it will be monitored and maintained, and what would trigger a change. Give users time and guidance to adopt it.
+- Give the reader the path or link and how to rerun.
 
-An analysis-ready dataset or query with its transformation and quality record.
+**Produce**: report and/or dashboard, with `code/` and `results/` alongside; a rollout and monitoring plan when relevant.
 
-### Verification Gate
+**Gate**: the artifact opens, shows the findings and their key comparisons, and its values reconcile. Checks you could not run are listed as NOT VERIFIED.
 
-Grain, keys, row counts, and control totals reconcile; changes and unresolved quality constraints are explicit.
+**References**: [Visualization and storytelling](../references/visualization-and-storytelling.md), [Dashboards and BI](../references/dashboards-and-bi.md), [Example report](../references/example-report.md)
 
-### References
+## 10. Feedback
 
-- [Data Wrangling and Transformation](../references/data-wrangling.md)
-- [SQL for Analysis](../references/sql-for-analysis.md)
-- [Data Quality](../references/data-quality.md)
-- [Reproducibility and Data Governance](../references/reproducibility-and-governance.md)
+**Question**: Can you get constructive feedback to improve the answer?
 
-## Stage 7: Modeling
+**Do**
 
-### Purpose
+- Record actual feedback from users and stakeholders and what it changed. If none has arrived, say feedback is pending; never invent acceptance.
+- **Set up a review mechanism** for decisions made from the analysis: baseline, target, guardrails, evaluation window, owner, review date. Mark the outcome PENDING until data exists. Ask: did the decision lead to the intended outcome? Are stakeholders satisfied? What is the long-term impact?
+- Fail, fix and learn fast: route feedback to the right stage — a new question to stage 1, a new population to stage 3, a data issue to stage 5–6, a wording problem to stage 9 — then refine and redeploy. Re-verify what changed.
 
-Execute the chosen analytical approach to answer the question.
+**Produce**: a feedback log and, where relevant, an outcome evaluation plan in `NOTES.md`.
 
-### Activities
+**Gate**: observed feedback and outcomes are distinguished from plans.
 
-1. Build descriptive aggregations, metric decompositions, cohort/funnel analyses, statistical comparisons, scenario calculations, or appropriate predictive models.
-2. Compare relevant segments and time periods; quantify uncertainty and practical effect size when material; inspect alternative explanations.
-3. Preserve calculations and result tables. Create candidate visuals and separate facts, observations, insights, hypotheses, conclusions, recommendations, and limitations.
-4. For material initial findings, execute justified follow-up to discriminate plausible alternatives or quantify heterogeneity; record observation → reason for follow-up → executed result → changed interpretation. Distinguish planned analyses from exploratory discoveries and account for multiplicity where material. A proposed follow-up list is not executed investigation.
-5. For substantial visual artifacts, read [Dashboards and BI](../references/dashboards-and-bi.md) and [Visualization and storytelling](../references/visualization-and-storytelling.md). Map priority questions → material findings → supporting comparisons → presentation choices → reader-facing locations, retaining consequential follow-up. Maintain this internal review evidence through delivery.
-6. Follow [investigation and synthesis](../references/investigation-and-synthesis.md): stop when priority questions are answered or concretely blocked and additional feasible work is unlikely to change the scoped answer. Explain exceptions and blockers.
+**References**: [Data-driven business](../references/data-driven-business.md), [Experimentation](../references/experimentation.md), [Dashboards and BI](../references/dashboards-and-bi.md)
 
-### Expected Output
+## Verification ledger
 
-Reproducible analytical results, supporting tables, and candidate visuals.
+Keep a compact ledger in `NOTES.md` for every non-trivial deliverable. Include only checks that protect a material claim.
 
-### Verification Gate
-
-The method follows the approach, calculations reproduce, and interpretations remain within the available evidence. Major findings trace question, population/comparison, method, magnitude, limits, interpretation and relevant implication. A substantial investigation cannot pass with profiling alone; justified follow-up is executed or its absence is substantiated. State INSUFFICIENT EVIDENCE for specific unsupported claims, not as a blanket substitute for supported analysis.
-
-### References
-
-- [SQL for Analysis](../references/sql-for-analysis.md)
-- [Statistics and Statistical Inference](../references/statistics-and-inference.md)
-- [Experimentation and A/B Testing](../references/experimentation.md)
-- [Causal Reasoning](../references/causal-reasoning.md)
-- [Time-Series Analysis](../references/time-series-analysis.md)
-- [Predictive Analysis](../references/predictive-analysis.md)
-- [Visualization and Analytical Storytelling](../references/visualization-and-storytelling.md)
-
-## Stage 8: Evaluation
-
-### Purpose
-
-Validate analytical correctness and usefulness before delivery.
-
-### Activities
-
-1. Compare results with the original question, intended use, and predeclared analytical success criteria. Check assumptions, leakage, alternative explanations, and causal language as relevant.
-2. Independently recompute decision-critical metrics when practical; reconcile displayed values and candidate visual encodings with verified results.
-3. Apply [the analytical quality rubric](../references/analytical-quality.md) separately to technical correctness, analytical adequacy and communication/usability. Check each material question and criterion against specific evidence. Use the coverage map and dashboard reader-task review to inspect answer, comparison, population/denominator/period, limitation and supporting-detail access; record locations and failures. Numerical reconciliation, screenshots and working controls cannot establish communication quality.
-4. Return failed checks to the earliest corrective stage and record the correction and rerun evidence. If blocked, limit affected conclusions and explicitly deliver partial analysis, feasibility assessment or unverified work. Do not mark missing work complete by adding caveats.
-
-### Expected Output
-
-A verification ledger and coverage review, limitations, separate numerical/functionality, analytical coverage and presentation judgments, and distinct analysis and delivery readiness decisions.
-
-### Verification Gate
-
-Material claims are supported, calculations reconcile, and all material applicable rubric criteria are adequate or stronger. Critical failures block affected claims. Unresolved material gaps block complete status against the original contract; identify the revised scope and status.
-
-### References
-
-- [Data Quality](../references/data-quality.md)
-- [Statistics and Statistical Inference](../references/statistics-and-inference.md)
-- [Visualization and Analytical Storytelling](../references/visualization-and-storytelling.md)
-- [Reproducibility and Data Governance](../references/reproducibility-and-governance.md)
-
-## Stage 9: Deployment
-
-### Purpose
-
-Make the validated analysis accessible in a usable visual artifact.
-
-### Activities
-
-1. Build the agreed report, dashboard or smaller visual result. Use accessible existing BI/project tooling; otherwise deliver portable HTML for a dashboard.
-2. Organize substantial delivery around priority questions and findings supported by relevant comparisons, distributions or trends, definitions and limitations. Keep extended methodology available without letting it replace findings. Choose encodings for the actual analytical relationship; add interactions only when they serve the question.
-3. Open and inspect each required artifact; reconcile visible values, exercise applicable filters and empty states, and complete the reader-task walkthrough through the documented interface. For browser delivery, essential evidence must be readable in the dashboard or linked rendered report; raw Markdown/CSV/code downloads do not suffice. Respect explicit alternative formats. Record locations inspected, failures and checks that could not be executed; do not call a reviewer walkthrough actual user testing.
-4. Provide the artifact link or path, supporting result tables, queries/scripts, and opening and refresh instructions. Local delivery is sufficient unless hosting is requested. Label snapshots and illustrative prototypes accurately.
-
-### Expected Output
-
-An accessible visual artifact and reproducible analytical handoff.
-
-### Verification Gate
-
-Each required artifact meets its agreed role, renders where applicable, and exposes essential findings and consequential follow-up through inspected reading paths. Applicable interactions work, displayed values reconcile, and access/refresh instructions are clear. Material presentation gaps block complete delivery even when analysis is complete; a strong report cannot offset material dashboard omissions. Unperformed checks remain NOT VERIFIED.
-
-### References
-
-- [Dashboards and Business Intelligence (BI)](../references/dashboards-and-bi.md)
-- [Visualization and Analytical Storytelling](../references/visualization-and-storytelling.md)
-- [Reproducibility and Data Governance](../references/reproducibility-and-governance.md)
-
-## Stage 10: Feedback
-
-### Purpose
-
-Learn from stakeholder use and assess real-world outcomes when applicable.
-
-### Activities
-
-1. Request or record stakeholder feedback on clarity, usefulness, and missing questions. Do not invent stakeholder acceptance; when feedback is unavailable, record it as pending.
-2. For an intervention, compare observed outcomes with the predeclared baseline, target, guardrails, evaluation window, and attribution method. Check implementation fidelity, data integrity, unintended effects, and uncertainty.
-3. When outcome data does not yet exist, provide an evaluation plan with baseline, target, guardrails, window, attribution method, owner, and review date; label the outcome PENDING. When no intervention exists, mark outcome evaluation NOT APPLICABLE.
-4. Use available evidence to continue, modify, reverse, or investigate the intervention, and route learning to the appropriate earlier stage. Record which feedback changed the question, data requirements, method, analysis or presentation and verify affected work again. A pending plan supports handoff but does not verify an outcome.
-
-### Expected Output
-
-A feedback record and, where relevant, an outcome assessment or pending evaluation plan.
-
-### Verification Gate
-
-Observed outcomes and stakeholder feedback are distinguished from future plans; any pending follow-up has a next step and owner/timing when known.
-
-### References
-
-- [Data-Driven Business and Decision-Making](../references/data-driven-business.md)
-- [Metrics and KPIs](../references/metrics-and-kpis.md)
-- [Experimentation and A/B Testing](../references/experimentation.md)
-- [Causal Reasoning](../references/causal-reasoning.md)
-- [Time-Series Analysis](../references/time-series-analysis.md)
-- [Dashboards and Business Intelligence (BI)](../references/dashboards-and-bi.md)
-
-## Verification Model
-
-Use three complementary levels of verification:
-
-1. **Stage verification**: Apply each stage gate before moving forward.
-2. **Result verification**: Before delivery, confirm that the complete analysis answers the original question, reproduces, reconciles, states uncertainty and limitations, and supports its recommendations.
-3. **Outcome verification**: After the decision is implemented, evaluate real-world impact against the baseline, target, guardrails, and attribution plan. If the outcome cannot yet be observed, record **PENDING** and deliver the evaluation plan rather than claiming success. If no intervention exists, record **NOT APPLICABLE**.
-
-### Evidence Standard
-
-Verification requires recorded evidence, not an unchecked assertion that a review occurred.
-
-1. Define the expected condition or tolerance for each material check before assigning a status.
-2. Implement mechanically testable checks with task-specific SQL, Python/R, spreadsheet formulas, or equivalent executable tooling whenever the data and environment permit it.
-3. Encode the actual analytical contract: source and output grain, key uniqueness, join cardinality, exclusions, metric formulas, denominator population, time windows, reconciliation totals, statistical assumptions, and metric-specific domain invariants.
-4. Independently recompute decision-critical metrics when practical and investigate discrepancies before reporting the result.
-5. Preserve each material check's method and observed output with the analysis artifacts. Record the actual tested quantity, population, unit and condition; compare ledger entries with code. Derive logged values from checked variables where practical: a response count cannot evidence a unique-user-count condition even when the latter passed.
-6. Record each material check as **PASS**, **FAIL**, **NOT VERIFIED**, or **NOT APPLICABLE**. A check passes only when its expected condition was explicitly evaluated and satisfied. Reserve **NOT APPLICABLE** for a check outside the justified scope, not for missing evidence. **PENDING** is a separate outcome-evaluation state, not a verification-check status: an evaluation-plan completeness check may pass while the future outcome remains pending.
-7. A failed or unavailable check must either send the analysis back to an earlier stage or appear as a visible limitation that blocks or reduces confidence in the affected conclusion.
-
-For every non-trivial deliverable, include a verification ledger with these fields:
-
-| Check / quantity and population | Expected Condition / Tolerance | Method | Observed value, unit and evidence location | Status | Effect on Confidence |
+| Check (quantity, population) | Expected condition | Method / evidence | Observed | Status | Effect |
 | --- | --- | --- | --- | --- | --- |
-| Material invariant or claim being verified | Explicit condition that constitutes success | Executed query, calculation, formula, or review method | Observed result and location of saved details | PASS, FAIL, NOT VERIFIED, or NOT APPLICABLE | None, bounded caveat, or conclusion blocked |
+| Joined order revenue equals source total | Equal to the cent | `code/checks.py::revenue_total` | 300.00 = 300.00 | PASS | None |
 
-Preserve contemporaneous gate decisions and corrections when process compliance matters. Headings, boilerplate and artifact existence do not prove stage execution, predeclared criteria or chronological order.
+Rules that keep it honest:
 
-Use task-specific verification code by default. Add a bundled reusable script only after repeated analyses demonstrate the same stable, domain-independent validation pattern.
+- State the condition before assigning a status. PASS means the condition was evaluated and met.
+- Log the quantity the code actually checked (unique users are not response rows).
+- Status is PASS, FAIL, NOT VERIFIED or NOT APPLICABLE (scope reason only, never "no evidence"). PENDING is for future outcomes, not checks.
+- A FAIL sends the work back to the stage that caused it, or removes or limits the affected claim. A caveat cannot rescue an invalid number.
+- Prefer executable checks. Add a reusable script only after the same check recurs across analyses.
 
-## Non-Linear Feedback Loops
+## Going back
 
-- **Question and approach**: An unanswerable question or failed assumption requires revisiting Business Understanding or Analytic Approach.
-- **Requirements and collection**: Missing fields, coverage, or access require revising requirements, recollecting data, or narrowing scope.
-- **Understanding and preparation**: Profiling and transformation checks can reveal new data-quality problems and require rework.
-- **Modeling and evaluation**: Contradictory findings, unreconciled calculations, or unsupported claims return the work to the method or data that needs correction.
-- **Deployment and feedback**: Rendering defects return to artifact creation; stakeholder questions and observed outcomes can initiate a new analytical cycle.
+- **Question or approach fails** → stage 1 or 2.
+- **Missing fields, coverage or access** → stage 3 or 4, or pivot.
+- **Profiling or reconciliation finds a problem** → stage 5 or 6.
+- **Contradictory findings or failed checks** → the stage whose method or data caused them.
+- **Rendering defects** → stage 9. **New stakeholder questions** → stage 1.
+
+Related: Kevin Hanegan's 12-step data-informed decision-making process (Ask → Acquire → Analyze → Apply → Announce → Assess) covers the same ground from the decision-maker's side. Its Apply steps (form a hypothesis, try to disprove it, mitigate bias) are folded into stage 7, its Announce steps (Pyramid principle, Rule of Three, all stakeholders) into stage 9, and its Assess step into stage 10.

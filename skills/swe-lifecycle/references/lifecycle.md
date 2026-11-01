@@ -14,9 +14,13 @@ Read instructions, project documentation, repository state, and relevant code be
 4. Plan `M0 Foundation` and actionable chore issues for repository setup, runtime, configuration, CI, basic tests, and operational foundations only where actually needed. Read [GitHub workflow](github-workflow.md) before managing remote items.
 5. Validate any canonical documents created, report drafts versus published items, and identify unresolved technical choices. Create requirement specs only if meaningful system behavior is being defined. A small repository may need only a project brief or index; a Hono API Gateway bootstrap need not invent authentication or rate-limiting requirements.
 
+## grill
+
+Use [grilling](grilling.md) when the user asks to be grilled. Grill automatically before writing any requirement, change proposal, or design that is missing context, and when consequential decisions block planning. Ask one question per message, look up facts yourself, and act on the outcome only after the user confirms the shared understanding.
+
 ## specify, propose-change, design
 
-Use [specifications](specifications.md). Discover behavior and approval first, then design. Requirement IDs survive implementation replacement. Initial capabilities may have standalone designs without migration proposals. Material evolution of approved behavior needs a change record and approval before the approved requirement changes.
+Use [specifications](specifications.md). Discover behavior and approval first, grilling the user whenever context is missing, then design. Requirement IDs survive implementation replacement. Initial capabilities may have standalone designs without migration proposals. Material evolution of approved behavior needs a change record and approval before the approved requirement changes.
 
 ## plan
 

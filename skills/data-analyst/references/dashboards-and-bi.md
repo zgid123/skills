@@ -11,14 +11,14 @@ When the delivery contract calls for a dashboard, create one the stakeholder can
 ### Tool and Artifact Selection
 
 1. Inspect the project and accessible BI capabilities. Extend existing dashboards, metric definitions, components, and chart libraries where appropriate.
-2. If no suitable tooling exists, create portable HTML with minimal dependencies. Prefer a self-contained artifact that opens locally; document any required server, network assets, or setup. Do not add an application framework solely to display a static analysis.
+2. If no suitable tooling exists, start from [the dashboard template](../assets/dashboard-template.html): it opens offline, embeds the verified result tables as JSON, and draws bar, line, interval and table views without libraries. Write its JSON from the same code that writes `results/`. Do not add an application framework solely to display a static analysis.
 3. Add date or segment filters and drill-downs only when they help the stakeholder answer the analytical question. A dashboard can be a static snapshot; identify its coverage, extraction time, and manual refresh process.
 4. For focused questions, use a chart, visual report, or compact result table instead. Respect explicit output constraints such as SQL-only requests.
 5. If evidence is unavailable, state what is blocked and supply a clearly labeled specification or illustrative prototype when useful. Keep sample data visibly distinct from measured results and never claim that an unexecuted query or prototype is verified.
 
 ### Finding-to-Interface Coverage
 
-For substantial visual deliverables, maintain a compact internal review map; it need not appear on the dashboard:
+For substantial visual deliverables, keep a compact review map in `NOTES.md`; it does not appear on the dashboard:
 
 | Priority question | Material finding | Supporting comparison | Presentation choice and rationale | Reader-facing location |
 | --- | --- | --- | --- | --- |

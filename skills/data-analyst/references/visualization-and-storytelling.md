@@ -1,106 +1,141 @@
 # Visualization and Analytical Storytelling
 
-## Overview
+## Contents
 
-Visualizing data is not decorative; it is an analytical technique to expose structure, patterns, anomalies, and relationships for cognitive consumption. Analytical storytelling translates quantitative findings into decision-ready business narratives that compel leadership action.
+- [Visualization and Analytical Storytelling](#visualization-and-analytical-storytelling)
+  - [Contents](#contents)
+  - [What the reader needs](#what-the-reader-needs)
+  - [Report structure](#report-structure)
+  - [Writing a finding](#writing-a-finding)
+  - [Caveats without hedging](#caveats-without-hedging)
+  - [Tables](#tables)
+  - [Choosing a chart](#choosing-a-chart)
+  - [Chart craft](#chart-craft)
+  - [Before you ship](#before-you-ship)
+  - [Cross-references](#cross-references)
 
-## Visual Results as Deliverables
+## What the reader needs
 
-Create the visual result at a scale appropriate to the question: a usable report or dashboard for substantial analyses, or a chart, visual report, or compact table for focused questions. Deliver the artifact with a concise interpretation and traceable supporting calculations. Follow [Dashboards and BI](./dashboards-and-bi.md) for tool selection, artifact verification, and handoff.
+A reader opens a report to learn three things: **what is true, how sure we are, and what it means for them.** Everything else (how the data was queried, every check that passed, every table produced) is supporting material. It should be reachable, not in the way.
 
-Inspect the rendered output rather than relying only on its code or proposed layout. Confirm that chart labels, scales, units, periods, displayed values, and material uncertainty match the verified analysis. Label mock data and prototypes explicitly, and disclose render checks that could not be performed.
+Write for the stated reader. A teacher, operations manager or executive needs plain words and the consequence; a methods reviewer needs the method section and the appendix. One report can serve both by putting the answer first and the depth later.
 
-## Chart Selection by Analytical Objective
+## Report structure
 
-Choose charts, tables or prose according to the comparison readers need to make, before selecting a reusable component. The options below are examples, not mandatory encodings. Repeated chart types are appropriate for similar comparisons; require no minimum chart count, style diversity, interaction or one chart per finding. Tables can expose precise paired values and prose can suffice for a simple bounded answer.
+Use this order for substantial reports (the [report template](../assets/report-template.html) already has it):
 
-| Analytical Relationship | Recommended Chart | Sub-Type / Usage | Anti-Pattern to Avoid |
-| --- | --- | --- | --- |
-| **Comparison (Categorical)** | Horizontal or Vertical Bar Chart | Sorted descending by value for easy ranking | Truncating value axis; 3D bars |
-| **Matched Change** | Paired dots, slope chart or aligned table | Same units/segments across comparable periods; show absolute or relative change as appropriate | Composition-only bars that hide paired movement |
-| **Heterogeneity** | Aligned small multiples, distributions or subgroup table | Compare within-group patterns alongside aggregate results | Aggregate average presented as describing every group |
-| **Sensitivity** | Aligned baseline/alternative estimates, interval plot or comparison table | Raw versus standardized estimates, weighting or assumption variants; label populations | Isolated adjusted number or dense callout hiding a changed conclusion |
-| **Trend Over Time** | Continuous Line Chart | Time on X-axis; multiple lines with direct labels | Non-uniform time steps; overcrowded spaghetti charts |
-| **Distribution Profiling** | Histogram / Box Plot | Histogram for shape/modality; box plot for quantiles | Relying solely on arithmetic mean |
-| **Correlation & Relationship** | Scatter Plot | Continuous X and Y variables; optional trendline | Forcing linear fit on non-linear or clustered data |
-| **Composition (Part-to-Whole)** | Stacked Bar Chart / 100% Bar | Shows proportion across a small number of categories | High-slice pie charts where small wedges cannot be reliably compared |
-| **Multi-Dimensional Matrix** | Heatmap | Two discrete dimensions with color intensity for metric | Rainbow palettes without perceptual order |
-| **Funnel & Sequential Stages** | Funnel / Horizontal Bar Flow | Displays absolute drop-off between ordered steps | Disconnected pie slices |
+1. **Title as the main finding.** "Two early warning signs catch half of later withdrawals" — not "OULAD Analysis Report".
+2. **Summary box (3–5 sentences).** The answer, its key number and population, what it means, and the status in plain words (e.g., "retrospective analysis; not yet tested on live students").
+3. **Key numbers.** 3–4 tiles with the numbers the reader should remember, each with a one-line meaning.
+4. **Findings.** One section per finding, ordered by importance to the reader, not by the order you computed them.
+5. **What this means / recommendations.** Only what the evidence supports; say what would confirm it.
+6. **Limitations.** The few limits that could change a conclusion, each tied to the claim it weakens.
+7. **Method.** Data, population, definitions, approach — short, in plain terms.
+8. **Appendix.** Wide tables, sensitivity grids, data quality detail, links to `results/` and `code/`.
 
-A 100% stacked bar answers a composition question; it can hide timing, absolute magnitudes, matched-period changes and sensitivity. Reuse it where shares are the intended comparison, not because it is the available component. Preserve consequential follow-up in the reading flow using the [coverage and reader-task review](./dashboards-and-bi.md), with relevant denominators, exclusions and filter scope beside the evidence.
+This order follows the **Pyramid principle**: the answer first, then the few findings that support it, then the evidence beneath each. Keep to about **three** key messages (the Rule of Three); a reader remembers three findings, not nine. Address each stakeholder group at the level of detail it needs.
 
-## Visual Design and Integrity Principles
+If the user or a course requires a different outline (for example an 18-section academic report), use it — and still lead each section with its answer.
 
-### 1. The Zero-Baseline Rule for Bar Charts
+## Writing a finding
 
-- Bar charts encode values using visual length/height. Truncating the value axis (e.g., starting a bar chart at 90 instead of 0) visually exaggerates a $2\%$ difference into a perceived $500\%$ difference.
-- **Hard Rule**: Bar charts must ALWAYS include zero on the value axis.
-- **Line Charts Exception**: Line charts encode values by spatial position, not length. They do not require zero if the objective is displaying rate of change, provided the non-zero baseline is clearly labeled.
-
-### 2. Maximize the Data-to-Ink Ratio (Edward Tufte)
-
-- Strip all non-essential visual elements (chartjunk): heavy dark gridlines, redundant borders, decorative 3D shading, drop shadows, and meaningless background gradients.
-- Subdue secondary context: use thin light-gray gridlines, muted axes, and minimalist tick marks to emphasize the data.
-
-### 3. Deliberate Color Usage and Highlighting
-
-- **Functional Color**: Use color to encode analytical information, not decoration.
-- **Neutral Palette with Strategic Accent (Heuristic)**: In multi-series charts, keeping baseline and context series in muted neutral grays while reserving a high-contrast accent color for the focal finding reduces visual competition and guides stakeholder attention.
-- **Color Scales**:
-  - _Sequential_: Single hue varying in intensity (light to dark) for continuous magnitudes (e.g., revenue from $0$ to $\$1\text{M}$).
-  - _Diverging_: Two contrasting hues diverging from a meaningful neutral midpoint (e.g., positive profit in blue, negative loss in red, zero at center).
-  - _Categorical_: Distinct hues with equal perceptual lightness for unrelated nominal categories.
-- **Colorblind Accessibility**: Never rely solely on red-green distinctions; use colorblind-safe palettes (e.g., Viridis, ColorBrewer) and companion text annotations.
-
-### 4. Direct Labeling and Annotations
-
-- Eliminate detached legends that force the reader to ping-pong visually between chart elements and a distant color key. Label lines, bars, and focal series directly when it improves readability.
-- Add callout annotations directly onto the chart canvas to mark critical historical events (e.g., "June 12: Checkout SDK Release v3.2 deployed").
-
-### 5. Uncertainty Visualization
-
-- Display visual uncertainty intervals when making inferential comparisons, evaluating model forecasts, reporting experimental lifts, or whenever sampling variability and estimation risk materially inform the business decision.
-- Use shaded error bands, confidence interval whiskers, or fan charts to communicate precision. Purely descriptive historical accounting totals or full-population aggregations do not require artificial uncertainty intervals.
-
-## The Analytical Storytelling Framework
-
-A compelling analytical presentation never walks the audience through the raw chronological steps of how the data was queried. For decision-oriented work, structure deliverables around this six-stage narrative. For descriptive or informational work, use only the applicable stages and do not invent an implication or recommendation that the evidence or scope does not support.
+Each finding section follows the same shape:
 
 ```text
-Context
-  ↓ Establish the business background, operational baseline, and decision stakes
-Observation
-  ↓ State the empirical, measurable pattern uncovered in the validated data
-Evidence
-  ↓ Present the focused, annotated visualization and supporting quantitative breakdown
-Insight
-  ↓ Explain why the evidence matters; label any unverified mechanism as a hypothesis
-Implication
-  ↓ Quantify the commercial risk of inaction or upside opportunity
-Recommendation (when warranted)
-  ↓ Propose concrete, prioritized interventions specifying ownership and success metrics
+## [Claim with a number]                     ← headline is the finding
+[1–2 sentences: the evidence and the comparison, with population.]
+[Chart or one small table.]
+[1–2 sentences: what it means for the reader.]
+[1 sentence: the main limit or the check that it survived.]
 ```
 
-### Executive Summary Structure (The 1-Page Brief)
+Illustrative example (the figures below are invented to demonstrate a finding; they are not a claim about a real cohort):
 
-When delivering decision-oriented work to leadership, place the bottom line first (Minto Pyramid Principle). Adapt the structure for informational work and omit unsupported sections:
+> **Students missing an assignment by day 60 are about 3.3 times as likely to fail or withdraw by course end**
+>
+> Among 5,903 students active at day 60 in the October 2014 courses, 85% of those who had missed at least one assignment due by day 60 later failed or withdrew by course end, compared with 26% of those who submitted every assignment due by day 60. That is about 3.3 times the observed risk; course-level rates are 50–96% versus 16–34%.
+>
+> _[chart: risk rate by submission status, small multiples by course]_
+>
+> For a tutor, any missed assignment by day 60 is an early signal for a supportive check-in about later failure or withdrawal.
+>
+> This is an association: missing work may reflect problems that started earlier, so it flags students for contact rather than explaining why they struggle. The example assumes outcomes are observed through course end and does not treat failures or withdrawals before day 60 as later outcomes.
 
-1. **Core Recommendation or Answer**: The specific operational decision recommended, or the direct answer for an informational request.
-2. **Key Findings**: prioritized findings summarizing the core insight and quantified business impact.
-3. **Primary Visualization**: A focused, annotated visual when useful providing immediate visual proof.
-4. **Risks and Limitations**: Data boundaries, unmeasured confounders, and operational trade-offs.
-5. **Next Steps and Ownership**: When applicable, immediate actions, assigned owners, and post-launch monitoring timelines.
+Good finding prose:
 
-## Common Visual Anti-Patterns
+- Uses the reader's words (students, orders, customers), not internal variable names. Introduce a field name once in the method section if needed.
+- Gives the comparison every time: "26% vs 85%", not "85%".
+- States magnitudes in units that matter: people, money, days, percentage points.
+- Explains a technical metric once, in reader terms: "precision 60% means 6 of every 10 students on the review list really were at risk."
+- Says the observation (what the data shows) separately from the interpretation (why it might be so). Label mechanisms you did not test as possibilities.
 
-- **The Spaghetti Chart**: Plotting 12 overlapping, unlabelled colored lines on a single time series plot. (Solution: Small multiples / faceted sub-charts).
-- **The 3D Trap**: Adding 3D perspective to pie or bar charts, distorting geometric proportions.
-- **Dual Y-Axes with Arbitrary Scaling**: Plotting two independent metrics on left and right axes with misaligned scales, creating artificial visual intersections that mislead stakeholders.
-- **Overcrowded Labels**: Displaying exact numerical data labels on all 50 bars, generating cognitive overload instead of clarity.
+## Caveats without hedging
 
-## Cross-References
+Over-caveating hides findings as surely as over-claiming distorts them. Rules of thumb:
 
-- For building operational monitoring interfaces and interactive reports: [Dashboards and BI](./dashboards-and-bi.md)
-- For metric definitions, ratio calculations, and percentage point rules: [Metrics and KPIs](./metrics-and-kpis.md)
-- For exploratory distribution checking and bivariate plots: [Exploratory Data Analysis (EDA)](./eda.md)
-- For communicating predictive model risks and accuracy bounds: [Predictive Analysis](./predictive-analysis.md)
+- **Caveat a claim once, where it matters.** Put the single most important limit in the finding; collect the rest in Limitations.
+- **Only caveats that could change a conclusion.** "Results may vary" is noise. "Scores were released with unknown delay, so day-60 score features may not be available live" is useful.
+- **Prefer a test to a caveat.** If you can run a sensitivity check, run it and report the result ("the gap is unchanged when we assume a 28-day delay") instead of warning that it might matter.
+- **State status once, plainly**, in the summary: complete / partial / feasibility / unverified, with scope.
+- **No defensive vocabulary in every sentence.** Words like "conditional", "proxy", "not causal", "exploratory" belong where they change interpretation, not as a reflex.
+
+## Tables
+
+- In the body, a table must support one claim. Keep only the columns the claim needs (often 3–5) and the rows that matter. Round sensibly (percentages to whole numbers or one decimal).
+- Put exhaustive tables (all cutoffs × all models × all metrics) in the appendix or `results/`, and link them.
+- Prefer a chart when the reader needs to see a pattern; prefer a table when they need exact values for a few items.
+- Use human column headers ("Flagged students", "Share later at risk") rather than `alert_rate`, `risk_rate`.
+
+## Choosing a chart
+
+Pick the chart from the comparison the reader must make. Reusing one chart type for similar comparisons is fine; there is no quota.
+
+| Reader needs to see | Use | Avoid |
+| --- | --- | --- |
+| Ranking across categories | Sorted horizontal bar, highlight the focus bar | Unsorted bars, 3D |
+| Change between two points for the same groups | Slope chart, paired dots (dumbbell) | Side-by-side composition bars that hide pairing |
+| Trend over time | Line chart, direct labels at line ends | Spaghetti of 10+ lines (use small multiples) |
+| Difference with uncertainty | Dot + interval plot, zero reference line | Bars with error whiskers for non-count measures |
+| Distribution or spread | Histogram, box/strip plot | A lone mean |
+| Same pattern across many groups | Small multiples with shared axes | One cluttered chart |
+| Part-to-whole, few categories | Stacked or 100% bar | Pies with many slices |
+| Two continuous variables | Scatter (binned or hexbin when large) | Forced linear fit on curved data |
+| Two categorical dimensions | Heatmap with ordered, single-hue scale | Rainbow scales |
+| Ordered stages | Funnel as horizontal bars with step conversion | Disconnected pies |
+| Model trade-off (early warning) | Precision and recall vs review capacity; calibration plot | A single accuracy number |
+
+When a sensitivity check or subgroup result changes the headline, show baseline and alternative side by side; an isolated adjusted number in a callout is not enough.
+
+## Chart craft
+
+`scripts/chart_style.py` applies these defaults; use it rather than raw matplotlib defaults.
+
+- **Title states the finding**; a smaller subtitle states the measure, population and period. Axis labels carry units.
+- **Bars start at zero.** Lines may use a non-zero axis when the change is the point; label it clearly.
+- **One accent colour for the focus**, greys for context. Colour encodes meaning, not decoration. Use the colour-blind-safe palette in the script; never rely on red vs green alone.
+- **Label directly** (bar values, line-end labels) instead of distant legends when there are few series.
+- **Remove chart junk**: no top/right spines, light value-axis grid only, no shadows or 3D.
+- **Annotate what matters**: a policy change, a threshold, the gap you are talking about.
+- **Show uncertainty** when the claim is inferential (intervals, bands). Census totals need none.
+- **Source line** under the chart: dataset, population, n.
+- Export PNG for the report and SVG for reuse.
+
+## Before you ship
+
+Read the report as the stated reader, top to bottom, and check:
+
+- Can I state the main finding after reading only the title and summary?
+- Does every finding section have a claim, a number with its comparison, and a meaning?
+- Is every chart title a sentence a reader could repeat?
+- Are there more than two or three tables in the body? Move the rest to the appendix.
+- Is any caveat repeated, or attached to a claim it does not affect? Remove it.
+- Do the displayed numbers match `results/`?
+- Are the most important findings visible in the report itself, not only in linked files?
+
+## Cross-references
+
+- Dashboards and interactive delivery: [Dashboards and BI](./dashboards-and-bi.md)
+- Target voice: [Example report](./example-report.md)
+- Ratios and percentage-point wording: [Metrics and KPIs](./metrics-and-kpis.md)
+- Distribution plots during exploration: [EDA](./eda.md)
+- Communicating model performance: [Predictive analysis](./predictive-analysis.md)

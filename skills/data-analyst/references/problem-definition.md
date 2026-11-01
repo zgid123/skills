@@ -58,6 +58,26 @@ A well-formed analytical question satisfies five SMART criteria:
 - **Relevant**: Tied to an upcoming business decision or operational intervention when applicable, or to a clear informational use.
 - **Time-bound**: Evaluates a clearly delineated observation window with a firm completion deadline.
 
+## From Business Question to Analytical Questions
+
+A business question ("How successful was my campaign?") is rarely answerable as asked. Ask clarifying questions (What counts as success? Compared with which period? Across which dimensions?), then write a set of analytical questions, each one:
+
+- **Clear** — little ambiguity; implicit assumptions stated.
+- **Specific** — addresses one aspect of the business question.
+- **Scoped** — names the population and time period.
+- **Data-oriented** — makes clear which data is needed.
+- **Answerable** — you know what the answer will look like, its unit and a plausible range or expected relationship.
+
+Example: "What was the overall positive response rate for the Q3 campaign?", "How did the positive response rate differ across channels?", "…across demographic groups?" Chain them as business goal → SMART goal → analytical questions, so every question traces to the goal.
+
+## Classifying the Decision
+
+Classify the decision the analysis supports, because it sets how much rigor and time the answer deserves:
+
+- **Level**: strategic (policies, major impact), tactical (procedures, affects subgroups) or operational (day-to-day execution).
+- **Frequency**: programmed (recurring, e.g., pricing, promotions — worth a reusable metric or dashboard) or non-programmed (one-off, e.g., an acquisition — worth a deep, bespoke analysis).
+- **Reversibility**: one-way door (hard to reverse — demand stronger evidence) or two-way door (reversible — a fast, good-enough answer plus monitoring is often better).
+
 ### Examples: Poor vs. Well-Defined Problems
 
 | Poor Problem Definition | Flaw | Well-Defined Analytical Problem |

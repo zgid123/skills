@@ -2,7 +2,7 @@
 
 ## Overview
 
-SQL is the foundational query language for data analysis. Relational querying requires strict mental discipline around data grain, join cardinality, and aggregation boundaries. Before writing any analytical SQL query, establish the golden rule: **Define explicitly what one row of the output table represents.**
+Relational queries depend on grain, join cardinality and aggregation boundaries. Define one output row before querying.
 
 ## The Analytical Grain
 
@@ -104,33 +104,24 @@ WHERE ranking = 1;
 
 ### 4. Cohort Retention Analysis
 
-Compute triangular cohort retention matrices by joining user signup cohorts to activity events:
+SQLite; bind :cutoff and :max_period. NULL means incomplete.
 
 ```sql
-WITH user_cohorts AS (
-  SELECT
-    user_id,
-    DATE_TRUNC('month', created_at) AS cohort_month
-  FROM users
-),
-monthly_activity AS (
-  SELECT
-    user_id,
-    DATE_TRUNC('month', event_timestamp) AS activity_month
-  FROM user_events
-  GROUP BY 1, 2
-)
-SELECT
-  c.cohort_month,
-  -- Calculate month offset: 0, 1, 2, ...
-  EXTRACT(YEAR FROM a.activity_month) * 12 + EXTRACT(MONTH FROM a.activity_month) -
-  (EXTRACT(YEAR FROM c.cohort_month) * 12 + EXTRACT(MONTH FROM c.cohort_month)) AS period_offset,
-  COUNT(DISTINCT c.user_id) AS active_users
-FROM user_cohorts c
-JOIN monthly_activity a ON c.user_id = a.user_id
-GROUP BY 1, 2
-ORDER BY 1, 2;
+WITH RECURSIVE p(n) AS (SELECT 0 UNION ALL SELECT n+1 FROM p WHERE n<:max_period),
+u AS (SELECT user_id,signup_at,strftime('%Y-%m',signup_at) cohort_month FROM users),
+s AS (SELECT cohort_month,count(*) cohort_size FROM u GROUP BY 1),
+g AS (SELECT s.cohort_month,s.cohort_size,p.n period_offset,
+      date(s.cohort_month||'-01',printf('+%d months',p.n)) period_start FROM s CROSS JOIN p)
+SELECT g.cohort_month,g.cohort_size,g.period_offset,
+CASE WHEN date(g.period_start,'+1 month')<=date(:cutoff,'start of month') THEN count(DISTINCT e.user_id) END active_users,
+CASE WHEN date(g.period_start,'+1 month')<=date(:cutoff,'start of month') THEN 1.0*count(DISTINCT e.user_id)/g.cohort_size END retention
+FROM g JOIN u USING(cohort_month)
+LEFT JOIN user_events e ON e.user_id=u.user_id AND datetime(e.event_at)>=datetime(u.signup_at)
+ AND date(e.event_at)>=g.period_start AND date(e.event_at)<date(g.period_start,'+1 month')
+GROUP BY 1,2,3,g.period_start ORDER BY 1,3;
 ```
+
+No events yield 0; incomplete periods yield NULL.
 
 ### 5. Period-Over-Period (PoP) Comparisons
 

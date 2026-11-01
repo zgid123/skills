@@ -4,6 +4,8 @@
 
 Predictive analysis uses historical data to estimate the likelihood of future outcomes or quantify unobserved continuous quantities. Within the Data Analyst scope, predictive analysis focuses on defining clear prediction problems, establishing transparent baseline models, detecting data leakage, evaluating performance using business-aligned metrics, and interpreting model drivers. Deep learning, complex neural architectures, extensive hyperparameter optimization, and production MLOps deployment are explicitly out of scope.
 
+For early-warning and risk-scoring problems, start with [the early-warning playbook](../playbooks/early-warning.md); it covers cutoffs, eligibility, workload metrics and reader-facing wording.
+
 ## The Prediction Problem Formulation
 
 Every predictive inquiry must be translated into a structured formulation:

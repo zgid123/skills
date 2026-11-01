@@ -117,6 +117,68 @@ domain/
 
 ## Application Layer
 
+### Collection Folders
+
+When a business domain has two or more aggregate collections, group its commands and queries by collection. Create one folder per collection inside `application/commands/` and `application/queries/`, named after the aggregate in singular lowercase, matching the entity name (for example `post/` for `PostEntity`, `topic/`, `series/`). Use the project's existing directory casing for multi-word names. Once grouped, do not leave command or query files directly in `commands/` or `queries/`.
+
+```txt
+application/
+  commands/
+    post/
+      index.ts
+      PublishPostCommand.ts
+    topic/
+      index.ts
+      CreateTopicCommand.ts
+  queries/
+    post/
+      index.ts
+      GetPostQuery.ts
+      GetPostBySlugQuery.ts
+      ListPostsQuery.ts
+      ListPostSlugsQuery.ts
+    topic/
+      index.ts
+      GetTopicQuery.ts
+      ListTopicsQuery.ts
+    series/
+      index.ts
+      ListSeriesQuery.ts
+```
+
+When a business domain has only one collection, keep `commands/` and `queries/` flat; a single collection folder adds nesting without improving navigation.
+
+Place a use case under the collection whose aggregate it loads or changes. When a query reads a projection that joins several collections, place it under the collection it primarily returns.
+
+### One Use Case Per Operation, Not Per Audience
+
+Do not split a command or query by audience or endpoint visibility. Use `ListPostsQuery`, not `ListInternalPostsQuery` and `ListPublicPostsQuery`. Public versus internal is a delivery concern owned by adapters (see [Adapters](./structure.md#adapters)).
+
+Express audience differences as query input and adapter mapping instead:
+
+- Pass filters such as `status` or `visibility` from the adapter; the public route sends `status: 'published'`, the internal route may omit it.
+- Shape responses in the adapter's response mapper; the public mapper drops internal-only fields.
+
+```ts
+// adapters/restful/hono/public/v1/posts.ts
+const posts = await cqrsx.exec(
+  new ListPostsQuery({
+    status: 'published',
+  }),
+);
+
+return c.json(posts.map(toPublicPostResponse));
+
+// adapters/restful/hono/internal/posts.ts
+const posts = await cqrsx.exec(
+  new ListPostsQuery({
+    status: query.status,
+  }),
+);
+
+return c.json(posts.map(toInternalPostResponse));
+```
+
 ### Commands
 
 Files in `application/commands/` use the suffix `Command`:
@@ -214,6 +276,8 @@ infrastructure/
   index.ts          ❌ no barrel at the infrastructure layer root
 ```
 
+When commands or queries are grouped into [collection folders](#collection-folders), the collection folder is the content folder: put the barrel in `queries/post/index.ts` and import from `#/application/queries/post`. Do not add `queries/index.ts` above the collection folders.
+
 The layer-level barrel (`domain/index.ts`) is omitted intentionally. It would aggregate everything in the domain into one re-export surface, making it easy to accidentally couple consumers to the wrong layer. Each content folder's barrel is enough — consumers import from the folder they actually need:
 
 ```ts
@@ -238,6 +302,6 @@ import { CancelOrderCommand } from '#/application';
 | Domain error class | `domain/errors/` | `<Name>Error.ts` | `UserError.ts` |
 | Domain error constants | `domain/constants/` or domain package `src/constants/` | `<domain>Errors.ts` | `authErrors.ts` |
 | Value object | `domain/value-objects/` | `<Name>ValueObject.ts` | `EmailValueObject.ts` |
-| Command | `application/commands/` | `<Feature>Command.ts` | `CancelOrderCommand.ts` |
-| Query | `application/queries/` | `<Feature>Query.ts` | `ListOrdersQuery.ts` |
+| Command | `application/commands/` or `application/commands/<collection>/` | `<Feature>Command.ts` | `CancelOrderCommand.ts` |
+| Query | `application/queries/` or `application/queries/<collection>/` | `<Feature>Query.ts` | `ListOrdersQuery.ts` |
 | Infra repository | `infrastructure/<tech>/repositories/` | `<Name>Repository.ts` | `AuthRepository.ts` |

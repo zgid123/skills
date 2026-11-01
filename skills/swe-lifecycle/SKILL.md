@@ -1,6 +1,6 @@
 ---
 name: swe-lifecycle
-description: Orchestrate AI-assisted software delivery across project bootstrap, requirement discovery and evolution, change proposals, technical design, GitHub milestones and issues, implementation, bug fixes, knowledge synchronization, changelogs, and finalization. Use when a repository needs a coherent engineering lifecycle, traceable specifications, current technical knowledge, or durable implementation history. Apply proportionately to the requested operation; ordinary small edits do not require a full lifecycle ceremony.
+description: Orchestrate AI-assisted software delivery across project bootstrap, requirement discovery and evolution, change proposals, technical design, GitHub milestones and issues, implementation, bug fixes, knowledge synchronization, changelogs, and finalization. Grills the user one question at a time to stress-test a plan, and automatically before writing any requirement, change proposal, or design that is missing context. Use when a repository needs a coherent engineering lifecycle, traceable specifications, current technical knowledge, or durable implementation history, or when the user says "grill me" or asks to stress-test their thinking. Apply proportionately to the requested operation; ordinary small edits do not require a full lifecycle ceremony.
 ---
 
 # Software engineering lifecycle
@@ -19,10 +19,11 @@ Keep expected behavior, proposed changes, current implementation, historical cha
 
 | Operation | Read next | Templates to use when needed |
 | --- | --- | --- |
+| `grill` | [grilling](references/grilling.md) | none |
 | `bootstrap` | [lifecycle](references/lifecycle.md), [GitHub workflow](references/github-workflow.md) | `project.md`, `architecture.md`, `development-guide.md`, `milestone.md`, `chore-issue.md` |
-| `specify` | [specifications](references/specifications.md) | `requirement.md` |
-| `propose-change` | [specifications](references/specifications.md) | `change-proposal.md` |
-| `design` | [specifications](references/specifications.md) | `technical-design.md`, `adr.md` |
+| `specify` | [specifications](references/specifications.md), [grilling](references/grilling.md) when context is missing | `requirement.md` |
+| `propose-change` | [specifications](references/specifications.md), [grilling](references/grilling.md) when context is missing | `change-proposal.md` |
+| `design` | [specifications](references/specifications.md), [grilling](references/grilling.md) when context is missing | `technical-design.md`, `adr.md` |
 | `plan` | [GitHub workflow](references/github-workflow.md) | `milestone.md`, `epic.md`, relevant issue template |
 | `implement`, `fix` | [implementation](references/implementation.md) | relevant issue template; knowledge/changelog templates at completion |
 | `sync-knowledge` | [knowledge management](references/knowledge-management.md) | `knowledge.md`, `architecture.md`, `development-guide.md` |
@@ -34,6 +35,7 @@ Template names above resolve inside [assets/](assets/). Read the selected templa
 ## Guardrails
 
 - Write every document for human readers first. Agents use the same readable documents. Use natural, direct prose without AI-style boilerplate or em dashes; follow the [writing standard](references/conventions.md#writing-for-human-readers).
+- Before writing a requirement, change proposal, or design, check for missing context: any decision the request, existing documents, and code do not settle and only the user can make. If anything is missing, grill the user automatically using [grilling](references/grilling.md), without waiting to be asked, and write the spec only after they confirm. Routine choices covered by existing conventions are not missing context. Only when the user explicitly asks for a draft first, write it with the gaps listed as open questions, then grill on those questions.
 - Requirements describe testable expected behavior. Changes describe significant proposals. Designs explain implementation approaches. ADRs preserve consequential decisions. Knowledge describes verified current code. Changelogs preserve completed history.
 - GitHub owns milestones, issues, sub-issues, dependencies, PR status, and implementation tracking. Local documents own durable technical knowledge. Do not create a duplicate local issue database.
 - Read remote work when tooling permits. Create, edit, or close remote work only with explicit authorization already covering that operation. If unavailable or unauthorized, prepare clearly labeled drafts with no invented numbers or URLs.
@@ -43,7 +45,7 @@ Template names above resolve inside [assets/](assets/). Read the selected templa
 
 ## Quick use
 
-Ask “bootstrap this repository,” “specify configurable rate limiting,” “propose an authentication migration,” “fix refresh-token rotation,” or “finalize this change.” For existing projects, adopt the established documentation incrementally rather than renumbering or restructuring history. Run the validator from any installation path:
+Ask “grill me on this plan,” “bootstrap this repository,” “specify configurable rate limiting,” “propose an authentication migration,” “fix refresh-token rotation,” or “finalize this change.” For existing projects, adopt the established documentation incrementally rather than renumbering or restructuring history. Run the validator from any installation path:
 
 ```sh
 python3 /path/to/swe-lifecycle/scripts/validate_docs.py /path/to/project

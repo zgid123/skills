@@ -1,0 +1,15 @@
+{
+  "description": "Small synthetic early-warning extract with student outcomes, observation timing, and a day-30 score.",
+  "grain": "one row per student",
+  "cutoff_day": 30,
+  "outcome_window_end_day": 90,
+  "fields": {
+    "withdrawn_before_cutoff": "Source indicator marking withdrawal before day 30",
+    "outcome": "Observed outcome by day 90: fail, withdraw, or success",
+    "outcome_day": "Day the outcome occurred",
+    "risk_score_at_day30": "Illustrative score recorded at day 30",
+    "score_available_day": "Day the risk score became available",
+    "final_grade": "Final grade recorded for the course",
+    "grade_available_day": "Day the final grade became available"
+  }
+}

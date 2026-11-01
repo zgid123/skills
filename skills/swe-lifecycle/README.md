@@ -8,13 +8,13 @@ Load [SKILL.md](SKILL.md) in an agent environment that supports Agent Skills, or
 swe-lifecycle/
 ├── SKILL.md
 ├── README.md
-├── references/          # Eight flat, selectively loaded instruction files
+├── references/          # Nine flat, selectively loaded instruction files
 ├── assets/              # Fifteen adaptive Markdown templates
 └── scripts/
     └── validate_docs.py
 ```
 
-References separate lifecycle dispatch, conventions, specifications, GitHub work, implementation, current knowledge, historical changelogs, and validation. Load only those routed by the current operation. Templates are `project`, `requirement`, `change-proposal`, `technical-design`, `milestone`, `epic`, `feature-issue`, `bug-issue`, `chore-issue`, `adr`, `knowledge`, `changelog`, `architecture`, `development-guide`, and `pull-request` (all `.md` files under `assets/`).
+References separate lifecycle dispatch, grilling, conventions, specifications, GitHub work, implementation, current knowledge, historical changelogs, and validation. Load only those routed by the current operation. Templates are `project`, `requirement`, `change-proposal`, `technical-design`, `milestone`, `epic`, `feature-issue`, `bug-issue`, `chore-issue`, `adr`, `knowledge`, `changelog`, `architecture`, `development-guide`, and `pull-request` (all `.md` files under `assets/`).
 
 ## What is an ADR?
 
@@ -24,6 +24,7 @@ All lifecycle documents are written for human readers first, and agents use the 
 
 ## Example requests
 
+- “Grill me on this caching plan before we write the design.”
 - “Bootstrap this Hono API Gateway. Prepare M0 Foundation and chore drafts; keep GitHub offline.”
 - “Specify configurable rate limiting; clarify policy choices and prepare a design and implementation issues.”
 - “Propose replacing better-auth with a Go service while retaining the authentication requirement.”
@@ -31,7 +32,11 @@ All lifecycle documents are written for human readers first, and agents use the 
 - “Propose extending RBAC with ABAC; preserve approved behavior until the revision is authorized.”
 - “Finalize this implementation: check acceptance criteria, documentation, history, and prepare the PR.”
 
-All ten operations are available: `bootstrap`, `specify`, `propose-change`, `design`, `plan`, `implement`, `fix`, `sync-knowledge`, `record-change`, and `finalize`. One request can involve several operations. Bootstrap adds useful project navigation, a project brief, architecture/guides, or unpublished M0 drafts as the repository needs them; it does not create empty categories or invent feature specifications. For existing projects, inspect and preserve the established documentation first; agree on structural adoption rather than moving history automatically.
+All eleven operations are available: `grill`, `bootstrap`, `specify`, `propose-change`, `design`, `plan`, `implement`, `fix`, `sync-knowledge`, `record-change`, and `finalize`. One request can involve several operations. Bootstrap adds useful project navigation, a project brief, architecture/guides, or unpublished M0 drafts as the repository needs them; it does not create empty categories or invent feature specifications. For existing projects, inspect and preserve the established documentation first; agree on structural adoption rather than moving history automatically.
+
+## Grilling
+
+The `grill` operation interviews the user about a plan, requirement, or design until every dependent decision is settled. It asks exactly one question per message, each with a recommended answer, looks up facts itself instead of asking, and waits for the user to confirm the shared understanding before acting. Writing a requirement, change proposal, or design triggers the same interview automatically whenever context is missing, so specs are not built on guessed decisions. See [grilling](references/grilling.md).
 
 ## Verification
 
@@ -63,3 +68,7 @@ The smoke tests exercise the validator and its CLI without GitHub calls. Separat
 - Existing project layouts may fail the canonical validator. Agree on migration or adapt its contract locally after inspection; never repair failures by deleting or renumbering established records.
 
 Before first real use, choose owners and approval authority, confirm changelog policy and required checks, reconcile existing identifiers and documentation, then perform a dry-run planning/finalization cycle. No automatic publication or deployment is part of installing this skill.
+
+## Credits
+
+The [grilling](references/grilling.md) reference is adapted from the [`grill-me` and `grilling` skills](https://github.com/mattpocock/skills/tree/main/skills/productivity) by [Matt Pocock](https://github.com/mattpocock). The original asks every open question in one round; this version asks one question per message and ties the outcome into the lifecycle documents.

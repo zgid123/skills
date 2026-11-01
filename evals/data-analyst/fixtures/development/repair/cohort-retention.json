@@ -1,0 +1,40 @@
+{
+  "cutoff": "2026-04-15",
+  "maximum_period_offset": 2,
+  "users": [
+    {
+      "user_id": "u1",
+      "signup_at": "2026-01-15"
+    },
+    {
+      "user_id": "u2",
+      "signup_at": "2026-01-28"
+    },
+    {
+      "user_id": "u3",
+      "signup_at": "2026-03-03"
+    }
+  ],
+  "events": [
+    {
+      "user_id": "u1",
+      "event_at": "2026-01-10"
+    },
+    {
+      "user_id": "u1",
+      "event_at": "2026-01-20"
+    },
+    {
+      "user_id": "u1",
+      "event_at": "2026-02-05"
+    },
+    {
+      "user_id": "u3",
+      "event_at": "2026-02-27"
+    },
+    {
+      "user_id": "u3",
+      "event_at": "2026-03-08"
+    }
+  ]
+}

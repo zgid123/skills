@@ -73,6 +73,33 @@
         "The agent verifies the result with available documentation checks and reports any limits accurately.",
         "No commit, revision, or remote link is invented."
       ]
+    },
+    {
+      "id": 6,
+      "name": "grill-me-one-question",
+      "prompt": "Grill me on my plan to add per-tenant rate limiting to our API gateway before we write any requirement or design.",
+      "expected_output": "A grilling interview that asks exactly one decision question per message with a recommended answer, looks up repository facts itself, and does not write documents or code until the user confirms the shared understanding.",
+      "files": [],
+      "expectations": [
+        "[CRITICAL] Each assistant message asks exactly one question; no numbered rounds or bundled sub-questions.",
+        "[CRITICAL] No requirement, design, issue, or code is written before the user confirms the shared understanding.",
+        "Each question includes a recommended answer worded so that \"yes\" accepts it.",
+        "Facts available in the repository or tools are looked up rather than asked of the user.",
+        "The first question targets the decision that unblocks the most others, such as how a tenant is identified."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "auto-grill-before-spec",
+      "prompt": "Write the requirement for letting users export their data from our app.",
+      "expected_output": "The agent inspects the repository, finds that key decisions are not settled, and starts grilling one question at a time without being asked, writing the requirement only after the user confirms.",
+      "files": [],
+      "expectations": [
+        "[CRITICAL] The agent starts grilling without the user asking for it, because export scope, formats, and access rules are not settled.",
+        "[CRITICAL] No requirement content that depends on an unanswered decision is written before the user confirms the shared understanding.",
+        "Each message asks exactly one question with a recommended answer.",
+        "Facts available in the repository, such as existing data models or export code, are looked up rather than asked of the user."
+      ]
     }
   ]
 }

@@ -34,7 +34,7 @@ Treat a package as present when it is a direct entry in the root manifest's depe
 
 ## HTML and style blocks in Markdown
 
-Read [HTML Spacing](./references/html-spacing.md) before writing or editing HTML in a Slidev `.md` file. Avoid unnecessary blank lines between elements, preserve spacing required for rendering, and check affected slides in preview.
+Read [HTML Formatting and Spacing](./references/html-spacing.md) before writing or editing HTML in a Slidev `.md` file. Format HTML by hand with one block element per line and nested indentation, because the Markdown formatter prints HTML blocks verbatim; leave Mermaid, code, math, and inline text markup as written. Show code only in fenced code blocks with a language tag so Shiki highlights it; never write code samples as raw `<pre><code>` HTML. Avoid unnecessary blank lines between elements, preserve spacing required for rendering, and check affected slides in preview.
 
 Read [CSS Formatting](./references/css-formatting.md) before writing any CSS for a deck, including a `<style>` block, `style.css`, or inline `style` attribute. Use theme defaults first; never override theme or addon styles without the user's explicit permission. Apply its multiline class-rule formatting and verification checklist.
 
@@ -50,4 +50,5 @@ Before finishing, confirm:
 - Titles, visible highlights, and presenter notes follow [Content and Presenter Notes](./references/content-and-notes.md#verification).
 - Diagram and card components fit the content relationship and supported item count described in the component selection guide.
 - CSS class rules in Markdown `<style>` blocks created or edited by this task follow [CSS Formatting](./references/css-formatting.md).
-- HTML spacing follows [HTML Spacing](./references/html-spacing.md), and affected slides have been checked in preview for missing or incorrectly rendered content. If preview is unavailable, report that limitation.
+- Code samples use language-tagged fenced code blocks rendered by Shiki, with no raw `<pre><code>` HTML.
+- HTML formatting and spacing follow [HTML Formatting and Spacing](./references/html-spacing.md), and affected slides have been checked in preview for missing or incorrectly rendered content. If preview is unavailable, report that limitation.

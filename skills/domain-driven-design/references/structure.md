@@ -50,6 +50,8 @@ Put these in `application/`:
 - `commands/` - write use cases that change system state.
 - `queries/` - read use cases that return data without changing system state.
 
+When a business domain has two or more aggregate collections, group commands and queries into one folder per collection, named in singular after the aggregate, such as `queries/post/` and `queries/topic/`. Keep one use case per business operation; do not create `Internal`/`Public` variants of the same query. See [File Naming](./naming.md#collection-folders).
+
 Application code may call domain behavior and injected repository or service contracts. Keep it focused on orchestration: validate input shape, load domain objects, execute behavior, persist results, and return output.
 
 In TypeScript projects, commands and queries must use `@cqrsx/core`. Command classes extend `Command`, query classes extend `Query<TResult>`, and handlers implement `ICommandHandler` or `IQueryHandler`. Keep each command/query and its handler in the same file, following `skills/cqrs/SKILL.md`.

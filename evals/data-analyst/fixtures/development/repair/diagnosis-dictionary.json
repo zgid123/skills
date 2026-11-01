@@ -1,0 +1,14 @@
+{
+  "description": "Synthetic case-completion counts by period and segment.",
+  "grain": "one row per period and segment",
+  "periods": {
+    "A": "First observed period",
+    "B": "Second observed period",
+    "C": "Third observed period"
+  },
+  "fields": {
+    "completed": "Eligible cases completed in the period and segment",
+    "eligible": "All eligible cases in the period and segment; denominator for completion rate"
+  },
+  "units": "case counts"
+}

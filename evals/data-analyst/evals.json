@@ -397,6 +397,73 @@
         "Correct comparison, eligible denominator and periods are readable in the requested report.",
         "Give proportionate numerical verification and main limitation; no forced app, interaction or unsupported causality."
       ]
+    },
+    {
+      "id": 31,
+      "name": "repair-diagnosis-mix-and-rate",
+      "split": "development",
+      "prompt": "Use diagnosis.csv and its dictionary to explain changes in case completion across periods A, B, and C. Separate the A-to-B composition effect from any within-segment rate change in B-to-C. Show the overall and segment rates with denominators, then state what the data does and does not establish.",
+      "expected_output": "A-to-B is a pure mix-shift reversal: Alpha and Beta completion rates remain 90% and 30%, while Alpha share falls from 80% to 20%, so the overall rate falls from 78% to 42%. From B to C the mix is unchanged; Beta falls from 30% to 20%, Alpha stays 90%, and the overall rate falls from 42% to 34%.",
+      "files": [
+        "fixtures/development/repair/diagnosis.csv",
+        "fixtures/development/repair/diagnosis-dictionary.json"
+      ],
+      "expectations": [
+        "Correctly computes A/B/C overall rates and eligible denominators.",
+        "Shows segment rates are stable A-to-B and identifies the composition change as the cause of that aggregate reversal, without asserting a causal intervention effect.",
+        "Identifies Beta's 10-point B-to-C decline with unchanged segment mix and Alpha rate.",
+        "Distinguishes the two comparisons rather than claiming every segment is flat across all periods."
+      ]
+    },
+    {
+      "id": 32,
+      "name": "repair-early-warning-leakage-capacity",
+      "split": "development",
+      "prompt": "Using early-warning.csv and its dictionary, assess this day-30 early-warning ranking. Define at-risk as failure or withdrawal after day 30 through day 90. Exclude anyone whose outcome already occurred by day 30. Evaluate the top 30% of eligible students by risk_score_at_day30, report the review count, precision, recall, and missed cases, and explain whether final_grade is a valid feature at this cutoff.",
+      "expected_output": "Exclude S7 because withdrawal occurred before day 30. Six students remain, with three later failures/withdrawals. At 30% review capacity, flag the top two eligible scores (S1 and S2): 2 reviews, one true positive, precision 50%, recall 1/3, two later at-risk students missed. final_grade is unavailable until day 95 and leaks post-cutoff information.",
+      "files": [
+        "fixtures/development/repair/early-warning.csv",
+        "fixtures/development/repair/early-warning-dictionary.json"
+      ],
+      "expectations": [
+        "Excludes the pre-cutoff withdrawal before ranking and states the eligible population.",
+        "Reports two flags, 50% precision, one-third recall, and two missed cases for the stated outcome definition.",
+        "Rejects final_grade as a day-30 feature because it becomes available after the cutoff.",
+        "Identifies the score as illustrative and does not claim production model validity from the small fixture."
+      ]
+    },
+    {
+      "id": 33,
+      "name": "repair-survey-weighted-replicate",
+      "split": "development",
+      "prompt": "Using survey.csv and its dictionary, estimate the satisfied share with and without final weights. Compute the Fay BRR standard error from the four replicate weights using k=0.5. State the unweighted sample size and explain what population/design claims this synthetic extract supports.",
+      "expected_output": "Unweighted share is 2/4 = 50%; weighted share is 6/8 = 75%. Replicate shares are 80%, 60%, 71.43%, and 71.43%. Fay BRR SE is approximately 16.6 percentage points. The synthetic four-person extract demonstrates the calculation but cannot justify inference to a real population or survey design.",
+      "files": [
+        "fixtures/development/repair/survey.csv",
+        "fixtures/development/repair/survey-dictionary.json"
+      ],
+      "expectations": [
+        "Reports weighted 75% and unweighted 50%, with n=4.",
+        "Uses the supplied replicate weights and Fay k=0.5 to obtain an SE near 0.166 (allow 0.001 absolute error).",
+        "Explains that this synthetic fixture does not establish real-world population representativeness or a real survey design."
+      ]
+    },
+    {
+      "id": 34,
+      "name": "repair-under-specified-risk-definition",
+      "split": "development",
+      "prompt": "Using early-warning.csv and its dictionary, prepare a compact day-30 warning summary for advisors: who should count as at risk, and how useful is a top-30% review list? Explain the main data limitation.",
+      "expected_output": "Recognizes that the outcome definition (failure, withdrawal, or both) is consequential and not supplied by the user. Since the user is unavailable, proposes and labels a defensible default, such as combining later failure and withdrawal for a shared advisor check-in, while showing separate outcome counts/rates where practical. Excludes pre-cutoff outcomes and post-cutoff grades, reports the limited ranking result, and avoids claiming production validity.",
+      "files": [
+        "fixtures/development/repair/early-warning.csv",
+        "fixtures/development/repair/early-warning-dictionary.json"
+      ],
+      "expectations": [
+        "Identifies failure-versus-withdrawal as an unresolved consequential decision, rather than treating the dictionary's note as user approval.",
+        "States and justifies a proposed outcome definition because the user is unavailable.",
+        "Does not ask the unavailable user to decide and does not ask for field facts available in the dictionary or data.",
+        "Discloses the proposed definition in a proportionate way and distinguishes a small illustrative ranking from a validated warning model."
+      ]
     }
   ]
 }

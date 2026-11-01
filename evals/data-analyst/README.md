@@ -1,13 +1,16 @@
 # Data analyst evaluation protocol
 
-Run deterministic safety checks from the repository root:
+The bundled analysis helpers and their focused regression tests require `numpy`, `pandas`, and `matplotlib`; the dashboard renderer tests also require Node.js. Install those Python packages in the evaluation environment, then run from the repository root:
 
 ```sh
 python3 -m unittest discover -s evals/data-analyst -v
 python3 scripts/validate_skills.py
+git diff --check
 ```
 
-IDs 1–11 are preserved regression prompts. IDs 12–23 add deterministic development inputs covering transaction composition, repeated sequential events, sparse calendars and seasonality, weighted sampling, join fanout, randomized versus observational inference, a substantial open-ended investigation, unsuitable evidence, proportional concise delivery, and stakeholder-triggered revisiting. IDs 24–30 add analytical communication cases described below. Paths in evals.json are relative to this evaluation directory. Fixtures are synthetic fixed extracts, not real business observations. Do not feed expected_output, expectations, evaluator code or oracle results to a model executing the task.
+The development suite includes the factual evaluator, helper regressions, and dashboard-template renderer checks. These deterministic tests do not establish model behavior.
+
+IDs 1–11 are preserved regression prompts. IDs 12–23 add deterministic development inputs covering transaction composition, repeated sequential events, sparse calendars and seasonality, weighted sampling, join fanout, randomized versus observational inference, a substantial open-ended investigation, unsuitable evidence, proportional concise delivery, and stakeholder-triggered revisiting. IDs 24–30 cover analytical communication. IDs 31–34 cover the repair scenarios: separated mix and within-segment effects, early-warning leakage/capacity, weighted survey inference, and an under-specified risk definition. Paths in evals.json are relative to this evaluation directory. Fixtures are synthetic and are not real business observations. Do not feed expected_output, expectations, evaluator code, or oracle results to a model executing a task.
 
 ## Analytical communication cases
 
@@ -29,11 +32,12 @@ Cases 24, 26, 28 and 29 supply described delivery/review packets rather than exe
 
 ## Comparable model runs
 
-1. Before editing, preserve the baseline skill outside the working skill folder. Freeze the revised skill, task inputs and grading rubric before evaluation. Select the same task IDs and input bytes for each condition. Use `fixtures/development/rich-prompt.txt`, transactions.csv and its dictionary for a substantial investigation pair; this prompt deliberately does not enumerate the hidden mix effect.
-2. Use a fresh agent/context per task and condition, with either the baseline skill or revised skill and the same prompt/input files. No cross-run conversation, answers, ledgers or evaluator feedback. Optional no-skill runs are an additional condition, not a substitute for the original-skill baseline.
-3. Match model/version, reasoning setting, tool access, environment, timeout, maximum output tokens and total work budget. A practical initial budget is 12,000 output tokens and 10 minutes per run, identical across arms; record actual chosen settings before running. Capture total tokens, elapsed time, tool/runtime availability and any interruption. A single pair is a smoke test, never a reliable improvement estimate.
-4. Prefer at least three independent repetitions per condition per selected case when resources permit. Blind condition labels and randomize review order. Preserve every output, trace, query/script and artifact under a new workspace iteration; do not overwrite existing runs. Report mean and spread per axis, paired differences, failures and resource cost rather than an overall pass-rate alone. Label any unavailable model run as NOT RUN.
-5. Keep `held-out/` unopened by the skill author and model runner until the skill and rubric are frozen. Only an independent grader reads its expected results after outputs exist. Held-out prompts are separate from development evals.json, so local development does not accidentally preload their answers. Do not tune the skill on held-out failures; report them and reserve a fresh set for the next claimed generalization test. File separation is a procedural boundary, not access-control enforcement.
+1. Preserve the pre-repair working-tree skill snapshot before editing. Freeze repaired skill files, task inputs, and grading criteria before starting runs. Use cases 18, 20, 30, and 31–34: seven scenarios, one run per version, fourteen runs total.
+2. Give each runner a fresh workspace containing only its assigned skill version, prompt, and listed input fixtures. Include the same statement in every run: “The user is unavailable during this task. Complete the task autonomously within its stated scope and output-format constraints.” Runners do not receive expected answers, grading criteria, evaluator code, or the other skill version.
+3. Match model/version, reasoning setting, tools, environment, and task inputs across versions. Short cases 20, 30, and 34 have a 10-minute cap and a 12,000-token output budget requested in the task prompt; record whether actual output stayed within it. Substantial cases 18, 31, 32, and 33 have a 45-minute cap with no additional output-token cap beyond the model default. Record actual limits, tokens, duration, runtime availability, and interruptions. Mark limit-hit runs TRUNCATED; report completion and resource use separately from analytical quality.
+4. An independent grader receives anonymized outputs in randomized order, plus the frozen rubric and expected answers. Record criterion-level evidence. Score correctness, analytical depth, communication, and assumption handling separately. The under-specified case measures unattended assumption handling; these runs do not test interactive grilling.
+5. Preserve outputs, traces, and artifacts. After Round 1, generate the review viewer, report results and total resource use, then stop for user review. Round 2 requires user authorization and consists of two additional repetitions per version for selected close or inconsistent scenarios; do not change the skill between repetitions being pooled.
+6. These seven development scenarios support a controlled smoke comparison, not a reliable generalization claim. Previously exposed held-out cases are not evidence of uncontaminated performance; reserve fresh cases for generalization.
 
 ## Three separate scoring axes
 
@@ -59,10 +63,14 @@ An independent grader can extract this normalized JSON from the report without f
 
 The unittest suite exercises known correct calculations and intentionally weak/misleading submissions. Passing these tests validates evaluator behavior, not that the revised skill improves model outputs. Record deterministic test results separately from actual baseline/revised model comparisons.
 
-## Validation status for the readable-delivery revision
+## Validation status
 
-Deterministic validation: `python3 scripts/validate_skills.py` reported **0 issues**, `python3 -m unittest discover -s evals/data-analyst -v` passed **10 tests**, and `git diff --check` passed.
+The deterministic checks passed: `python3 -m unittest discover -s evals/data-analyst -v` (51 tests), `python3 skills/data-analyst/scripts/stats_helpers.py --selftest`, `python3 scripts/validate_skills.py` (0 issues), and `git diff --check`.
 
-Behavioral baseline/revised comparisons: **NOT RUN**. Cases 24–30 are added evaluation scenarios, not observed agent successes. Repository validation checks their schema, IDs and file references; deterministic evaluator tests check numerical and ledger behavior. Neither establishes improved analytical communication. Direct browser walkthroughs and actual user testing of generated outputs were not performed for this revision.
+Round 1 ran cases 18, 20, 30, and 31–34 once per version (14 runs total) with Codex `gpt-6-luna`, medium reasoning. All runs exited successfully within the 10-minute short-case or 45-minute substantial-case timeouts; none was truncated. The runs used 2,839,258 input tokens and 48,942 output tokens (2,888,200 total); summed model-run duration was 526.6 seconds. Baseline used 1,613,797 tokens in 277.5 seconds, and repaired used 1,274,403 tokens in 249.1 seconds. These durations are sums of individual runs, not end-to-end elapsed time.
 
-The held-out case prompts were opened during repository inspection before this revision was frozen; their expected-results file was not opened. They cannot support an uncontaminated held-out claim for this authoring session. Preserve them unchanged, and reserve fresh unseen cases for any future claimed generalization test.
+Both versions passed 22 of 23 exact expectations. The repaired case 18 dashboard fixes a baseline key mismatch (`D.tierchannel` versus the embedded `tier_channel` key), and its report offers a deeper investigation. Both handoffs failed to disclose that browser rendering was unavailable. The other six cases passed every listed factual and format expectation. Pairwise preferences were mixed and graders disagreed on several cases; with one run per version, this is a smoke comparison rather than evidence of a general skill effect.
+
+The intended 12,000-token short-case output budget was recorded as metadata but was neither sent as a model instruction nor enforced: the Codex CLI used here exposes no hard output-token cap. Actual short-case outputs stayed below 2,767 tokens, which does not establish cap compliance. Substantial cases had no additional output cap. The behavioral runs used `gpt-6-luna`, not Opus 5.5. Both blind grading passes used fresh contexts and randomized candidate order, but the graders were from the same model family as the runners. No browser executable was available; browser rendering and interaction remain unverified. The first grading packet put fixtures at a shared pair root, so those initial grades were discarded and rerun with each candidate's isolated inputs restored.
+
+A passing deterministic suite does not establish improved model behavior. The full criterion evidence, separate 0–3 scores, and generated output review are provided with the Round 1 handoff.

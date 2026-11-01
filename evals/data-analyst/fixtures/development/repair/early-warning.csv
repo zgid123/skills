@@ -1,0 +1,8 @@
+student_id,withdrawn_before_cutoff,outcome,outcome_day,risk_score_at_day30,score_available_day,final_grade,grade_available_day
+S1,false,fail,90,0.90,30,42,95
+S2,false,success,90,0.80,30,81,95
+S3,false,withdraw,60,0.70,30,,95
+S4,false,success,90,0.40,30,92,95
+S5,false,fail,90,0.30,30,55,95
+S6,false,success,90,0.20,30,78,95
+S7,true,withdraw,20,0.99,30,,95

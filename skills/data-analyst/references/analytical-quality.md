@@ -1,6 +1,6 @@
 # Task-scaled analytical quality rubric
 
-Use at contract definition and before delivery for substantial work; apply only relevant criteria to focused calculations. Record evidence locations, score, rationale and corrective work for applicable criteria. The evaluator should inspect calculations, results, visuals and available traces, not accept the generating agent's self-assessment. In comparative evaluation, use an independent reviewer blind to variants where practical.
+Use at contract definition and before delivery for substantial work; apply only relevant criteria to focused calculations. This is a private review tool: use it to find and fix weaknesses, and record only the gaps and corrections in `NOTES.md`. Do not ship a self-scored rubric as a deliverable — a self-assigned score is not evidence, and it pulls effort away from the report. The evaluator should inspect calculations, results, visuals and available traces, not accept the generating agent's self-assessment. In comparative evaluation, use an independent reviewer blind to variants where practical.
 
 ## Scope and anchors
 
@@ -53,4 +53,4 @@ A technically functioning but analytically shallow substantial output fails the 
 
 ## Minimal review record
 
-For each material criterion: scope/reason, score or NOT APPLICABLE, specific evidence location and observed result, consequence, and correction/remaining gap. Also record question coverage (answered, partial, unsupported), critical failures, dimension decisions, separate analysis and delivery status and any pending feedback/outcomes. Use a compact equivalent for simple requests; do not append an extensive rubric to a three-number answer.
+When an independent reviewer grades work, record for each material criterion: scope/reason, score or NOT APPLICABLE, specific evidence location and observed result, consequence, and correction/remaining gap. When you review your own work, record only failures found, corrections made and remaining gaps. Also record question coverage (answered, partial, unsupported), critical failures, dimension decisions, separate analysis and delivery status and any pending feedback/outcomes. Use a compact equivalent for simple requests; do not append an extensive rubric to a three-number answer.

@@ -14,7 +14,7 @@ When adding or updating a skill, include its trigger in `AGENTS.md` and keep an 
 
 - [Principles](skills/principles/SKILL.md) - Apply YAGNI, pragmatic reuse, dependency discipline, readable code, and small cohesive changes across engineering tasks.
 - [Testing](skills/testing/SKILL.md) - Write focused, deterministic tests. Controllers, adapters, and route handlers use end-to-end tests.
-- [SWE Lifecycle](skills/swe-lifecycle/SKILL.md) - Coordinate requirements, design, GitHub delivery, implementation, verified knowledge, and durable history. See the [usage guide and limitations](skills/swe-lifecycle/README.md) and [local evaluations](evals/swe-lifecycle/README.md).
+- [SWE Lifecycle](skills/swe-lifecycle/SKILL.md) - Coordinate requirements, design, GitHub delivery, implementation, verified knowledge, and durable history. Includes a one-question-at-a-time [grilling](skills/swe-lifecycle/references/grilling.md) interview for stress-testing plans. See the [usage guide and limitations](skills/swe-lifecycle/README.md) and [local evaluations](evals/swe-lifecycle/README.md).
 
 ### Languages and application design
 
@@ -25,7 +25,7 @@ When adding or updating a skill, include its trigger in `AGENTS.md` and keep an 
 
 ### Analysis and reporting
 
-- [Data Analyst](skills/data-analyst/SKILL.md) - Investigate data, define metrics, analyze experiments and trends, and report findings with transparent evidence and limitations.
+- [Data Analyst](skills/data-analyst/SKILL.md) - Investigate data through the ten-stage lifecycle and deliver finding-led reports and dashboards, with templates, chart styling, statistics helpers and playbooks for early warning, change diagnosis and surveys.
 - [Research](skills/research/SKILL.md) - Learn unfamiliar research topics, find and screen papers, understand their core concepts through layered explanations and examples, map relationships, and follow related ideas through a reading path. Defaults to chat and Markdown; literature synthesis, study design, and manuscript work remain available when requested. Excludes IEEE Access and labels preprints and evidence access. Documents and Research each work independently. See [evaluation instructions](evals/research/README.md).
 
 The data analyst skill includes [evaluation instructions](evals/data-analyst/README.md) and deterministic checks. Run `python3 -m unittest discover -s evals/data-analyst -v` when changing its evaluator.
@@ -38,6 +38,10 @@ The data analyst skill includes [evaluation instructions](evals/data-analyst/REA
 ### Skill development
 
 - [Skill Creator](.agents/skills/skill-creator/SKILL.md) - Create, revise, evaluate, and package reusable skills.
+
+## Credits
+
+- The SWE Lifecycle [grilling](skills/swe-lifecycle/references/grilling.md) interview is adapted from the [`grill-me` and `grilling` skills](https://github.com/mattpocock/skills/tree/main/skills/productivity) by [Matt Pocock](https://github.com/mattpocock), changed to ask one question per message.
 
 ## Evaluations
 
