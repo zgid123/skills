@@ -1,39 +1,24 @@
 # Lifecycle operations
 
-Use this reference to choose scope and the next operation. Naming and state rules live in [conventions](conventions.md); content discovery lives in [specifications](specifications.md). A solo developer may own and approve documents; an agent's draft does not approve itself.
+Use only stages relevant to the request. Inspect repository instructions, documentation conventions, source, and remote work first. Preserve user content; migrating an existing layout is separate scope. A solo maintainer may approve their project; an agent's draft does not approve itself.
 
-## Inspect before initializing
+At every stage, apply the [missing-context rule](../SKILL.md#missing-context-at-any-stage): investigate facts and use the installed grilling skill for decisions that remain unresolved.
 
-Read instructions, project documentation, repository state, and relevant code before editing. Identify the current documentation convention, owners, actual implementation, active work, and explicit authorization. Preserve user-written content. If an existing layout differs, map its responsibilities and preserve it for ordinary scoped work. Treat migration to the canonical layout as separate work requiring approval; report incompatibilities without silently moving history.
+## Workflow
 
-## bootstrap
+For requested multi-agent delivery, use [orchestration](orchestration.md) to coordinate the stages below. It is an execution mode, not an additional approval stage or document hierarchy.
 
-1. Inspect runtime, tooling, repository layout, and stated project objective. Separate established facts from choices needing confirmation.
-2. Add a documentation index or project brief when it helps people navigate or maintain the repository. Use the canonical locations when creating a category, but create a directory only when it contains useful work. Do not create empty folders or `.gitkeep` files just to satisfy the validator.
-3. Document architecture and reproducible development procedures only when they help the current project or requested work. Mark unimplemented architecture as proposed until verified.
-4. Plan `M0 Foundation` and actionable chore issues for repository setup, runtime, configuration, CI, basic tests, and operational foundations only where actually needed. Read [GitHub workflow](github-workflow.md) before managing remote items.
-5. Validate any canonical documents created, report drafts versus published items, and identify unresolved technical choices. Create requirement specs only if meaningful system behavior is being defined. A small repository may need only a project brief or index; a Hono API Gateway bootstrap need not invent authentication or rate-limiting requirements.
+| Stage | Read | Produce or update |
+| --- | --- | --- |
+| bootstrap | [Conventions](conventions.md), [GitHub workflow](github-workflow.md) | Useful index/project brief, baseline architecture/guides, M0 foundation work if requested |
+| specify | [Specifications](specifications.md) | Expected behavior, rules, scenarios, approval evidence |
+| propose-change / design | [Specifications](specifications.md) | One CHG with proposal/design for evolution; initial design for a new substantial feature; ADR only when warranted |
+| plan | [GitHub workflow](github-workflow.md) | Outcome-based milestone and actionable issues linked to specifications |
+| implement / fix | [Implementation](implementation.md) | Code, verification, and authorized deviations |
+| sync-knowledge | [Knowledge management](knowledge-management.md) | Verified current behavior and reproducible guides |
+| record-change | [Change records](change-records.md) | Actual result and evidence in the same CHG, or retrospective record when no proposal exists |
+| finalize | [Implementation](implementation.md), [Validation](validation.md) | Task/milestone completion evidence and authorized remote updates |
 
-## grill
+Capture expectations before coding. Update knowledge and history as meaningful work completes, then consolidate at milestone review. Do not force bootstrap chores or routine fixes through a full specification/design ceremony. Initial feature delivery links its existing requirement/design in the change record rather than repeating it.
 
-Use [grilling](grilling.md) when the user asks to be grilled. Grill automatically before writing any requirement, change proposal, or design that is missing context, and when consequential decisions block planning. Ask one question per message, look up facts yourself, and act on the outcome only after the user confirms the shared understanding.
-
-## specify, propose-change, design
-
-Use [specifications](specifications.md). Discover behavior and approval first, grilling the user whenever context is missing, then design. Requirement IDs survive implementation replacement. Initial capabilities may have standalone designs without migration proposals. Material evolution of approved behavior needs a change record and approval before the approved requirement changes.
-
-## plan
-
-Use [GitHub workflow](github-workflow.md). Map approved scope and accepted design into delivery objectives and verifiable work. Milestones and requirements are many-to-many. Use epics only when grouping helps. Resolve consequential open design decisions before presenting implementation as ready.
-
-## implement and fix
-
-Use [implementation](implementation.md). Inspect requirement, design, knowledge, and issue context; implement within approved boundaries and verify. For a defect, reproduce and investigate before asserting a cause. Do not create requirement/change records solely because an issue is a bug.
-
-## sync-knowledge and record-change
-
-Use [knowledge management](knowledge-management.md) to update current implementation descriptions and [changelog management](changelog-management.md) to preserve completed history. One does not replace the other. Perform these after evidence establishes the implementation; draft notes remain clearly unverified.
-
-## finalize
-
-Apply the Definition of Done in [implementation](implementation.md). Run the canonical validator only when the project has adopted the canonical layout; otherwise use established project checks and review affected documentation and references. Leave unmet criteria and unavailable checks explicit. Do not close remote work unless authorized and actually complete. A partially implemented proposal remains implementing even if its documentation passes validation.
+GitHub owns work status; local documents own durable intent, current knowledge, and history. Draft plans remain proposals until approved, and documentation validation alone does not establish readiness or implementation completion.

@@ -1,28 +1,19 @@
-<!-- Replace all instructions with actual results. Remove irrelevant optional sections. Do not claim completion until Definition of Done is satisfied; never invent issue numbers, links, tests, or approval. -->
+<!-- Prepare one initial commit after planned work is complete. Add later fixes as new commits; never amend or force-push. When squash merging is authorized, write the final commit message from the complete resulting change as one coherent commit. Replace the combined commit list; omit intermediate fix messages and review chronology. Replace instructions with actual evidence. No invented links, tests, approvals, or completion. Scale detail to the change. -->
 
-## Summary
+<!-- Before merging, present this PR, verification results, and proposed squash commit message and obtain explicit user approval. Do not merge or enable auto-merge while approval is pending. -->
 
-<Problem, concrete trigger, resulting behavior, and important implementation decisions.>
+## What changed and why
 
-## Scope and traceability
-
-<Actual GitHub issue links, requirement AC identifiers and relative document links, related change/design/ADRs, and intentional scope limits. Use a closing keyword only when the issue's Definition of Done is met.>
+<Problem, concrete before/after behavior, scope, and important choices. Link actual issues, requirement AC IDs, and designs/decisions instead of repeating them. Use closing keywords only when authorized and the issue is complete.>
 
 ## Verification
 
-<Commands/checks actually executed, outcomes, relevant acceptance criteria covered, and checks not run with reasons.>
+<Checks actually run, commands, results, acceptance coverage, and checks not run with reasons.>
 
 ## Documentation and history
 
-<Updated current knowledge and historical changelog links; relevant specification/guide changes. Record a concrete allowed reason when skipping a trivial changelog.>
+<Link updated knowledge/guides, this PR’s contribution in the change record, and the project’s Definition of Done. A shared change may still be implementing after this PR completes. Explain policy-permitted omissions.>
 
-## Risks, rollout, and rollback
+## Risks and rollout
 
-<Remaining limitations, compatibility impact, deployment/migration steps, and recovery limits when applicable. Remove if unnecessary.>
-
-## Completion checks
-
-- [ ] Acceptance criteria verified and required checks pass.
-- [ ] Significant requirement/architecture changes have recorded approval.
-- [ ] Knowledge and required changelog are accurate and linked.
-- [ ] Issue Definition of Done met, or remaining work explicitly identified without claiming completion.
+<Compatibility, deployment/migration, rollback limits, and remaining work when relevant. Remove when unnecessary.>

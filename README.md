@@ -14,7 +14,12 @@ When adding or updating a skill, include its trigger in `AGENTS.md` and keep an 
 
 - [Principles](skills/principles/SKILL.md) - Apply YAGNI, pragmatic reuse, dependency discipline, readable code, and small cohesive changes across engineering tasks.
 - [Testing](skills/testing/SKILL.md) - Write focused, deterministic tests. Controllers, adapters, and route handlers use end-to-end tests.
-- [SWE Lifecycle](skills/swe-lifecycle/SKILL.md) - Coordinate requirements, design, GitHub delivery, implementation, verified knowledge, and durable history. Includes a one-question-at-a-time [grilling](skills/swe-lifecycle/references/grilling.md) interview for stress-testing plans. See the [usage guide and limitations](skills/swe-lifecycle/README.md) and [local evaluations](evals/swe-lifecycle/README.md).
+- [SWE Lifecycle](skills/swe-lifecycle/SKILL.md) - Coordinate requirements, design, GitHub delivery, implementation, verified knowledge, and durable history. Uses the standalone [Grilling](skills/grilling/SKILL.md) skill when user decisions need clarification. See the [usage guide and limitations](skills/swe-lifecycle/README.md) and [local evaluations](evals/swe-lifecycle/README.md).
+
+### Planning interviews
+
+- [Grilling](skills/grilling/SKILL.md) - Stress-test a plan one question at a time, with a recommendation for each decision.
+- [Grill Me](skills/grill-me/SKILL.md) - Explicit invocation alias for Grilling. Copy both folders into your repository’s skill directory; retain each folder’s license. Grilling can also be installed alone.
 
 ### Languages and application design
 
@@ -41,7 +46,7 @@ The data analyst skill includes [evaluation instructions](evals/data-analyst/REA
 
 ## Credits
 
-- The SWE Lifecycle [grilling](skills/swe-lifecycle/references/grilling.md) interview is adapted from the [`grill-me` and `grilling` skills](https://github.com/mattpocock/skills/tree/main/skills/productivity) by [Matt Pocock](https://github.com/mattpocock), changed to ask one question per message.
+- [Grilling](skills/grilling/SKILL.md) and [Grill Me](skills/grill-me/SKILL.md) are adapted from [Matt Pocock’s skills](https://github.com/mattpocock/skills/tree/main/skills/productivity), under MIT. These versions ask one question per turn; each skill includes attribution and the original license.
 
 ## Evaluations
 

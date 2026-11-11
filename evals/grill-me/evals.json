@@ -1,0 +1,27 @@
+{
+  "skill_name": "grill-me",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use grill-me to grill me about a multiplayer game platform. I have not decided the audience, first game, or launch scope.",
+      "expected_output": "One relevant decision question with a recommendation, then wait.",
+      "expectations": [
+        "Asks exactly one decision question, without bundling audience, game, and launch scope.",
+        "Provides a recommended answer and reason.",
+        "Does not implement or assume the unanswered decisions."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use grill-me. We already agreed the first release is private, browser-only, and for friends. I want to decide whether accounts are necessary. Do not reopen the platform or audience decisions.",
+      "expected_output": "Preserve settled scope and ask one question about account requirements.",
+      "expectations": [
+        "Preserves private browser-only scope for friends.",
+        "Asks one account-related question and waits for the answer.",
+        "Recommends an option without claiming user approval."
+      ],
+      "files": []
+    }
+  ]
+}

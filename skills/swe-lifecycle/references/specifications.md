@@ -1,36 +1,29 @@
-# Specifications and design
+# Requirements and design
 
-This reference owns discovery, behavior approval, change scoping, and design. Read [conventions](conventions.md) before allocating identifiers or changing lifecycle status. Load only the relevant requirement, change-proposal, technical-design, or ADR template from `../assets/`.
+Read [conventions](conventions.md) for document responsibilities, metadata, and approval. Use the requirement, change-proposal, initial technical-design, or ADR template appropriate to the work.
 
 ## Discover and specify
 
-1. Inspect existing requirements, related knowledge, architecture, and relevant source. Reuse a capability's stable requirement when extending or replacing its implementation. Identify what the request actually authorizes and what still needs a decision.
-2. If any context is missing, grill the user automatically using [grilling](grilling.md) before drafting: ask one focused question at a time about actors, problem, observable outcomes, non-goals, business rules, constraints, failure cases, security, and acceptance. Missing context is any decision the request, existing documents, and code do not settle and only the user can make. Infer routine choices from existing conventions instead of asking. Look up facts while waiting, but do not write spec content that depends on an unanswered question. Only when the user explicitly asks for a draft first, write it with the gaps listed as open questions, then grill on those questions.
-3. Draft implementation-independent behavior, unless technology is an explicit constraint. Separate goals from proposed solutions. Write stable `FR-001`, `NFR-001`, and `AC-001` clauses; acceptance criteria specify observable inputs, outcomes, and failure conditions. State measurable limits and assumptions instead of vague adjectives.
-4. Keep Overview, Functional requirements, and Acceptance criteria nonempty. Include problem, goals, non-goals, actors, business rules, scenarios, constraints, and open questions where relevant. Explicitly state uncertainty; do not turn guesses into approved behavior.
-5. Cross-link dependencies and supporting documents. Check that acceptance criteria cover relevant requirements and edge cases. Seek owner approval for significant behavior decisions and mark approved only when authorization covers that content.
+1. Read existing requirements, knowledge, architecture, source, and task context. Reuse stable capability requirements instead of creating one for each implementation change.
+2. Apply the [missing-context rule](../SKILL.md#missing-context-at-any-stage). Investigate available facts, then use the installed grilling skill for unresolved user decisions about actors, goals, boundaries, rules, failure cases, and acceptance.
+3. Capture expected behavior before implementation. Use Problem and goal, Requirements and rules, and Acceptance scenarios as the core. Optional user stories express who needs what and why; do not repeat their purpose in several sections.
+4. Keep stable FR/NFR/AC IDs. Acceptance scenarios cover relevant success, invalid/boundary, failure, and recovery cases with measurable results. Label illustrative examples; they are not automatically mandatory tests.
+5. Separate requirements from proposed solutions unless technology is an explicit constraint. Record unresolved decisions and their consequences. Obtain approval for significant behavior and record approver/date/scope/evidence before marking approved.
 
-An approved requirement is living expected behavior. Preserve stable clause identifiers and keep a short evolution note linking the change that authorized a revision; Git and associated changelogs preserve the historical implementation. Do not rewrite an approved document to match accidental implementation drift.
+## Change existing behavior or architecture
 
-## Propose a significant change
+Use a grouped change file under docs/specs/changes/NNNNN-feature-name/ or a domain folder for significant evolution, compatibility changes, migrations, or architecture replacement. Follow the group numbering in [conventions](conventions.md). The same file contains proposal, design, and later implementation evidence. Refine it for this change; later significant changes get new CHG IDs.
 
-Use a proposal for substantial behavior evolution, architecture replacement, compatibility changes, or migration. Small fixes restoring expected behavior and routine implementation details generally need no proposal. As with requirements, grill the user before drafting if motivation, scope, compatibility, or migration decisions are missing.
+Describe before/after from evidence, motivation, scope, proportional approach, affected requirements, acceptance, and relevant migration/recovery risks. Preserve current approved requirements until the change is approved; then update affected clauses and link the change. Purely technical changes may leave requirements untouched.
 
-1. Describe current behavior from evidence, proposed behavior, motivation, scope, affected requirements, risks, compatibility, migration, and rollback where applicable. Keep Summary, Current behavior, Proposed behavior, and Acceptance criteria nonempty. If current behavior is unknown, state that and identify how it will be established.
-2. Classify impacts: behavior, implementation, architecture, or a combination. A provider replacement may retain existing REQ acceptance criteria while materially changing architecture and migration risk. Do not invent a new authentication requirement solely to replace a library with a service.
-3. Link existing requirements and draft proposed amendments separately from their approved text. Record explicit approval before applying significant behavior or architecture changes. Preserve rejected and withdrawn proposals as decisions, not unexplained deletions.
-4. Mark implementing only when implementation starts; mark implemented only after all scoped acceptance and documentation obligations are met. Partial delivery remains implementing or is explicitly rescoped with approval.
+A fix restoring expected behavior needs no prospective proposal. Its meaningful delivery history still uses a change record under [change records](change-records.md). Rejected/withdrawn proposals retain their rationale. Withdrawing approved work also requires an explicit disposition for affected requirements and any partial delivery; follow [the lifecycle rules](conventions.md#lifecycle-and-preservation).
 
-## Design proportional to risk
+## Proportional design
 
-Ground design in approved scope, existing architecture, and verified implementation constraints. If a consequential design choice depends on user priorities or constraints that are not yet settled, grill the user before drafting. Use `design.md` beside a change proposal, or `docs/architecture/NNNNN-feature-name-design.md` linked directly to the initial requirement. A new feature does not need a fictitious migration proposal to justify design.
+Initial substantial features use docs/architecture/NNNNN-feature-name-design.md linked to the requirement. Later changes include design in their CHG file. Do not invent a change proposal just to host an initial design.
 
-Cover architecture, components, data flow, interfaces, storage, consistency, security, reliability, observability, testing, deployment, and rollback only to the extent the work requires. Explain alternatives and trade-offs for meaningful choices. Link detailed decisions rather than copying them. Identify unvalidated assumptions and experiments; proposed designs do not describe the verified current system until implemented.
+Cover only relevant architecture/flows, contracts/data, reliability/security, trade-offs, verification/rollout, and open decisions. Preserve meaningful constraints and failure behavior while removing empty headings. Link source and accepted decisions rather than copying them.
 
-Use an ADR for consequential, durable architecture decisions, rather than each implementation preference. Include context, drivers, considered options, decision, consequences, revisit conditions, and supersession links. Obtain approval for significant architecture changes. While a replacement ADR is proposed, link the accepted predecessor in prose and keep supersession metadata empty. Once the successor is accepted, update both records' reciprocal metadata and the predecessor status together. Preserve the original rationale. Synchronize the current architecture overview only after implementation is verified.
+Create an ADR only for a consequential durable choice. Preserve alternatives, rationale, consequences, revisit conditions, and approval. Supersede accepted decisions explicitly using the conventions; do not rewrite their reasoning.
 
-## Examples
-
-- Configurable gateway rate limiting: create a capability REQ, define configuration and rejection behavior, and design storage/concurrency if needed. Plan issues; add knowledge and history after implementation.
-- Authentication migration: inspect and reuse the existing authentication REQ, create CHG and design for the replacement, record consequential ADRs, and plan compatibility, data migration, rollback, and verification.
-- RBAC extended with ABAC: inspect the authorization REQ, propose the substantial evolution, draft revised/new clauses only where capability boundaries justify them, and preserve approved behavior until the revision is authorized.
+After verification, link designs to current knowledge. Proposed architecture is not evidence of implemented behavior.

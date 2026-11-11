@@ -13,22 +13,45 @@ DOMAIN = r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*"
 NUMBER = r"(?!00000)[0-9]{5}"
 SEQUENCE = r"(?!0000)[0-9]{4}"
 ID_PATTERN = re.compile(
-    rf"(?:REQ-{NUMBER}|CHG-{NUMBER}|ADR-{NUMBER}|KNW-{DOMAIN}|LOG-(?:{NUMBER}|{DOMAIN})-{SEQUENCE})\Z"
+    rf"(?:REQ-{NUMBER}|CHG-(?:{NUMBER}|(?:{NUMBER}|{DOMAIN})-{SEQUENCE})|ADR-{NUMBER}|KNW-{DOMAIN}|LOG-(?:{NUMBER}|{DOMAIN})-{SEQUENCE})\Z"
 )
 STATUSES = {
     "REQ": {"draft", "approved", "retired"},
-    "CHG": {"proposed", "approved", "implementing", "implemented", "rejected", "withdrawn"},
+    "CHG": {"draft", "proposed", "approved", "implementing", "implemented", "rejected", "withdrawn"},
     "ADR": {"proposed", "accepted", "superseded", "rejected"},
     "KNW": {"draft", "verified"},
     "LOG": {"draft", "finalized"},
 }
+# Concise templates are canonical; full prior sets remain valid for existing docs.
 SECTIONS = {
+    "REQ": {"Problem and goal", "Requirements and rules", "Acceptance scenarios"},
+    "CHG": {"Reason and scope", "Before and after"},
+    "ADR": {"Context", "Options and decision", "Consequences and revisit conditions"},
+    "KNW": {"Overview", "How it works", "Verification and limitations"},
+    "LOG": {"Summary", "Previous behavior", "New behavior", "Tests and verification", "Documentation updated"},
+}
+LEGACY_SECTIONS = {
     "REQ": {"Overview", "Functional requirements", "Acceptance criteria"},
     "CHG": {"Summary", "Current behavior", "Proposed behavior", "Acceptance criteria"},
     "ADR": {"Context", "Decision", "Consequences"},
     "KNW": {"Overview", "Current implementation", "Known limitations"},
-    "LOG": {"Summary", "Previous behavior", "New behavior", "Tests and verification", "Documentation updated"},
 }
+CHANGE_TYPES = {"feature", "fix", "migration", "refactor", "chore", "docs"}
+
+
+def required_sections(kind, status, body, legacy_change=False):
+    present = set(headings(body))
+    legacy = LEGACY_SECTIONS.get(kind)
+    use_legacy = legacy is not None and legacy <= present and (kind != "CHG" or legacy_change)
+    required = set(legacy if use_legacy else SECTIONS[kind])
+    if kind == "CHG":
+        if status in ("proposed", "approved", "implementing") and not use_legacy:
+            required.add("Acceptance and verification plan")
+        if status == "implemented" and not use_legacy:
+            required.update({"Implementation result", "Verification", "References"})
+    return required
+
+
 LIST_FIELDS = {
     "REQ": {"dependencies", "related_changes"},
     "CHG": {"related_requirements"},
@@ -234,7 +257,9 @@ def classify(relative):
         if relative.name == "README.md":
             return None
         return "REQ"
-    if parts[:2] == ("specs", "changes") and relative.name == "proposal.md":
+    if parts[:2] == ("specs", "changes"):
+        if len(parts) == 4 and relative.name == "design.md" and re.fullmatch(rf"{NUMBER}-{SLUG}", parts[2]):
+            return None  # Historical split designs are unstructured Markdown.
         return "CHG"
     if parts[0] == "decisions":
         if relative.name == "README.md":
@@ -247,10 +272,9 @@ def classify(relative):
     return None
 
 
-def empty_sections(body, required):
+def section_contents(body, required):
     body = without_html_comments(body)
     heading_text = blank_fenced_code(body)
-    result = []
     matches = []
     for match in re.finditer(r"^(#{1,6})[ \t]+(.+?)[ \t]*#*[ \t]*$", heading_text, re.M):
         matches.append((match.start(), match.end(), match[1], match[2]))
@@ -262,10 +286,45 @@ def empty_sections(body, required):
             if len(next_depth) <= len(depth):
                 end = next_start
                 break
-        content = body[heading_end:end]
-        if not has_section_content(content):
-            result.append(title)
-    return result
+        yield title, body[heading_end:end]
+
+
+def empty_sections(body, required):
+    return [title for title, content in section_contents(body, required)
+            if not has_section_content(content)]
+
+
+def template_placeholders(text):
+    """Recognize instruction placeholders in prose, preserving literal examples."""
+    prose = without_code(text)
+    # Indented Markdown code is also literal. Fenced and inline code are removed above.
+    prose = "\n".join(line for line in prose.splitlines()
+                      if not line.startswith(("    ", "\t")))
+    for match in re.finditer(r"<([A-Za-z][^<>\n]*)>", prose):
+        value = match[1]
+        # Avoid HTML attributes and autolinks. Bare HTML tags have no whitespace.
+        if "=" in value or "://" in value or "@" in value:
+            continue
+        if re.match(
+            r"(?:describe|enter|insert|replace|fill|provide|record|add|link|links|"
+            r"commands?|checks?|tests?|actual|expected|observable|verified|"
+            r"established|problem|reason|summary|affected|relative|known|"
+            r"implementation|verification|evidence|current|proposed|who|measurable|"
+            r"actor|capability|decision|credible|benefits|inspected)(?:,\s*|\s+)",
+            value, re.I,
+        ) or re.fullmatch(r"condition|action|precondition|test/check|NNNNN|NNNN|YYYY-MM-DD", value):
+            yield match[0]
+    for match in re.finditer(r"^\s*(?:[-*]\s+)?(?:TODO|TBD|\[TODO\]|\[TBD\])\s*[.!]?\s*$", prose, re.M):
+        yield match[0].strip()
+
+
+def is_legacy_change(relative, identifier):
+    if not isinstance(identifier, str) or not re.fullmatch(rf"CHG-{NUMBER}", identifier):
+        return False
+    number = identifier.split("-", 1)[1]
+    return bool(re.fullmatch(
+        rf"specs/changes/{number}-{SLUG}(?:\.md|/proposal\.md)", relative.as_posix()
+    ))
 
 
 def has_section_content(text):
@@ -335,15 +394,18 @@ def validate(project_root):
                 owner = config.get("owner")
                 if not isinstance(owner, str) or not owner.strip() or re.search(r"<[^>]+>", owner):
                     error(path, "owner must be a nonempty resolved string")
-                policy = config.get("changelog_policy", "meaningful")
-                if not isinstance(policy, str) or policy not in {"meaningful", "every-issue"}:
-                    error(path, "changelog_policy must be meaningful or every-issue")
+                for policy_key in ("history_policy", "changelog_policy"):
+                    if policy_key in config and config[policy_key] not in ("meaningful", "every-issue"):
+                        error(path, f"{policy_key} must be meaningful or every-issue")
+                if ("history_policy" in config and "changelog_policy" in config
+                        and config["history_policy"] != config["changelog_policy"]):
+                    error(path, "history_policy and legacy changelog_policy disagree")
             except ValueError as exc:
                 error(path, str(exc))
         if kind is None:
-            if relative.parts[:2] == ("specs", "changes"):
-                if len(relative.parts) != 4 or relative.name not in {"proposal.md", "design.md"} or not re.fullmatch(rf"{NUMBER}-{SLUG}", relative.parts[2]):
-                    error(path, "change documents must be specs/changes/NNNNN-slug/{proposal,design}.md")
+            if relative.parts[:2] == ("specs", "changes") and relative.name == "design.md":
+                if not (path.parent / "proposal.md").is_file():
+                    error(path, "legacy split design requires its existing proposal.md")
             continue
         try:
             fields, body = metadata(text)
@@ -385,11 +447,19 @@ def validate(project_root):
                 error(path, "invalid changelog type")
             if fields.get("commit") is not None and not isinstance(fields.get("commit"), str):
                 error(path, "commit must be a string or null")
-        missing = SECTIONS[kind] - set(headings(body))
+        if kind == "CHG" and "type" in fields:
+            if not isinstance(fields["type"], str) or fields["type"] not in CHANGE_TYPES:
+                error(path, "invalid change type")
+        legacy_change = kind == "CHG" and is_legacy_change(relative, identifier)
+        sections = required_sections(kind, fields.get("status"), body, legacy_change)
+        missing = sections - set(headings(body))
         for section in sorted(missing):
             error(path, f"missing mandatory section: {section}")
-        for section in empty_sections(body, SECTIONS[kind] - missing):
+        for section in empty_sections(body, sections - missing):
             error(path, f"empty mandatory section: {section}")
+        for section, content in section_contents(body, sections - missing):
+            for placeholder in template_placeholders(content):
+                error(path, f"unfilled template placeholder in {section}: {placeholder}")
         if kind == "REQ" and "priority" in fields and fields["priority"] not in ("low", "medium", "high", "critical"):
             error(path, "priority must be low, medium, high, or critical")
         if kind in {"REQ", "ADR"}:
@@ -398,9 +468,20 @@ def validate(project_root):
             if relative.name != "README.md" and not re.fullmatch(rf"{prefix}/{re.escape(number)}-{SLUG}\.md", relative.as_posix()):
                 error(path, f"filename must match {kind} ID: {prefix}/NNNNN-slug.md")
         if kind == "CHG":
-            number = identifier.split("-", 1)[1] if isinstance(identifier, str) else ""
-            if not re.fullmatch(rf"specs/changes/{re.escape(number)}-{SLUG}/proposal\.md", relative.as_posix()):
-                error(path, "change directory number must match CHG ID")
+            match = re.fullmatch(
+                rf"specs/changes/({NUMBER}-{SLUG}|{DOMAIN})/({SEQUENCE})-{SLUG}\.md",
+                relative.as_posix(),
+            )
+            if match:
+                namespace = match[1][:5] if re.match(r"\d{5}-", match[1]) else match[1]
+                if identifier != f"CHG-{namespace}-{match[2]}":
+                    error(path, "change filename must match CHG ID, group namespace, and record sequence")
+                requirements = fields.get("related_requirements", [])
+                if namespace.isdigit() and (not isinstance(requirements, list)
+                        or f"REQ-{namespace}" not in requirements):
+                    error(path, "numbered change group must reference its matching requirement")
+            elif not legacy_change:
+                error(path, "change filename must match CHG ID: specs/changes/NNNNN-slug/NNNN-slug.md or specs/changes/domain/NNNN-slug.md")
         if kind == "LOG":
             match = re.fullmatch(rf"changelog/({NUMBER}-{SLUG}|{DOMAIN})/({SEQUENCE})-{SLUG}\.md", relative.as_posix())
             if not match:
@@ -482,11 +563,8 @@ def validate(project_root):
                 except (OSError, UnicodeError) as exc:
                     error(path, f"cannot read link destination {target}: {exc}")
     for directory in (docs / "specs/changes").glob("*"):
-        if directory.is_dir():
-            if not re.fullmatch(rf"{NUMBER}-{SLUG}", directory.name):
-                error(directory, "change directory must be NNNNN-slug")
-            if not (directory / "proposal.md").is_file():
-                error(directory, "change directory requires proposal.md; initial designs belong in architecture")
+        if directory.is_dir() and not re.fullmatch(rf"{NUMBER}-{SLUG}|{DOMAIN}", directory.name):
+            error(directory, "change group must be NNNNN-slug or a domain name")
     return errors
 
 

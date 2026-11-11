@@ -1,53 +1,52 @@
 ---
-id: "CHG-<NNNNN>"
-title: "<Proposed evolution>"
+id: "CHG-<requirement-number-or-domain>-<NNNN>"
+title: "<Engineering change>"
 status: proposed
 owner: "<Person or accountable role>"
 created_at: "<YYYY-MM-DD>"
 updated_at: "<YYYY-MM-DD>"
+type: feature
 related_requirements: []
 ---
 
-# <Proposed evolution>
+# <Engineering change>
 
-<!-- Keep Summary, Current behavior, Proposed behavior, and Acceptance criteria. Remove irrelevant optional sections. Approval of this proposal must explicitly cover any requirement or architectural change; preserve approved behavior until approval is recorded. -->
+<!-- One file at docs/specs/changes/NNNNN-feature-name/NNNN-change-name.md or docs/specs/changes/domain/NNNN-change-name.md holds intent, design, and delivery evidence. Use CHG-00001-0001 or CHG-infrastructure-0001 respectively. Numbered groups must include the matching REQ in related_requirements. Cross-requirement changes live in one primary group and reference all affected requirements. For retrospective work start draft; do not fabricate a prior proposal. Keep Reason and scope and Before and after. Proposed/approved/implementing records also require Acceptance and verification plan. Implemented records require Implementation result, Verification, and References. Remove unused sections rather than leaving scaffolding. -->
 
-## Summary
+## Reason and scope
 
-<What changes, affected capability, and intended outcome.>
+<Problem, motivation, affected capability/components, and boundaries. Link existing rationale instead of repeating it.>
 
-## Motivation
+## Before and after
 
-<Evidence for the problem or opportunity and why the current solution is insufficient.>
+<Established previous behavior and intended new behavior. Identify unknowns. For retrospective records, describe verified changes without inventing earlier intentions.>
 
-## Current behavior
+## Technical approach
 
-<Established behavior with code, tests, or documentation evidence; label anything unknown.>
+<Proportional design: responsibilities and flows, contracts/data, consistency/security/recovery, and important trade-offs. Use subsections only when helpful. Link initial designs and ADRs instead of copying them.>
 
-## Proposed behavior
+## Acceptance and verification plan
 
-<Observable behavior after approval and delivery. Distinguish requirement changes, implementation changes, and architecture changes.>
+<Reference applicable REQ AC IDs and add change-specific checks, relevant failure scenarios, and migration checks. Required for prospective records; retain the plan after delivery. Planned checks are not execution evidence.>
 
-## Scope
+## Risks and rollout
 
-<Included work and explicit exclusions.>
+<Compatibility impact, affected consumers/data, deployment order, rollback limits, and unresolved decisions where relevant.>
 
-## Impact analysis
+## Approval
 
-<Affected users, requirements, components, interfaces, data, operations, and decisions. Identify which approved documents need revision.>
+<Record approver, date, scope, and approval evidence. Update affected requirements only after approval. For retrospective records, identify actual authorization when available or state it was not established. If approved work is withdrawn, record the approved disposition of affected requirement clauses and partial implementation. Put general document links in References.>
 
-## Risks
+## Implementation result
 
-<Concrete failure modes, likelihood or uncertainty, mitigations, and unresolved blockers.>
+<Add completed contributions as work progresses: date, task/PR, behavior delivered, source paths, compatibility, and remaining scope. Link each contribution’s verification below. Keep the overall change implementing while tasks remain; mark implemented only after all scoped criteria pass. Preserve approved intent and record deviations explicitly.>
 
-## Migration and rollback
+## Verification
 
-<Compatibility strategy, data transition, rollout order, rollback triggers, and recovery limits. Remove if no migration applies.>
+<Checks actually run, commands, environment/date, results, and checks not run with reasons. Mark implemented only when all in-scope required criteria/checks are satisfied.>
 
-## Acceptance criteria
+## References
 
-- **AC-001**: Given <condition>, when <action>, then <measurable outcome>; verify with <check>.
+<Link current knowledge and guides updated, governing requirements/decisions, actual issues/PRs/commit when available. Explain documentation intentionally unchanged. For historical moved/deleted source use a known commit link or code-formatted old path with context.>
 
-## Related requirements
-
-<Relative links matching related_requirements; link the associated design and decisions when present. Record approver, date, scope, and approval evidence here.>
+<!-- After implementation preserve this record. Later meaningful changes get new CHG IDs. Factual corrections must identify date, author, original claim, corrected fact, and evidence. -->

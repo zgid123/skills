@@ -12,12 +12,22 @@ If access, tooling, authentication, or authorization is unavailable, produce str
 
 Use an existing issue when one already tracks the work. Prepare a new unpublished bug/issue draft when the user asks for tracking or it materially helps an implementation handoff; a small standalone fix does not need a draft issue merely to satisfy this workflow.
 
+## Titles and numbering
+
+Task issue titles start with `T<number>`, for example `T1 Add expansion management`. Milestone titles start with `M<number>`, for example `M1 Game catalog`. A parent issue representing that milestone uses the same `M<number>` prefix. Keep the remaining title short and concrete.
+
+Preserve established project numbering. Otherwise use repository-wide task and milestone sequences, inspecting both open and closed work before assigning the next unused number. Use `M0 Foundation` when planning the initial foundation milestone. These title prefixes are planning identifiers, separate from GitHub-assigned issue and milestone numbers; use actual GitHub identifiers for API calls and relationships. Keep draft numbers provisional until publication and check for collisions before creating work.
+
+## Issue labels
+
+Apply the exact GitHub label `task` to feature and chore task issues, including task sub-issues. Apply `bug` to bug issues; being a sub-issue does not make a bug a task. Set the label through GitHub issue metadata, not merely in the body. Reuse existing repository labels, preserve unrelated labels on updates, and verify the required label after publication. If the required label cannot be applied, report that limitation rather than claiming labeling is complete.
+
 ## Plan delivery
 
 1. Read approved requirements, relevant changes, designs, architecture, and existing delivery objectives. Identify unresolved decisions and dependencies.
-2. Define a milestone by delivery outcome and completion criteria. A milestone may include several requirements; a requirement may span milestones. Avoid inventing artificial one-to-one mappings.
+2. Define a milestone by its goal, scope/exclusions, and verifiable exit criteria. Explain what useful result remains if later milestones never happen; a user story may express the goal without adding a duplicate section. Link detailed specifications; include dependencies and delivery details only when useful. A milestone may include several requirements; a requirement may span milestones. Avoid inventing artificial one-to-one mappings.
 3. Use an epic only when grouping several issues improves understanding. Use native sub-issues and dependencies when supported and authorized. When unavailable, use accurate checklist links or explicit blocking relationships in issue bodies; do not build a local dependency database.
-4. Create independently actionable feature, bug, or chore issues. State problem, scope, relevant specification/design paths, verifiable acceptance criteria, verification, dependencies, and documentation obligations. Split tasks by deliverable behavior or necessary technical dependency, rather than speculative layers.
+4. Create independently actionable feature, bug, or chore issues. State problem, scope, relevant specification/design paths, verifiable acceptance criteria, verification, dependencies, and documentation obligations. Reference authoritative requirement AC IDs with a brief summary and add only task-specific criteria. Link the project’s Definition of Done without duplicating its checklist. If it has not been documented, establish it in project documentation; do not publish a broken link or rely on an inaccessible skill as the team’s only definition. Split tasks by deliverable behavior or necessary technical dependency, rather than speculative layers.
 5. Associate the relevant milestone and known parent/dependencies using actual remote identifiers. Check resulting state after mutations and report created/updated links. On partial failure, report what succeeded before retrying; inspect for duplicates first.
 
 For `M0 Foundation`, plan runtime/tooling, repository conventions, configuration, CI, basic testing, and essential operations as needed. Do not add feature specs or issues for capabilities the user did not request.
@@ -26,6 +36,16 @@ For `M0 Foundation`, plan runtime/tooling, repository conventions, configuration
 
 Bug issues capture observed versus expected behavior, reproduction, environment, impact, investigation evidence, and regression criteria. Label suspected causes as hypotheses. A bug restoring approved behavior generally links an existing requirement instead of generating a new one.
 
-PRs describe concrete behavior changes, scope, specification/design links, verification actually performed, knowledge/changelog updates or an explicit skip rationale, and remaining limitations. Use real issue references; closing keywords imply closure on merge and require authorization for that closure. Preparing a PR description does not mean a PR was created, merged, or its issue completed.
+PRs describe concrete behavior changes, scope, specification/design links, verification actually performed, knowledge/change-record updates or an explicit skip rationale, and remaining limitations. Use real issue references; closing keywords imply closure on merge and require authorization for that closure. Preparing a PR description does not mean a PR was created, merged, or its issue completed.
 
 Remote item publication does not establish implementation completion. Follow [implementation](implementation.md) for the Definition of Done, and report blocked or unverified work honestly.
+
+## Commits and merge
+
+Every PR requires one explicit user approval before merging. Approval to implement, commit, push, or create a PR does not authorize its merge. First finish the work and required checks, then present the PR link, verification results, and proposed squash commit message for approval. Explain that this skill requires approval before merging. Never merge or enable auto-merge while approval is pending; silence, passing CI, and an agent review are not approval. Reuse approval for the unchanged PR rather than asking twice. If the PR's changes materially change afterward, obtain renewed approval for the updated result.
+
+Prepare one initial commit per PR after completing its planned implementation, required checks, and documentation. If fixes are needed after committing, add new commits. Do not amend existing commits, rewrite the PR branch to reduce its commit count, or force-push, including with `--force-with-lease`.
+
+When merging is authorized, use squash merge so the PR produces one commit on the target branch. Follow [commit-message conventions](conventions.md#commit-messages) for the initial commit, follow-up fixes, and final squash commit. A PR may contain several commits after fixes; preserve that review history until squash merge.
+
+Before confirming the squash merge, set the final commit message from the complete resulting change, as if the work had been authored in one commit. Review the final diff and PR scope rather than concatenating individual commit messages. Replace any automatically combined title/body; omit intermediate fix messages, commit lists, and review chronology. For example, `feat: add expansion management` followed by upload and validation fixes becomes one `feat: add expansion management` commit. Add a short body only for useful final rationale, compatibility, migration, or required trailers. If the original title no longer describes the final scope, rewrite it.

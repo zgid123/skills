@@ -1,75 +1,83 @@
 # Document conventions
 
-This reference owns writing standards, paths, identifiers, metadata, and lifecycle states. Templates own section scaffolding. [Validation](validation.md) explains executable checks and limits.
-
 ## Writing for human readers
 
-Every lifecycle document is written for people: indexes, project briefs, requirements, proposals, designs, decision records, knowledge pages, changelogs, guides, and GitHub milestones, issues, and pull requests. Agents read the same documents; do not create a separate agent-oriented version.
+Write as an experienced engineer, product owner, business analyst, or QA practitioner documenting real work. State the purpose, behavior, decision, or result directly. Use plain language, precise terms, and concrete evidence. Keep only information needed to understand, implement, verify, or maintain the work.
 
-- Write for the person who needs to understand, decide, maintain, or use the subject. Give enough context to follow the document without the authoring conversation. Explain what matters, why it matters, and the evidence or action the reader needs.
-- Use natural, direct prose, concrete names, and precise verbs. Explain unfamiliar abbreviations on first use when the intended reader needs them. Keep technical detail that helps the reader make a decision or do the work.
-- Avoid AI-style boilerplate: generic introductions, inflated claims, buzzwords, formulaic transitions, repetitive summaries, and commentary about generating the document. Replace vague claims with specific behavior, rationale, examples, or evidence.
-- Do not use em dashes in newly written or revised prose. Use a period, comma, colon, or parentheses as the sentence requires. Preserve verbatim quotations, code, source titles, and historical evidence faithfully rather than silently editing them for style.
-- Use paragraphs for explanations, lists for parallel items or steps, and tables for comparisons. Keep headings useful and remove empty template sections. Metadata supports traceability; the body must remain understandable without decoding IDs or frontmatter.
-- Before delivery, read the changed text as its intended reader. Remove filler, unexplained jargon, repetition, and em dashes from authored prose. Structural validation does not establish readability.
+Remove generic introductions, promotional language, filler, repeated summaries, vague claims such as “robust” or “seamless,” and unnecessary headings. Replace them with observable behavior or measurable constraints. Explain unfamiliar terms once. Preserve quotations and code; avoid em dashes in authored prose. Do not invent facts, experience, approvals, or verification.
+
+Before delivery, read the document as its intended user. Remove repetition, check that decisions and acceptance criteria are actionable, and distinguish evidence from assumptions. Concise means sufficient and direct; it does not impose a word limit.
+
+Use the short templates by default. Remove irrelevant optional sections; add subsections only when complexity warrants them. Do not omit material business rules, acceptance cases, security, recovery, compatibility, or evidence to meet a length target.
+
+Each explanation has one authoritative home. Requirements own expected behavior; designs own proposed implementation; ADRs own consequential choices; knowledge owns verified current behavior; change records own intent and delivery history; guides own procedures. Elsewhere summarize just enough to orient the reader and link. Metadata need not be repeated as prose.
+
+## Commit messages
+
+Use `<type>: <description>` for authored commit subjects. Choose the type that describes the change: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `build`, `ci`, `style`, or `revert`. Follow an existing repository scope convention when applicable, such as `fix(auth): reject expired sessions`.
+
+Write a short, concrete description with an imperative verb: `add`, `fix`, `remove`, or `simplify`. Aim for about 50 characters and keep the subject within 72 characters unless the repository requires another limit. Omit a trailing period, filler, promotional language, and commentary about the authoring process. Describe the actual change; avoid vague subjects such as `chore: improve implementation`.
+
+Examples: `feat: add expansion management`, `fix: preserve drafts after upload failure`, `docs: clarify publication rules`. Add a brief body only when rationale, compatibility, migration, or breaking-change details need explanation. Derive the message from the changes being committed and follow repository-required trailers.
 
 ## Responsibilities and paths
 
 | Artifact | Location | Purpose |
 | --- | --- | --- |
-| Index | `docs/README.md` | Human and agent navigation |
-| Project | `docs/project.md` | Objective, owners, workflow policy, retired identifiers |
-| Requirement | `docs/specs/requirements/NNNNN-feature-name.md` | Expected capability behavior |
-| Change | `docs/specs/changes/NNNNN-change-name/proposal.md` | Significant proposed evolution |
-| Change design | Same change directory, `design.md` | Proposed implementation |
-| Initial design | `docs/architecture/NNNNN-feature-name-design.md` | Substantial initial implementation approach |
-| Knowledge | `docs/knowledge/domain/README.md` or `topic.md` | Verified current implementation |
-| Changelog | `docs/changelog/NNNNN-feature-name/NNNN-description.md` or `docs/changelog/domain/NNNN-description.md` | Permanent completed implementation history |
-| ADR | `docs/decisions/NNNNN-decision-name.md` | Consequential architecture decision |
-| Architecture | `docs/architecture/README.md` and focused Markdown pages | Current system structure |
-| Guide | `docs/guides/topic.md` | Reproducible procedure |
+| Index | docs/README.md | Main navigation |
+| Project | docs/project.md | Vision, scope, ownership, working policies |
+| Requirement | docs/specs/requirements/NNNNN-feature-name.md | Current approved expectations |
+| Feature index | docs/specs/requirements/README.md | Optional capability navigation to requirements, knowledge, history, tests, GitHub |
+| Change | docs/specs/changes/NNNNN-feature-name/NNNN-change-name.md or docs/specs/changes/domain/NNNN-change-name.md | Proposal, proportional design, and delivery evidence grouped by requirement or domain |
+| Initial design | docs/architecture/NNNNN-feature-name-design.md | Substantial initial implementation approach |
+| Architecture | docs/architecture/README.md and topic pages | Verified system boundaries and flows |
+| ADR | docs/decisions/NNNNN-decision-name.md | Consequential choice and rationale |
+| Knowledge | docs/knowledge/domain/README.md or topic.md | Verified domain/capability implementation |
+| Guide | docs/guides/topic.md | Reproducible development, testing, or operations |
+| Glossary | docs/glossary.md | Optional short definitions shared across domains |
 
-Use lowercase kebab-case slugs, five digits for requirement/change/ADR namespaces, and four digits for each changelog stream. Do not encode technology or status in stable IDs. An initial design number matches its requirement; link it directly to that requirement. Other architecture pages have descriptive kebab-case names.
+Create indexes and glossary only when useful. Do not create a second feature index or mirror GitHub task status. Architecture explains system-wide structure; domain knowledge explains implementation details. Initial designs link to verified knowledge after delivery and remain identified as design records.
 
-Requirement and decision directories may include a plain `README.md` navigation index. If it has frontmatter, it is treated as a structured REQ or ADR and needs a unique valid ID and the usual required fields; its index filename is exempt from the numbered document filename rule.
+Use lowercase kebab-case names. Each meaningful change gets one file and a CHG ID, including initial implementation and significant fixes. Reuse its proposal for delivery evidence rather than creating a changelog. Later changes get new records. Initial implementation records link the initial design instead of copying it.
 
-## Allocation and non-reuse
+Group requirement changes under the matching requirement number and descriptive slug. Each record must list that requirement in related_requirements. For work with no governing requirement, use a descriptive domain folder such as infrastructure. A change affecting several requirements belongs in one primary requirement folder and references all affected requirements; do not duplicate the record. Indexes can link that record from other capabilities.
 
-- Allocate `REQ-00001`, `CHG-00001`, and `ADR-00001` independently, using one more than the highest allocated numeric suffix in that namespace.
-- Knowledge uses `KNW-domain-topic` (for a domain overview, `KNW-domain-overview`). Keep the ID stable if a title or path changes.
-- Requirement changelogs use `LOG-00001-0001`; the parent number matches `REQ-00001`. Domain streams use `LOG-foundation-0001`. Increment within the stream, regardless of gaps.
-- Inspect all documents and `docs/project.md` frontmatter `reserved_ids` before allocating. Add an identifier to that list before removing its document; never reuse it. IDs of retained retired documents already remain occupied and need no duplicate reservation. Include abandoned allocated IDs if documents were never committed.
-- Reserve identifiers in one cohesive local edit and recheck before finalization. If parallel branches assign the same ID to different new documents, keep the ID already integrated or otherwise established; reallocate the conflicting unpublished document and update its filename and all references in the same change before integration. Do not renumber established records or create a central allocation service. The validator can detect current collisions, but cannot prove an identifier was never removed from Git history. Review history when adopting an existing project.
-- Do not renumber, compact gaps, or create an extra identifier database. Stable local clauses such as `FR-001`, `NFR-001`, and `AC-001` remain stable inside a requirement.
+## IDs and metadata
 
-## Frontmatter schema
+Allocate REQ-00001 and ADR-00001 independently above the highest occupied or reserved ID. Changes have a four-digit sequence within each requirement/domain: CHG-00001-0001 for requirement REQ-00001, or CHG-infrastructure-0001 for infrastructure. Allocate above the highest occupied or reserved sequence in that group; never restart numbering for a renamed folder. An initial design number matches its requirement. Knowledge IDs use KNW-domain-topic. Preserve FR/NFR/AC clause IDs when editing requirements.
 
-Use frontmatter only for requirement, change proposal, ADR, knowledge, changelog, and project configuration. Designs are ordinary Markdown with links to governing documents. The validator supports a deliberately limited YAML subset: unique flat keys; scalar strings; `null`; JSON-style inline string arrays; and two-space-indented block lists of strings. Quote strings with punctuation that YAML could interpret, especially colons and `#`. Use no nested mappings, anchors, tags, multiline scalars, or YAML-style unquoted inline arrays. Dates are `YYYY-MM-DD`; lists contain only strings. Empty relationships use `[]`, not null. Empty commit uses `null`.
+Inspect records, project reserved_ids, and relevant history before allocation. Never fill gaps or reuse removed IDs. Reserve an ID before removing a record; retained retired records already occupy their IDs. Resolve branch collisions by preserving established IDs and reallocating only conflicting unpublished work with all references updated.
 
-REQ, CHG, ADR, and KNW require `id`, `title`, `status`, `owner`, `created_at`, and `updated_at`. Owners are accountable people or established team names. Dates reflect actual creation and last substantive update; `updated_at` cannot precede `created_at`.
+Structured documents use flat frontmatter: scalar strings, null, JSON string lists, or two-space YAML list items. No nested mappings, aliases, tags, block strings, or unquoted inline lists. Dates are YYYY-MM-DD. Common fields are id, title, status, owner, created_at, updated_at. Owners must be resolved; dates must reflect real work.
 
-| Kind | Additional required fields | Status values |
+| Kind | Additional fields | Status |
 | --- | --- | --- |
-| REQ | `dependencies`, `related_changes` | `draft`, `approved`, `retired` |
-| CHG | `related_requirements` | `proposed`, `approved`, `implementing`, `implemented`, `rejected`, `withdrawn` |
-| ADR | `supersedes`, `superseded_by` | `proposed`, `accepted`, `superseded`, `rejected` |
-| KNW | `requirements`, `decisions`, `components` | `draft`, `verified` |
-| LOG | `id`, `title`, `status`, `owner`, `date`, `type`, `requirements`, `changes`, `decisions`, `github_issues`, `github_prs`, `commit`, `components` | `draft`, `finalized` |
+| REQ | dependencies, related_changes; optional priority | draft, approved, retired |
+| CHG | related_requirements; optional type | draft, proposed, approved, implementing, implemented, rejected, withdrawn |
+| ADR | supersedes, superseded_by | proposed, accepted, superseded, rejected |
+| KNW | requirements, decisions, components | draft, verified |
 
-LOG replaces the common date fields with `date`. Its `type` is `feature`, `fix`, `migration`, `refactor`, `chore`, or `docs`. `commit` is a string or null. Other fields ending in relationships or components are lists of strings. REQ may include `priority` (`low`, `medium`, `high`, `critical`). Project frontmatter requires a resolved `owner`, and includes `changelog_policy` (`meaningful` default or `every-issue`) and `reserved_ids` (list of retired identifiers). More context belongs in prose; do not invent a parallel task tracker.
+CHG type, when present, is feature, fix, migration, refactor, chore, or docs. The template includes it; do not repeat it as a body section. Priority is low, medium, high, or critical. Project metadata requires owner; history_policy is meaningful (default) or every-issue, and reserved_ids is a permanent list of removed IDs. Link actual issues, PRs, commits, and affected source in prose without inventing metadata or remote references.
 
-IDs in relationship fields resolve to existing documents of the appropriate kind. `dependencies`, `requirements`, and `related_requirements` target REQ; `related_changes` and `changes` target CHG; `decisions`, `supersedes`, and `superseded_by` target ADR. Reserved IDs prevent reuse but do not satisfy a live reference. Keep retired referenced documents when traceability needs them. Components identify real source paths or clear subsystem names. GitHub references are known URLs or real issue/PR references; leave unavailable references empty.
+Relationship fields target existing documents of their expected kind: dependencies/requirements/related_requirements target REQ; related_changes/changes target CHG; decisions/supersedes/superseded_by target ADR. Reserved IDs do not satisfy links to live documents. Components name real source paths or subsystems. Requirement/decision indexes can be plain Markdown; if structured, their usual metadata and sections apply.
 
-Use relative Markdown links for current supporting documents and source files. Metadata IDs support retrieval but do not substitute for navigable body links. Update inbound links when moving a document. Avoid linking a nonexistent future artifact: describe it as planned prose until created. In finalized changelogs, prefer a commit-pinned source link when the revision is known. If the source has moved or the revision is unavailable, preserve the historical path as code text and state the known revision, commit, PR, or date context; do not make a broken relative link or invent revision data. The validator checks current Markdown links, not code-formatted historical paths.
+## Lifecycle and preservation
 
-## Valid lifecycle transitions
+- REQ: draft → approved → retired. Material behavior updates need approval; update affected clauses and link the change once approved. Requirements describe expectations, not proof of implementation.
+- CHG: proposed → approved → implementing → implemented; proposed may be rejected/withdrawn and approved may be withdrawn. Withdrawal during implementation records partial work and rollback consequences. Retrospective records start draft and become implemented only after verifying completed authorized work; do not fabricate a prior proposal or approval. Drafts can move to proposed if they become prospective.
+- ADR: proposed → accepted/rejected. On accepting a successor, mark the predecessor superseded and update reciprocal links together. Proposed replacements link predecessors in prose without prematurely changing supersession metadata.
+- KNW: draft → verified only with evidence; return to draft if accuracy becomes uncertain.
 
-| Kind | Allowed transitions and authority |
-| --- | --- |
-| REQ | `draft → approved → retired`; approval/retirement needs the owner or authorized user. An approved behavioral revision retains the ID, records the approval and related change, and remains approved only once that revision is approved. Prepare proposals separately while approval is pending. |
-| CHG | `proposed → approved → implementing → implemented`; `proposed → rejected` or `withdrawn`; `approved → withdrawn`; `implementing → withdrawn` only after assessing partial implementation and rollback. Rework rejected/withdrawn proposals under a new ID if scope materially changes. |
-| ADR | `proposed → accepted` or `rejected`; `accepted → superseded` only when an accepted successor exists. While a replacement is proposed, link the predecessor in prose and explain the intended relationship there; keep supersession metadata empty. On acceptance, add reciprocal `supersedes`/`superseded_by` metadata and mark the predecessor superseded together. Preserve prior rationale and avoid self-links or cycles. |
-| KNW | `draft → verified` after evidence; `verified → draft` if accuracy becomes uncertain; refresh verified content and verification evidence as implementation changes. |
-| LOG | `draft → finalized` after verification; finalized records stay finalized and historically intact. Mark factual corrections explicitly with date, author, reason, and evidence. |
+An approved change can span several issues and PRs. Record completed contributions and their evidence while keeping the change implementing until its full acceptance criteria pass. Completing a task does not require completing the whole change.
 
-Approval and state transitions are workflow obligations: a snapshot validator validates allowed statuses and relationships, not the authority or historical transition that produced them. Record significant approvals and evidence in the document body without duplicating GitHub status.
+When withdrawing a change that affected approved requirements, record which clauses remain expected for later delivery, which are revised, and which return to their previous rule. Obtain approval for changed expectations and update only affected clauses, preserving unrelated later edits. Record partial implementation, retained behavior, and rollback consequences; do not leave contradictory requirements silently in place.
+
+Preserve approved intent and add actual results separately. Mark CHG implemented only when its in-scope acceptance and required checks are satisfied. Do not turn partial delivery into completion. Preserve implemented records, rejected decisions, and accepted ADR rationale. Later work gets a new record; factual corrections identify date, author, original claim, corrected fact, and evidence.
+
+Use relative links to existing current documents/source. For moved/deleted historical source, use a known commit-pinned URL or code-formatted old path with known revision context. Never invent a commit or knowingly broken link.
+
+## Existing repositories
+
+Do not rewrite project documentation merely to shorten a template. Existing full-length headings, flat CHG-NNNNN files, legacy NNNNN-change/proposal.md with optional design.md, and LOG changelogs remain readable and validated for compatibility. Legacy CHGs using their original full-length sections keep that section contract, including implemented records whose evidence may live in a linked LOG. Existing evidence and links remain subject to review; this compatibility rule does not establish completion. New records use grouped paths and IDs. New history uses CHG records; old changelog_policy is accepted as an alias for history_policy. Conflicting policy values are an error.
+
+Migrating existing flat changes, split proposal/design records, or LOG history requires explicit scope. Preserve IDs, approval evidence, source history, and inbound links; do not delete/renumber historical records automatically. Existing LOG IDs remain reserved/recognized. A template update alone does not authorize migration.

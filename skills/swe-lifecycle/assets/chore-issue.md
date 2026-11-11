@@ -1,29 +1,15 @@
-# <Concrete maintenance or foundation outcome>
+# T<task number> <Concrete maintenance or foundation result>
 
-<!-- GitHub issue draft. Foundation chores may belong to M0 without a feature requirement. Publish only when authorized. -->
+<!-- Required GitHub label: task. Apply as issue metadata when publishing. Foundation chores need no invented feature requirement. Publish only within authorization. -->
 
-## Purpose
+## Purpose and scope
 
-<Problem, maintenance outcome, and evidence that the work is needed.>
+<Why the work is needed, result, affected components, constraints, and exclusions.>
 
-## Scope
+## Acceptance and verification
 
-<Tooling, configuration, infrastructure, documentation, or refactor boundaries; affected components and exclusions.>
-
-## Acceptance criteria
-
-- <Reproducible, observable outcome.>
-
-## Verification
-
-<Relevant command or operational check, expected outcome, and environment. Record results only after execution.>
+<Observable outcomes, reproducible checks, environment, and expected results. Record execution results only after running checks.>
 
 ## Dependencies and delivery
 
-<Agreed milestone, native dependencies or parent issue when present, and applicable architecture/design links.>
-
-## Definition of Done
-
-- Criteria verified and required checks pass.
-- Guides or architecture reflect verified changes.
-- Historical record added when meaningful or required by project policy; otherwise explicit allowed skip reason recorded.
+<Actual milestone/blockers/parent and relevant architecture/design links. Identify affected guides/knowledge and history obligations or policy-permitted skip. Link the project’s published Definition of Done. This task may complete while its shared change remains implementing.>

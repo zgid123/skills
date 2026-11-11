@@ -1,30 +1,21 @@
-# <Reproducible development, testing, deployment, or operations procedure>
+# <Development, testing, deployment, or operations procedure>
 
 Owner: <Person or accountable role> · Last verified: <YYYY-MM-DD>
 
-<!-- Include only relevant sections and commands checked against this repository. Identify unverified steps and prerequisites. Never embed credentials or present placeholders as runnable commands. -->
+## Prerequisites
 
-## Purpose and prerequisites
+<Intended result, environment, tools/versions, access, starting state, and necessary configuration. Never include secret values.>
 
-<Intended outcome, supported environment, required tools/versions, access, and starting state.>
+## Steps and expected results
 
-## Setup and configuration
+1. <Action/command, working directory, expected result, and how to check it.>
 
-<Repository-specific installation and configuration steps; explain secret retrieval through the project's approved mechanism without including values.>
+<State actual verification date/environment and any unexecuted steps. Do not present placeholders as runnable commands.>
 
-## Procedure
+## Troubleshooting
 
-1. <Exact action/command, working directory, and expected observable result.>
-2. <Next action and how to confirm success.>
+<Relevant failure symptoms, diagnostics, fixes, and recovery/rollback for state-changing procedures.>
 
-## Verification
+## References
 
-<Checks, expected results, test scope, and actual verification date/environment. Report any steps not executed.>
-
-## Troubleshooting and recovery
-
-<Known failure symptoms, diagnostic evidence, fixes, and rollback/cleanup for procedures that change state.>
-
-## Related documentation
-
-<Relative links to architecture, knowledge, and relevant decisions.>
+<Link architecture, knowledge, and decisions when useful.>

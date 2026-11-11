@@ -1,24 +1,19 @@
-# <Coherent delivery outcome>
+# <Coherent delivery goal>
 
-<!-- GitHub issue draft. Use an epic only when grouping adds value. GitHub sub-issues and dependencies are authoritative; do not maintain a parallel local task database. -->
+<!-- For a milestone parent issue, prefix the title with the corresponding M<number>. Use only when grouping adds value. Publish within authorization; native GitHub relationships own tracking. -->
 
-## Outcome and context
+## Goal and scope
 
-<User or operational outcome, approved scope, and relative links to requirements, change proposals, and designs.>
+<User/operational result, boundaries, and links to governing specifications.>
 
-## Acceptance criteria
+## Acceptance and verification
 
-- <End-to-end outcome and how it will be verified.>
+<Integrated observable results and how to verify them. Reference existing criteria rather than copying them.>
 
-## Work breakdown
+## Work and dependencies
 
-<Actionable child outcomes. Attach actual sub-issues on GitHub when supported. Otherwise use linked issues in the remote issue body. Unpublished draft titles are acceptable; invented issue numbers are not.>
+<Actionable child outcomes and actual sub-issue/dependency/milestone links. Never invent issue numbers.>
 
-## Dependencies and milestone
+## Completion
 
-<Agreed milestone and known blocked-by/blocking issues; use native GitHub dependencies when supported.>
-
-## Definition of Done
-
-- Acceptance criteria verified and child work completed.
-- Applicable checks pass and documentation/changelog obligations are satisfied.
+<Child work and integrated checks complete; relevant knowledge, guides, and change records updated. Link the project’s published Definition of Done and include only additional obligations for this group.>

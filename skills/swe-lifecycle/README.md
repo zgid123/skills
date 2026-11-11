@@ -1,74 +1,32 @@
 # SWE lifecycle usage
 
-Load [SKILL.md](SKILL.md) in an agent environment that supports Agent Skills, or install this directory using that environment's skill mechanism. The skill needs repository read/write access for local work, Python 3.9+ for validation, and connected GitHub tools or an authenticated CLI only for authorized remote operations. Its metadata uses the portable name/description convention already used by this repository; no vendor-specific tools are mandatory.
+Load [SKILL.md](SKILL.md) through your agent environment. The skill uses local repository access and Python for read-only documentation validation; connected GitHub tools or an authenticated CLI are needed only for authorized remote work.
 
-## Package
+## Workflow
 
-```text
-swe-lifecycle/
-├── SKILL.md
-├── README.md
-├── references/          # Nine flat, selectively loaded instruction files
-├── assets/              # Fifteen adaptive Markdown templates
-└── scripts/
-    └── validate_docs.py
-```
+Discover and specify expectations, design proportionately, plan milestones/tasks, implement and verify, update current knowledge, and preserve change history. Use only relevant stages. Templates stay short; add detail for real complexity rather than filling every heading.
 
-References separate lifecycle dispatch, grilling, conventions, specifications, GitHub work, implementation, current knowledge, historical changelogs, and validation. Load only those routed by the current operation. Templates are `project`, `requirement`, `change-proposal`, `technical-design`, `milestone`, `epic`, `feature-issue`, `bug-issue`, `chore-issue`, `adr`, `knowledge`, `changelog`, `architecture`, `development-guide`, and `pull-request` (all `.md` files under `assets/`).
+Each requirement has a change folder, such as docs/specs/changes/00001-catalog/, with sequential files such as 0001-initial-implementation.md. Work without a governing requirement uses a domain folder such as infrastructure/. One file holds each change's proposal, design, and actual result; cross-requirement changes link all affected requirements from one primary folder. Initial features/fixes without proposals can have retrospective records. Requirements remain current expectations; knowledge remains verified implementation. Historical LOG files and older section layouts remain supported for existing repositories.
 
-## What is an ADR?
+## Resources
 
-ADR stands for **Architecture Decision Record**. It documents an important architecture decision, the context and alternatives considered, and the consequences of the chosen approach so future readers can understand why it was made. Use the [ADR template](assets/adr.md) to create a decision record.
+- [Orchestration](references/orchestration.md): lead-agent ownership, specialist assignments, integration, and review. Use the [delegation brief](assets/delegation-brief.md) and [agent handoff](assets/agent-handoff.md) in agent messages or temporary working notes.
+- [Lifecycle](references/lifecycle.md): stage inputs and outputs.
+- [Conventions](references/conventions.md): document ownership, paths, IDs, metadata, concise writing, and migration.
+- [Specifications](references/specifications.md): requirements, change approval, and design.
+- [GitHub workflow](references/github-workflow.md): authorized delivery tracking.
+- [Implementation](references/implementation.md): task and milestone completion.
+- [Knowledge](references/knowledge-management.md): current behavior and question-answering navigation.
+- [Change records](references/change-records.md): durable intent and implementation history.
+- [Validation](references/validation.md): structural checks and their limits.
 
-All lifecycle documents are written for human readers first, and agents use the same documents. Use natural, direct prose without AI-style boilerplate or em dashes. Explain unfamiliar abbreviations when readers need them, while keeping each document focused on its specific subject. See the [writing standard](references/conventions.md#writing-for-human-readers).
-
-## Example requests
-
-- “Grill me on this caching plan before we write the design.”
-- “Bootstrap this Hono API Gateway. Prepare M0 Foundation and chore drafts; keep GitHub offline.”
-- “Specify configurable rate limiting; clarify policy choices and prepare a design and implementation issues.”
-- “Propose replacing better-auth with a Go service while retaining the authentication requirement.”
-- “Fix the refresh-token race, verify the regression, synchronize knowledge, and record the change.”
-- “Propose extending RBAC with ABAC; preserve approved behavior until the revision is authorized.”
-- “Finalize this implementation: check acceptance criteria, documentation, history, and prepare the PR.”
-
-All eleven operations are available: `grill`, `bootstrap`, `specify`, `propose-change`, `design`, `plan`, `implement`, `fix`, `sync-knowledge`, `record-change`, and `finalize`. One request can involve several operations. Bootstrap adds useful project navigation, a project brief, architecture/guides, or unpublished M0 drafts as the repository needs them; it does not create empty categories or invent feature specifications. For existing projects, inspect and preserve the established documentation first; agree on structural adoption rather than moving history automatically.
-
-## Grilling
-
-The `grill` operation interviews the user about a plan, requirement, or design until every dependent decision is settled. It asks exactly one question per message, each with a recommended answer, looks up facts itself instead of asking, and waits for the user to confirm the shared understanding before acting. Writing a requirement, change proposal, or design triggers the same interview automatically whenever context is missing, so specs are not built on guessed decisions. See [grilling](references/grilling.md).
+Assets contain project, requirement, change-proposal, technical-design, architecture, adr, knowledge, development-guide, milestone, epic, feature-issue, bug-issue, chore-issue, and pull-request templates. ADR means Architecture Decision Record: a consequential choice, its alternatives, rationale, and consequences.
 
 ## Verification
 
-From this repository:
-
 ```sh
-python3 -m unittest discover -s evals/swe-lifecycle -p 'test_*.py' -v
-python3 scripts/validate_skills.py
+python3 /path/to/swe-lifecycle/scripts/validate_docs.py /path/to/project
+python3 -m unittest discover -s /path/to/swe-lifecycle/scripts/__tests__ -p 'test_*.py'
 ```
 
-Against a target project, from any working directory:
-
-```sh
-python3 /absolute/path/to/swe-lifecycle/scripts/validate_docs.py /absolute/path/to/project
-```
-
-The target root must contain `docs/`. Errors include an offending path and repair guidance; invalid documentation returns exit code 1. The command reads documents without modifying them. [Conventions](references/conventions.md) defines schemas and numbering; [validation](references/validation.md) defines coverage. Empty category directories are not required; create them only when they contain documents.
-
-The smoke tests exercise the validator and its CLI without GitHub calls. Separate paired runs evaluate lifecycle behavior against fixed repositories and identical authorization; see `evals/swe-lifecycle/README.md` in the source repository for fixture and grading instructions. Evaluation files are not included in skill installations.
-
-## Design assessment and adoption limits
-
-- Approval, current-state accuracy, meaningful acceptance criteria, actual tests, and truthful historical explanations require engineering review. A valid document is not proof of implementation. Trial the five workflow scenarios in disposable repositories before relying on autonomous execution.
-- The YAML parser intentionally accepts a documented flat subset. It rejects advanced YAML instead of guessing. If a project needs complex metadata, adopt a maintained YAML parser and extend the schema/tests explicitly.
-- Markdown checks cover common inline, image, reference, and heading links; they are not a complete CommonMark parser. Remote links are not fetched. Source paths are validated when expressed as Markdown links; prose paths and component names cannot always be resolved mechanically.
-- Snapshot validation cannot establish past approval transitions, append-only history, deletion of tombstones, or whether allocation used the historical high-water mark. Gaps are legal. Inspect history during adoption and preserve retired identifiers. Resolve parallel-branch collisions by retaining established IDs and reallocating only a conflicting unpublished document with all references updated.
-- GitHub authentication and available relationship features vary. Discover capabilities at runtime, prepare offline drafts when unavailable, and publish only within explicit authorization. Real remote mutation paths have not been integration-tested by this build.
-- Templates deliberately retain a small set of required sections. Remove irrelevant optional sections and keep factual unknowns explicit. Review useful content and duplication manually; avoid turning minor edits into unnecessary ceremonies.
-- Existing project layouts may fail the canonical validator. Agree on migration or adapt its contract locally after inspection; never repair failures by deleting or renumbering established records.
-
-Before first real use, choose owners and approval authority, confirm changelog policy and required checks, reconcile existing identifiers and documentation, then perform a dry-run planning/finalization cycle. No automatic publication or deployment is part of installing this skill.
-
-## Credits
-
-The [grilling](references/grilling.md) reference is adapted from the [`grill-me` and `grilling` skills](https://github.com/mattpocock/skills/tree/main/skills/productivity) by [Matt Pocock](https://github.com/mattpocock). The original asks every open question in one round; this version asks one question per message and ties the outcome into the lifecycle documents.
+Tests use disposable local fixtures and never create GitHub work. Structural validation cannot prove approval, test execution, implementation accuracy, or historical preservation. Review those separately. Installing/updating the skill does not migrate a project's documents or authorize remote publication.

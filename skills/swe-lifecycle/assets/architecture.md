@@ -2,24 +2,18 @@
 
 Owner: <Person or accountable role> · Verified: <YYYY-MM-DD and evidence scope>
 
-<!-- Adapt sections to the actual system. Describe verified current structure; put significant proposed decisions in designs/ADRs and obtain approval before presenting them as current. Bootstrap may document an explicitly proposed baseline. -->
+## System overview
 
-## System context
+<Purpose, users, external systems, deployment environment, and trust boundaries. Label any proposed baseline explicitly.>
 
-<Purpose, users, external systems, trust boundaries, and deployment environment.>
+## Components and flows
 
-## Structure and responsibilities
+<Major responsibilities, dependency direction, request/event flows, data ownership, and source locations. Link domain knowledge for details.>
 
-<Major components, responsibility boundaries, dependency direction, and source locations. Include a compact diagram if it clarifies the system.>
+## Constraints and limitations
 
-## Key flows and data
+<Verified security, reliability, scale, observability, deployment, and recovery constraints. Identify unknowns and future work.>
 
-<Important request/event paths, owned data, storage, consistency, and external contracts. Link focused knowledge pages rather than duplicating details.>
+## Decision links
 
-## Quality and operational constraints
-
-<Security, reliability, scale, observability, failure recovery, and deployment constraints established from the code/configuration.>
-
-## Decisions and limitations
-
-<Relative links to accepted ADRs and verified known limitations. Distinguish future work and unknowns from current implementation.>
+<Link accepted ADRs and relevant designs. Keep detailed rationale in those records.>

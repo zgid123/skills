@@ -5,63 +5,37 @@ status: draft
 owner: "<Person or accountable role>"
 created_at: "<YYYY-MM-DD>"
 updated_at: "<YYYY-MM-DD>"
-priority: "<Project priority>"
 dependencies: []
 related_changes: []
 ---
 
 # <Capability>
 
-<!-- Keep Overview, Functional requirements, and Acceptance criteria. Fill useful sections; remove inapplicable optional sections. Retain existing FR/NFR/AC identifiers on revision; never renumber them. Link approval evidence before transitioning to approved. -->
+<!-- Keep Problem and goal, Requirements and rules, and Acceptance scenarios. Remove irrelevant optional sections. Preserve established FR/NFR/AC IDs. -->
 
-## Overview
+## Problem and goal
 
-<Expected capability and observable outcome, independent of implementation unless a technology is an explicit constraint.>
+<Who needs this capability, why, and the useful result. An optional user story can express this without repeating the same goal.>
 
-## Problem statement
+## Scope and actors
 
-<Who experiences which problem, with supporting evidence.>
+<Included behavior, exclusions, actors, and permissions.>
 
-## Goals
+## Requirements and rules
 
-- <Desired outcome and success measure.>
+- **FR-001**: <Observable behavior and applicable business rule.>
+- **NFR-001**: <Measurable quality constraint, when applicable.>
 
-## Non-goals
+## Acceptance scenarios
 
-- <Explicit boundary.>
+- **AC-001** (FR-001): Given <condition>, when <action>, then <observable result>. Verify with <test/check>.
 
-## Stakeholders and actors
+<Include relevant boundaries, invalid inputs, failures, and recovery. Label illustrative examples separately from mandatory acceptance criteria.>
 
-<Users, operators, external systems, and their relevant permissions or responsibilities. Omit if unnecessary.>
+## Constraints and open questions
 
-## Functional requirements
+<Dependencies, external limits, unresolved decisions, and consequences. Remove when unnecessary.>
 
-- **FR-001**: <Actor can perform an action under specified conditions, with an observable result.>
+## References
 
-## Non-functional requirements
-
-- **NFR-001**: <Measurable reliability, latency, accessibility, security, or other quality constraint, with conditions and units.>
-
-## Business rules
-
-<Domain constraints and precedence. Omit when no separate rules apply.>
-
-## Scenarios and edge cases
-
-<Normal, invalid, boundary, failure, and recovery cases relevant to this capability.>
-
-## Acceptance criteria
-
-- **AC-001** (FR-001): Given <precondition>, when <action>, then <observable result>. Verify using <test or reproducible check>.
-
-## Dependencies and constraints
-
-<Required capabilities, external constraints, and prerequisites. List requirement IDs in dependencies and link their documents here.>
-
-## Open questions
-
-<Unresolved behavior, responsible person, and consequence for approval. Remove when resolved.>
-
-## Related documentation
-
-<Relative links to designs, change proposals, knowledge, and decisions that exist. Record approver, approval date, approved scope, and evidence here; do not infer approval.>
+<Link relevant designs, changes, and knowledge. Record approver, date, approved scope, and evidence before marking approved.>

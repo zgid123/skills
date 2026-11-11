@@ -1,24 +1,19 @@
 # Current implementation knowledge
 
-This reference owns verified current-state documentation. Use [changelog management](changelog-management.md) for historical changes and [conventions](conventions.md) for metadata and paths. Load the knowledge, architecture, or development-guide template only for the artifact being updated.
+Use the knowledge, architecture, or guide template for the artifact being updated. [Change records](change-records.md) own history; [conventions](conventions.md) own paths and metadata.
 
-## Organize for retrieval
+## Synchronize
 
-Group knowledge by domain/capability, with a useful `README.md` and focused topic pages where needed. Give each structured page a stable `KNW-domain-topic` ID, meaningful title, owner, dates, status, requirement/decision relationships, and affected components. Add relative links from `docs/README.md` and domain indexes so humans and future agents can discover the content.
+1. Read existing knowledge and inspect relevant source, configuration, tests, interfaces, and migrations. Separate verified behavior from proposals and unknowns.
+2. Update Overview, How it works, and Verification and limitations. Add configuration/operations detail when useful: relevant security, failures, recovery, diagnostics, and constraints. Link reproducible procedures in guides.
+3. Record inspected source/test paths, verification date/scope, actual checks, and limitations. Test existence is not execution evidence. Mark verified only for supported claims; otherwise use draft and explicit unknowns.
+4. Refresh system architecture and guides where affected. Architecture explains system-wide boundaries; domain knowledge explains capability behavior. Link requirements for intended behavior and ADR/change records for why it exists.
+5. Validate links and navigation. Update incrementally as work completes; consolidate and review at milestone completion, not only at that point.
 
-Use requirement IDs, technical topic names, component paths, and cross-links consistently. Keep one canonical explanation for each concept and link to it rather than repeating whole sections. Source paths should be useful evidence, not massive code dumps. No vector database or RAG pipeline is required to make local Markdown searchable.
+## Navigation and retrieval
 
-## sync-knowledge
+Use docs/README.md as the entry point. When needed, specs/requirements/README.md indexes capabilities and links requirements, knowledge, tests, history, and GitHub work without duplicating task status. Domain indexes link focused topic pages. Add docs/glossary.md only for terms shared across domains; keep short definitions and link detailed explanations.
 
-1. Read relevant existing knowledge and inspect the current implementation, configuration, tests, interfaces, and migrations. Identify what is actually verified and what remains uncertain.
-2. Compare documentation claims with code. Update substantive differences, remove obsolete current-state claims, and preserve user-written explanations that still apply. A proposed design does not establish implemented behavior.
-3. Explain current behavior, important components, APIs/interfaces, data flow, storage/algorithms, configuration, dependencies, operational constraints, security, failure behavior, observability, test references, and limitations where relevant. Keep Overview, Current implementation, and Known limitations nonempty; state “No additional limitations established by this review” only if that is truthful, rather than claiming no limitations exist.
-4. Record verification evidence in Current implementation or the appropriate section: inspected source/test paths and checks actually run. Set `verified` only for supported claims; use `draft` and explicit unknowns otherwise. Update `updated_at` after substantive changes.
-5. Refresh architecture overviews and reproducible development/operations guides where affected. Link requirements, ADRs, designs, and historical records instead of copying their purpose into knowledge.
-6. Validate references, links, metadata, and navigation. Summarize gaps discovered, including contradictory requirements needing approval or code investigation.
+When answering project questions, use project.md for vision, requirements for expectations/stories, architecture for system structure, knowledge and source for actual behavior, change/ADR records for history/rationale, and guides/tests for verification. Cite the source, identify its status and relevant verification scope, and report contradictions or unknowns rather than guessing.
 
-Keep behavior changes and historical explanations in changelog, not as an ever-growing timeline inside current knowledge. A short link explaining why a current constraint exists may point to its ADR or historical record. Neither old changelogs nor accepted ADRs should be rewritten merely to describe the latest implementation.
-
-## Knowledge quality
-
-Prefer precise statements such as “the refresh endpoint consumes tokens through this transaction” backed by a source link. Avoid unsupported claims like “fully secure” or “all tests passed.” Describe limitations in terms useful for development and operation. Reproducible guide commands must match actual project tooling; document environment assumptions and avoid including secrets.
+Keep one explanation per concept. Do not copy historical timelines into current knowledge or treat old designs as current implementation.

@@ -1,59 +1,33 @@
-# <Capability or change>: technical design
+# <Initial capability>: technical design
 
 Owner: <Person or accountable role> · State: <proposed/approved> · Updated: <YYYY-MM-DD>
 
-Source: <Relative link to an existing requirement or change proposal. Initial capabilities may link directly to a requirement.>
+Source: <Relative link to the initial requirement. Later changes include design in their change record.>
 
-<!-- Keep only sections that resolve real technical questions. Describe a proposed approach; verified current behavior belongs in knowledge. Record approval evidence for significant architecture changes. -->
+## Scope
 
-## Scope and constraints
+<Requirement/AC IDs addressed, exclusions, and constraints.>
 
-<Requirements and AC identifiers addressed, exclusions, and constraints.>
+## Architecture and flows
 
-## Architecture
+<Boundaries, component responsibilities, dependencies, request/event paths, and source locations. Include a diagram when useful.>
 
-<System boundaries, dependency direction, and deployment context. Include a small diagram only if useful.>
+## Contracts and data
 
-## Components
+<APIs, validation, errors, ownership, storage model, indexes, and retention where relevant.>
 
-<Responsibilities, interfaces, and affected source paths. Prefer existing components.>
+## Reliability and security
 
-## Data flows
+<Transactions, races, idempotency, authorization, trust boundaries, failures, recovery, and diagnostic signals.>
 
-<Request/event path, transformations, and failure paths.>
+## Trade-offs
 
-## APIs and interfaces
+<Alternatives and rationale. Link durable decisions instead of copying them.>
 
-<Contracts, validation, authentication/authorization, errors, and compatibility.>
+## Verification and rollout
 
-## Data and storage
+<Checks mapped to acceptance, deployment/configuration, migration, compatibility, and rollback limits.>
 
-<Data model, retention, indexes, migration requirements, and ownership.>
+## Open decisions
 
-## Concurrency and consistency
-
-<Invariants, transactions, ordering, races, idempotency, and retry semantics.>
-
-## Security and reliability
-
-<Trust boundaries, secrets, failure modes, recovery, and applicable quality targets.>
-
-## Alternatives and trade-offs
-
-<Credible options, chosen approach, and consequences. Link an ADR for durable significant decisions.>
-
-## Observability
-
-<Signals, diagnostic context, sensitive-data handling, and actionable alerts.>
-
-## Testing
-
-<Verification mapped to requirement AC identifiers; appropriate test layers and migration/failure checks.>
-
-## Deployment and rollback
-
-<Release order, configuration, health checks, rollback triggers, data compatibility, and recovery limits.>
-
-## Open questions and approval
-
-<Outstanding decisions; approver, date, exact scope, and evidence of approval when obtained.>
+<Unresolved questions and approval evidence. Link verified knowledge once implemented; do not present the proposed design as current behavior.>

@@ -1,40 +1,19 @@
 # <Observed defect and affected behavior>
 
-<!-- GitHub issue draft. Separate observation from hypotheses. Do not invent a root cause, reproducer, or verification result. An existing behavior contract usually suffices; create specs only for actual scope changes. -->
+<!-- Required GitHub label: bug. Apply as issue metadata when publishing. Separate evidence from hypotheses. Never invent a reproducer, root cause, or verification result. -->
 
-## Observed behavior
+## Observed and expected behavior
 
-<What happens, user impact, environment/version, and supporting evidence with secrets removed.>
+<Actual result, user impact, environment/version, expected behavior, and supporting contract/test links.>
 
-## Expected behavior
+## Reproduction and investigation
 
-<Expected result and existing requirement, contract, or test evidence.>
+<Prerequisites, actions or concurrency ordering, failure, and reproducibility. Identify confirmed cause or label hypotheses and unknowns.>
 
-## Reproduction
+## Acceptance and verification
 
-1. <Exact prerequisite and setup.>
-2. <Action or concurrency ordering.>
-3. <Observed failure and reproducibility; say unknown if not reproduced.>
-
-## Investigation
-
-<Confirmed facts and source paths. Label root-cause hypotheses and record what would confirm them. Replace with verified cause when established.>
-
-## Acceptance criteria
-
-- <Reproducer yields the correct outcome after the fix.>
-- <Regression check protects the failure mode and relevant adjacent behavior.>
-
-## Verification
-
-<Regression test/check, command, environment, observed result, and limits. Record only checks actually run.>
+<Correct result for the reproducer, regression coverage, relevant adjacent behavior, and planned checks. Separately record commands actually run, environment, results, and limits.>
 
 ## Dependencies and delivery
 
-<Actual related issues, blockers, milestone, and specification/design links when relevant. Omit absent relationships.>
-
-## Definition of Done
-
-- Fix and regression verification satisfy the criteria.
-- Knowledge updated when needed; meaningful fix recorded in changelog using verified facts.
-- PR links this issue and reports unresolved risks or verification limits.
+<Actual related work/milestone and affected knowledge/guides. Meaningful fixes receive a change record without a fabricated proposal. Link the project’s published Definition of Done. This task may complete while its shared change remains implementing.>
