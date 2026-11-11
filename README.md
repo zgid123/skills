@@ -25,6 +25,7 @@ When adding or updating a skill, include its trigger in `AGENTS.md` and keep an 
 
 - [TypeScript](skills/typescript/SKILL.md) - Write type-safe TypeScript and follow Alpha's naming, module, import, and lint conventions.
 - [React](skills/react/SKILL.md) - Build React components and hooks using Alpha's component, typing, and export patterns.
+- [CSS](skills/css/SKILL.md) - Use token-based colors, Tailwind-style palettes, background/border/text theme roles, and cascade-first overrides alongside canonical Tailwind classes, BEM, and CSS Modules. BEM and CSS Modules can be used independently or combined.
 - [Domain-Driven Design](skills/domain-driven-design/SKILL.md) - Model domains, bounded contexts, entities, value objects, repositories, and domain services.
 - [CQRS](skills/cqrs/SKILL.md) - Structure TypeScript use cases, commands, queries, handlers, events, and buses using Alpha's CQRS conventions.
 

@@ -1,0 +1,73 @@
+{
+  "skill_name": "css",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this Tailwind v4 markup: <div class=\"[@media_print]:[display:flex]\">Report</div>. The project IntelliSense diagnostic recommends print:flex. A status badge currently builds bg-${color}-600 for red or green. Show corrected class usage without adding dependencies. The editor/LSP is unavailable in this session; explain what you can verify. Also explain whether you would introduce v4-only syntax if this were an existing v3 project.",
+      "expected_output": "Canonical print utility, complete status class literals, and honest version-aware verification.",
+      "files": [],
+      "expectations": [
+        "Uses print:flex for the supplied diagnostic.",
+        "Selects complete bg-red-600 and bg-green-600 literals instead of interpolating class fragments.",
+        "Does not suppress or disable suggestCanonicalClasses.",
+        "Discloses unavailable diagnostic verification and does not equate a build with zero warnings.",
+        "Preserves v3 compatibility without an unsolicited upgrade."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "A plain CSS project already uses BEM. Correct this markup and describe matching selector changes: <article class=\"product-card--featured\"><header class=\"product-card__header\"><h2 class=\"product-card__header__title\">Pack</h2></header></article>. Preserve the DOM structure and existing styling approach. No Tailwind migration.",
+      "expected_output": "Flat BEM element names and a modifier alongside its base class.",
+      "files": [],
+      "expectations": [
+        "Retains product-card--featured and adds the product-card base class.",
+        "Replaces product-card__header__title with product-card__title in markup and selector guidance.",
+        "Preserves DOM structure and BEM styling without adding Tailwind.",
+        "Avoids deep descendant selectors."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Show stylesheet names, class names, and module mapping access for two independent components, without writing a full framework component. A new ProfileCard uses CSS Modules and no BEM convention. An existing ProductCard module intentionally uses product-card and product-card__title; keep BEM there. Both need an active state. Explain how you would scope a third-party .vendor-label override inside ProfileCard, reuse shared tokens, preserve focus, and respect reduced motion if adding animation.",
+      "expected_output": "Colocated modules with simple local names for ProfileCard and optional preserved BEM for ProductCard.",
+      "files": [],
+      "expectations": [
+        "Uses colocated *.module.css files and simple camelCase local names for ProfileCard.",
+        "Preserves optional BEM for ProductCard with bracket access for hyphenated module keys.",
+        "Combines base and active/modifier classes.",
+        "Limits the global vendor override beneath a local wrapper.",
+        "Reuses tokens and preserves visible focus and reduced-motion behavior.",
+        "Does not impose BEM on ProfileCard or migrate either component to Tailwind."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Create the color-token structure for a new Tailwind v4 theme with primary, secondary and tertiary roles. Use an existing neutral palette plus a new ocean color family. Show the complete ocean scale and all background, border and text aliases, then style a card and an amber warning badge. Raw color values must stay in palette definitions. Include equivalent plain CSS consumption and explain v3 compatibility. Do not build an app.",
+      "expected_output": "An eleven-stop named palette, nine semantic aliases, correct CSS/Tailwind token consumption, and no literal component colors.",
+      "files": [],
+      "expectations": [
+        "Defines ocean-50, ocean-100 through ocean-900 in steps of 100, and ocean-950 centrally.",
+        "Uses primary/secondary/tertiary for backgrounds, stroke-prefixed tokens for borders, and foreground-prefixed tokens for text.",
+        "Semantic aliases reference palette tokens; component declarations do not contain raw hex, RGB, HSL, or OKLCH colors.",
+        "Uses bg-primary, border-stroke-primary and text-foreground-primary rather than confusing SVG stroke utilities with borders.",
+        "Uses a named amber palette token for the out-of-role badge color.",
+        "Uses version-appropriate theme registration, keeping v4 directives out of v3 configuration.",
+        "Distinguishes illustrative palette values from verified contrast."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "A vendor button rule overrides our color. Both stylesheets use normal declarations in the same author layer: vendor has .vendor-panel .button { color: var(--foreground-secondary); }, and our earlier .button rule uses var(--foreground-primary). Fix the scoped override without changing vendor markup or adding important. Explain what changes if the immutable vendor declaration is already important, and whether moving a class to the end of the HTML class attribute helps.",
+      "expected_output": "A scoped selector with suitable specificity and stylesheet order, token colors, and an accurately bounded last-resort exception.",
+      "files": [],
+      "expectations": [
+        "Uses a scoped selector of sufficient specificity with appropriate source order for the normal-declaration conflict.",
+        "Retains token-based text colors.",
+        "Does not use important for the solvable normal-declaration conflict.",
+        "Explains that HTML class order does not determine cascade priority.",
+        "Does not claim increased normal specificity beats an important declaration.",
+        "Allows only a narrowly scoped, explained important exception after checking supported customization and cascade options for the immutable important case."
+      ]
+    }
+  ]
+}
