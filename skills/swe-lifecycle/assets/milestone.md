@@ -1,6 +1,6 @@
 # M<milestone number> <Delivery goal>
 
-<!-- Use M0 Foundation for initial foundation work. Follow repository numbering and check existing milestones before publication. Publish only within authorization. GitHub owns delivery tracking. Keep Goal, Scope, and Exit criteria; remove unused optional sections. -->
+<!-- Publish this as a native GitHub milestone description, with task issues assigned directly to the milestone. Do not also create a parent issue with identical scope. Use M0 Foundation for initial foundation work. Follow repository numbering and check existing milestones before publication. Publish only within authorization. GitHub owns delivery tracking. Keep Goal, Scope, and Exit criteria; remove unused optional sections. -->
 
 ## Goal
 

@@ -1,6 +1,6 @@
 # <Coherent delivery goal>
 
-<!-- For a milestone parent issue, prefix the title with the corresponding M<number>. Use only when grouping adds value. Publish within authorization; native GitHub relationships own tracking. -->
+<!-- Optional: use for a distinct grouping of issues that adds value beyond milestone membership, or when explicitly requested by the user. Do not create an epic merely to mirror a milestone. If the user requests a milestone parent issue, prefix its title with the corresponding M<number>. Publish within authorization; native GitHub relationships own tracking. -->
 
 ## Goal and scope
 
